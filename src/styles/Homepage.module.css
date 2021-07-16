@@ -12,7 +12,8 @@
 }
 
 .topNav {
-  margin-top: 20px;
+  background-color: rgba(23, 16, 16, 0.3);
+  margin-top: 40px;
   margin-right: 100px;
   position: absolute;
   right: 0;
@@ -21,7 +22,7 @@
 }
 
 .navTitles {
-  margin: 5px;
+  margin: 3px 10px;
   font-weight: 600;
   padding: 5px 20px;
   color: white;
@@ -29,24 +30,35 @@
 }
 
 .navTitleDiv {
-  margin: 0 20px;
+  transition-duration: 0.5s;
+  border-right: solid;
+  /* border-style: solid; */
+  border-width: 2px;
+  border-color: white;
+  /* margin: 0 2px; */
 }
 
 .navTitles:hover {
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.3);
   list-style: none;
-  line-height: 2.4em;
+  /* line-height: 1.5em; */
   overflow: hidden;
   max-height: 200px;
-  transition: max-height 10s ease-in;
+  transition: max-height 1000ms ease-in;
 }
 
 .navTitleDiv:hover {
+  border-radius: 2px;
+  background: rgba(23, 16, 16, 0.8);
+  cursor: pointer;
+}
+.navTitleDiv1:hover {
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
 .topHead {
+  margin-top: 50px;
   font-family: "Cormorant", serif;
   font-weight: 500;
   color: white;
@@ -68,7 +80,8 @@
 }
 
 .tagDiv {
-  margin: 0 auto;
+  text-align: center;
+  margin: 0 19%;
 }
 
 @keyframes slide-down {
@@ -83,4 +96,99 @@
 }
 
 .bannerHead {
+}
+
+.navTitleDiv2 {
+  width: 200px;
+  background-color: white;
+}
+
+.secondDiv {
+  padding: 100px 250px 200px 250px;
+  text-align: center;
+  height: 300px;
+}
+
+.secondDivQuote {
+  font-size: 1.8rem;
+  color: rgba(78, 54, 32, 0.8);
+  font-weight: 700;
+}
+
+.secondDivLine {
+  animation: slide-down 1000ms ease-out forwards;
+  line-height: 4rem;
+  margin-top: 70px;
+  letter-spacing: 1px;
+  font-size: 3rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "Lora", serif;
+  font-weight: 400;
+}
+
+.travelBuddy {
+  color: black;
+}
+
+.thirdDiv {
+  position: relative;
+}
+
+.thirdDivLine {
+  position: absolute;
+  top: 185px;
+  right: 225px;
+  font-size: 1.8rem;
+  color: white;
+}
+.thirdDivLine1 {
+  position: absolute;
+  top: 230px;
+  right: 598px;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.thirdDivLogin {
+  color: rgba(255, 255, 255, 0.8);
+  border-style: solid;
+  padding: 0 50px 5px 50px;
+  margin: 0 10px;
+  border-width: 1px;
+  border-radius: 3px;
+  transition-duration: 0.3s;
+}
+.thirdDivLogin:hover {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.loginRegister {
+  /* padding-right: 200px; */
+  display: flex;
+  position: absolute;
+  top: 300px;
+  right: 350px;
+  font-size: 1.7rem;
+  color: white;
+}
+
+.thirdBanner {
+  width: 100%;
+}
+
+.thirdTravelBuddy {
+  position: absolute;
+  top: 80px;
+  right: 400px;
+  font-size: 3.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+  font-family: "Noto Serif", serif;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.fourthDiv {
+  height: 1000px;
 }
