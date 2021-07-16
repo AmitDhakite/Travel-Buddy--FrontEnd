@@ -1,0 +1,86 @@
+.banner {
+  width: 100%;
+}
+
+.bannerDiv {
+  text-align: center;
+  position: relative;
+}
+
+.fullNav {
+  top: 0;
+}
+
+.topNav {
+  margin-top: 20px;
+  margin-right: 100px;
+  position: absolute;
+  right: 0;
+  top: 20px;
+  display: flex;
+}
+
+.navTitles {
+  margin: 5px;
+  font-weight: 600;
+  padding: 5px 20px;
+  color: white;
+  font-size: 1.4rem;
+}
+
+.navTitleDiv {
+  margin: 0 20px;
+}
+
+.navTitles:hover {
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  list-style: none;
+  line-height: 2.4em;
+  overflow: hidden;
+  max-height: 200px;
+  transition: max-height 10s ease-in;
+}
+
+.navTitleDiv:hover {
+  cursor: pointer;
+}
+
+.topHead {
+  font-family: "Cormorant", serif;
+  font-weight: 500;
+  color: white;
+  font-size: 2.4rem;
+  top: 0;
+  left: 90px;
+  position: absolute;
+}
+
+.tagline {
+  animation: slide-down 1000ms ease-out forwards;
+  position: absolute;
+  top: 63%;
+  color: white;
+  font-size: 3.2rem;
+  font-family: "Cormorant", serif;
+  font-weight: 500;
+  letter-spacing: 5px;
+}
+
+.tagDiv {
+  margin: 0 auto;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bannerHead {
+}
