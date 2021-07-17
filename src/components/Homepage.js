@@ -2,6 +2,7 @@ import topBanner from "../images/TopBanner.png";
 import thirdDivImg from "../images/TB.png";
 import classes from "../styles/Homepage.module.css";
 import Select from "react-dropdown-select";
+import { Link } from "react-router-dom";
 
 const Homepage = () => {
   const options = [{ label: "Amit Dhakite", value: "amit" }];
@@ -20,13 +21,17 @@ const Homepage = () => {
               />
             </div>*/}
             <div class={classes.navTitleDiv}>
-              <p class={classes.navTitles}>News</p>
+              <Link class={classes.navTitles}>News</Link>
             </div>
             <div class={classes.navTitleDiv}>
-              <p class={classes.navTitles}>Login</p>
+              <Link to="/login" class={classes.navTitles}>
+                Login
+              </Link>
             </div>
             <div class={classes.navTitleDiv1}>
-              <p class={classes.navTitles}>SignUp</p>
+              <Link to="/register" class={classes.navTitles}>
+                SignUp
+              </Link>
             </div>
           </div>
         </nav>
@@ -49,8 +54,12 @@ const Homepage = () => {
         </div>
         <div className={classes.thirdDivLine1}>Join Today!!</div>
         <div className={classes.loginRegister}>
-          <div className={classes.thirdDivLogin}>Login</div>
-          <div className={classes.thirdDivLogin}>Register</div>
+          <Link to="/login" className={classes.thirdDivLogin}>
+            Login
+          </Link>
+          <Link to="/register" className={classes.thirdDivLogin}>
+            Register
+          </Link>
         </div>
       </div>
       <div className={classes.fourthDiv}></div>

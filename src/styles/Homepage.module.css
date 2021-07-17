@@ -22,23 +22,33 @@
 }
 
 .navTitles {
+  text-decoration: none;
   margin: 3px 10px;
   font-weight: 600;
-  padding: 5px 20px;
+  padding: 5px 20px 5px 20px;
   color: white;
   font-size: 1.4rem;
 }
 
 .navTitleDiv {
-  transition-duration: 0.5s;
+  text-decoration: none;
+  padding: 10px 2px 10px 2px;
+  transition-duration: 0.3s;
   border-right: solid;
   /* border-style: solid; */
-  border-width: 2px;
+  border-width: 1px;
   border-color: white;
   /* margin: 0 2px; */
 }
+.navTitleDiv1 {
+  text-decoration: none;
+  padding: 10px 2px 10px 2px;
+  transition-duration: 0.3s;
+}
 
 .navTitles:hover {
+  color: white;
+  text-decoration: none;
   list-style: none;
   /* line-height: 1.5em; */
   overflow: hidden;
@@ -47,6 +57,7 @@
 }
 
 .navTitleDiv:hover {
+  text-decoration: none;
   border-radius: 2px;
   background: rgba(23, 16, 16, 0.8);
   cursor: pointer;
@@ -104,9 +115,10 @@
 }
 
 .secondDiv {
-  padding: 100px 250px 200px 250px;
+  margin: 100px 200px;
+  padding: 0 100px;
   text-align: center;
-  height: 300px;
+  height: auto;
 }
 
 .secondDivQuote {
@@ -116,14 +128,27 @@
 }
 
 .secondDivLine {
+  padding: 50px 120px;
+  /* border-right-style: inset;
+  border-left-style: outset; */
+  border-style: outset;
+  border-width: 2px;
+  border-color: rgba(0, 0, 0, 0.2);
   animation: slide-down 1000ms ease-out forwards;
   line-height: 4rem;
-  margin-top: 70px;
+  margin-top: 50px;
   letter-spacing: 1px;
-  font-size: 3rem;
+  font-size: 2.2rem;
   color: rgba(0, 0, 0, 0.7);
   font-family: "Lora", serif;
   font-weight: 400;
+  transition: 500ms ease-out;
+}
+
+.secondDivLine:hover {
+  font-size: 2.3rem;
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  border-width: 3px;
 }
 
 .travelBuddy {
@@ -150,9 +175,10 @@
 }
 
 .thirdDivLogin {
+  text-decoration: none;
   color: rgba(255, 255, 255, 0.8);
   border-style: solid;
-  padding: 0 50px 5px 50px;
+  padding: 4px 55px 7px 55px;
   margin: 0 10px;
   border-width: 1px;
   border-radius: 3px;
@@ -170,7 +196,7 @@
   position: absolute;
   top: 300px;
   right: 350px;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   color: white;
 }
 
