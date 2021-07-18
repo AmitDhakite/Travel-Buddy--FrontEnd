@@ -1,11 +1,12 @@
+import { useState } from "react";
 import topBanner from "../images/TopBanner.png";
 import thirdDivImg from "../images/TB.png";
 import classes from "../styles/Homepage.module.css";
 import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
+import Backdrop from "./layout/Backdrop";
 
 const Homepage = () => {
-  const options = [{ label: "Amit Dhakite", value: "amit" }];
   return (
     <div>
       <div className={classes.bannerDiv}>
@@ -13,13 +14,6 @@ const Homepage = () => {
         <nav className={classes.fullNav}>
           <p class={classes.topHead}>Travel Buddy</p>
           <div class={classes.topNav}>
-            {/*<div class={classes.navTitleDiv2}>
-              <Select
-                options={options}
-                multiselect={false}
-                placeholder="Search for attractions"
-              />
-            </div>*/}
             <div class={classes.navTitleDiv}>
               <Link class={classes.navTitles}>News</Link>
             </div>

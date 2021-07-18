@@ -64,7 +64,7 @@
 }
 .navTitleDiv1:hover {
   border-radius: 2px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.8);
   cursor: pointer;
 }
 
@@ -162,14 +162,14 @@
 .thirdDivLine {
   position: absolute;
   top: 185px;
-  right: 225px;
+  right: 80px;
   font-size: 1.8rem;
   color: white;
 }
 .thirdDivLine1 {
   position: absolute;
   top: 230px;
-  right: 598px;
+  right: 450px;
   font-size: 1.8rem;
   color: white;
 }
@@ -186,7 +186,7 @@
 }
 .thirdDivLogin:hover {
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgb(42, 187, 172);
   background-color: rgba(255, 255, 255, 1);
 }
 
@@ -194,8 +194,9 @@
   /* padding-right: 200px; */
   display: flex;
   position: absolute;
-  top: 300px;
-  right: 350px;
+  font-weight: 600;
+  top: 310px;
+  right: 200px;
   font-size: 1.5rem;
   color: white;
 }
@@ -207,9 +208,9 @@
 .thirdTravelBuddy {
   position: absolute;
   top: 80px;
-  right: 400px;
+  right: 260px;
   font-size: 3.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   font-weight: bold;
   font-family: "Noto Serif", serif;
   font-family: "Source Sans Pro", sans-serif;
