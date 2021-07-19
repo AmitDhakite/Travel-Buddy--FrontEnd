@@ -15,6 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "../layout/HomeIcon";
 import { useHistory } from "react-router-dom";
 import classes from "../../styles/ToHome.module.css";
+import tb from "../../images/tb1.png";
 
 function Copyright() {
   return (
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://images.unsplash.com/photo-1587465420095-0fb0d52c1b24?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1994&q=80)",
+      "url(https://images.unsplash.com/photo-1550420394-5739fbf73ec8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80)",
     backgroundRepeat: "no-repeat",
     backgroundColor: "rgb(42, 187, 172)",
     backgroundSize: "cover",
@@ -77,7 +78,7 @@ export default function SignInSide() {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <img src={tb} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Register
@@ -159,26 +160,19 @@ export default function SignInSide() {
               Register
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link
-                  href="#"
-                  variant="body2"
-                  style={{ color: "rgb(42, 187, 172)" }}
-                >
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link
-                  href="#"
+                  href="/login"
                   variant="body2"
                   style={{ color: "rgb(42, 187, 172)" }}
                 >
-                  {"Don't have an account? Sign Up"}
+                  {"Already have an account? Login"}
                 </Link>
               </Grid>
             </Grid>
-            <HomeIcon className={classes.toHome} onClick={toHome} />
+            <div onClick={toHome}>
+              <HomeIcon />
+            </div>
             <Box mt={5}>
               <Copyright text="Unispade" />
             </Box>

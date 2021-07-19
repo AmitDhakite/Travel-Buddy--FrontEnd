@@ -14,7 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "../layout/HomeIcon";
 import { useHistory } from "react-router-dom";
-import classes from "../../styles/ToHome.module.css";
+import classes1 from "../../styles/ToHome.module.css";
+import tb from "../../images/tb1.png";
 
 function Copyright() {
   return (
@@ -70,6 +71,10 @@ export default function SignInSide() {
     history.push("/");
   };
 
+  const login = () => {
+    history.push("/dashboard");
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -77,7 +82,7 @@ export default function SignInSide() {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <img src={tb} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
@@ -120,8 +125,9 @@ export default function SignInSide() {
               color="primary"
               style={{ backgroundColor: "rgb(42, 187, 172)" }}
               className={classes.submit}
+              onClick={login}
             >
-              Register
+              Login
             </Button>
             <Grid container>
               <Grid item xs>
@@ -135,7 +141,7 @@ export default function SignInSide() {
               </Grid>
               <Grid item>
                 <Link
-                  href="#"
+                  href="/register"
                   variant="body2"
                   style={{ color: "rgb(42, 187, 172)" }}
                 >
@@ -143,7 +149,9 @@ export default function SignInSide() {
                 </Link>
               </Grid>
             </Grid>
-            <HomeIcon className={classes.toHome} onClick={toHome} />
+            <div onClick={toHome}>
+              <HomeIcon className={classes.toHome} />
+            </div>
             <Box mt={5}>
               <Copyright text="Unispade" />
             </Box>
