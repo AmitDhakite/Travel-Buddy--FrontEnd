@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,23 +15,15 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
+import TextField from "@material-ui/core/TextField";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MainListItems, { secondaryListItems } from "./listItems";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
-import {
-  MDBCol,
-  MDBSelectInput,
-  MDBSelect,
-  MDBSelectOptions,
-  MDBSelectOption,
-} from "mdbreact";
-
-// import SelectPlaces from "react-select-places";
-// import "react-select/dist/react-select.css";
+import SearchIcon from "@material-ui/icons/Search";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import axios from "axios";
+import classes1 from "../../styles/Dashboard.module.css";
 
 function Copyright() {
   return (
@@ -129,7 +121,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [search, setSearch] = useState("");
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -138,12 +132,34 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const logChange = (e) => {
-    console.log(e.target.value);
+  const searchChangeHandler = (e) => {
+    const { value } = e.target;
+    setSearch(value);
   };
-
-  getValueOfSelectOne = (value) => {
-    console.log(value);
+  const searchSubmitHandler = async (e) => {
+    var options = {
+      method: "POST",
+      url: "https://google-search3.p.rapidapi.com/api/v1/serp/",
+      headers: {
+        "content-type": "application/json",
+        "x-rapidapi-key": "3d63bd9009msha6231bca94c7ca7p13666djsn5bd14fd2ef75",
+        "x-rapidapi-host": "google-search3.p.rapidapi.com",
+      },
+      data: {
+        query: "q=top+tourism+attractions+near+" + search + "+api&num=25",
+        website: "https://rapidapi.com",
+      },
+    };
+    console.log("searching");
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    // console.log(search);
   };
 
   return (
@@ -204,45 +220,27 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-
-        <MDBCol md="6">
-          <MDBSelect getValue={(value) => this.getValueOfSelectOne(value)}>
-            <MDBSelectInput selected="Choose your option" />
-            <MDBSelectOptions search>
-              <MDBSelectOption disabled>Choose your option</MDBSelectOption>
-              <MDBSelectOption>Option nr 1</MDBSelectOption>
-              <MDBSelectOption>Option nr 2</MDBSelectOption>
-              <MDBSelectOption>Option nr 3</MDBSelectOption>
-              <MDBSelectOption>Option nr 4</MDBSelectOption>
-              <MDBSelectOption>Option nr 5</MDBSelectOption>
-            </MDBSelectOptions>
-          </MDBSelect>
-        </MDBCol>
-
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
+          <div className={classes1.searchDiv}>
+            <TextField
+              onChange={searchChangeHandler}
+              variant="outlined"
+              className={classes1.searchField}
+              label="Search any place..."
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment>
+                    <IconButton>
+                      <SearchIcon
+                        style={{ color: " rgb(42, 187, 172)" }}
+                        onClick={searchSubmitHandler}
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
         </Container>
       </main>
     </div>
