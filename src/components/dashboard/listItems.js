@@ -7,6 +7,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
+import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { useHistory } from "react-router-dom";
@@ -31,11 +32,11 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      <ListItem onClick={toAccount} button>
+      <ListItem button>
         <ListItemIcon>
-          <PermIdentityIcon style={{ color: "rgb(42, 187, 172)" }} />
+          <PeopleOutlineIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
-        <ListItemText primary="My Account" />
+        <ListItemText primary="Find Travel Buddies" />
       </ListItem>
       <ListItem onClick={toTrips} button>
         <ListItemIcon>
@@ -43,12 +44,13 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="My Trips" />
       </ListItem>
-      <ListItem button>
+      <ListItem onClick={toAccount} button>
         <ListItemIcon>
-          <BarChartIcon style={{ color: "rgb(42, 187, 172)" }} />
+          <PermIdentityIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
-        <ListItemText primary="Reports" />
+        <ListItemText primary="My Account" />
       </ListItem>
+
       <ListItem button>
         <ListItemIcon>
           <LayersIcon style={{ color: "rgb(42, 187, 172)" }} />

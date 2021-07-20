@@ -22,6 +22,16 @@ import MainListItems, { secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
+import {
+  MDBCol,
+  MDBSelectInput,
+  MDBSelect,
+  MDBSelectOptions,
+  MDBSelectOption,
+} from "mdbreact";
+
+// import SelectPlaces from "react-select-places";
+// import "react-select/dist/react-select.css";
 
 function Copyright() {
   return (
@@ -128,6 +138,14 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const logChange = (e) => {
+    console.log(e.target.value);
+  };
+
+  getValueOfSelectOne = (value) => {
+    console.log(value);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -186,6 +204,21 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+
+        <MDBCol md="6">
+          <MDBSelect getValue={(value) => this.getValueOfSelectOne(value)}>
+            <MDBSelectInput selected="Choose your option" />
+            <MDBSelectOptions search>
+              <MDBSelectOption disabled>Choose your option</MDBSelectOption>
+              <MDBSelectOption>Option nr 1</MDBSelectOption>
+              <MDBSelectOption>Option nr 2</MDBSelectOption>
+              <MDBSelectOption>Option nr 3</MDBSelectOption>
+              <MDBSelectOption>Option nr 4</MDBSelectOption>
+              <MDBSelectOption>Option nr 5</MDBSelectOption>
+            </MDBSelectOptions>
+          </MDBSelect>
+        </MDBCol>
+
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}

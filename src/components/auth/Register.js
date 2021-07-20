@@ -21,10 +21,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
+      <Link color="inherit">Travel Buddy</Link> {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -83,78 +80,128 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              className="textField"
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              label="First Name"
-              name="firstName"
-              autoComplete="false"
-              autoFocus
-              autoFill="false"
-            />
-            <TextField
-              className="textField"
-              margin="normal"
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="false"
-              autoFocus
-              autoFill="false"
-            />
-            <TextField
-              className="textField"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="false"
-              autoFocus
-              autoFill="false"
-            />
-            <TextField
-              className="textField"
-              margin="normal"
-              required
-              fullWidth
-              id="phone"
-              label="Mobile No."
-              name="mobile"
-              autoComplete="false"
-              autoFocus
-              autoFill="false"
-            />
-            <TextField
-              className="textField"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Password"
-              name="password"
-              type="password"
-              autoComplete="false"
-              autoFocus
-              autoFill="false"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+          <form
+            className={classes.form}
+            style={{ marginTop: "30px" }}
+            noValidate
+          >
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="firstName"
+                  name="firstName"
+                  label="First name"
+                  fullWidth
+                  autoComplete="given-name"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="lastName"
+                  name="lastName"
+                  label="Last name"
+                  fullWidth
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  fullWidth
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="phone"
+                  name="mobile"
+                  label="Mobile No."
+                  fullWidth
+                  autoComplete="mobile no"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="address1"
+                  name="address1"
+                  label="Address line 1"
+                  fullWidth
+                  autoComplete="shipping address-line1"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="address2"
+                  name="address2"
+                  label="Address line 2"
+                  fullWidth
+                  autoComplete="shipping address-line2"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="city"
+                  name="city"
+                  label="City"
+                  fullWidth
+                  autoComplete="shipping address-level2"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="state"
+                  name="state"
+                  label="State/Province/Region"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="zip"
+                  name="zip"
+                  label="Zip / Postal code"
+                  fullWidth
+                  autoComplete="shipping postal-code"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="country"
+                  name="country"
+                  label="Country"
+                  fullWidth
+                  autoComplete="shipping country"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="password"
+                  name="password"
+                  label="Password"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              style={{ backgroundColor: "rgb(42, 187, 172)" }}
+              style={{
+                backgroundColor: "rgb(42, 187, 172)",
+                marginTop: "50px",
+              }}
               className={classes.submit}
             >
               Register

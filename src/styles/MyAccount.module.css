@@ -1,3 +1,8 @@
 .profileForm {
-  margin: 150px;
+  margin: 50px 200px;
+  padding: 50px;
+}
+.profileDetails {
+  margin: 50px 300px;
+  padding: 50px 70px;
 }

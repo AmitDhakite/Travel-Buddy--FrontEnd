@@ -150,7 +150,7 @@ export default function SignInSide() {
               </Grid>
             </Grid>
             <div onClick={toHome}>
-              <HomeIcon className={classes.toHome} />
+              <HomeIcon className={classes1.toHome} />
             </div>
             <Box mt={5}>
               <Copyright text="Unispade" />
