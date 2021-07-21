@@ -6,3 +6,8 @@
 .searchDiv {
   text-align: center;
 }
+
+.results {
+  margin: 50px 150px;
+  text-align: center;
+}

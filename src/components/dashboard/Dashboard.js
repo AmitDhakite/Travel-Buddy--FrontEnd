@@ -24,7 +24,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import axios from "axios";
 import classes1 from "../../styles/Dashboard.module.css";
-
+import dotenv from "dotenv";
+dotenv.config();
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -137,29 +138,30 @@ export default function Dashboard() {
     setSearch(value);
   };
   const searchSubmitHandler = async (e) => {
+    const query =
+      "https://google-search3.p.rapidapi.com/api/v1/search/q=top+tourism+attractions+near+" +
+      search +
+      "&num=10";
     var options = {
-      method: "POST",
-      url: "https://google-search3.p.rapidapi.com/api/v1/serp/",
+      method: "GET",
+      url: query,
       headers: {
-        "content-type": "application/json",
-        "x-rapidapi-key": "3d63bd9009msha6231bca94c7ca7p13666djsn5bd14fd2ef75",
-        "x-rapidapi-host": "google-search3.p.rapidapi.com",
-      },
-      data: {
-        query: "q=top+tourism+attractions+near+" + search + "+api&num=25",
-        website: "https://rapidapi.com",
+        "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
+        "x-rapidapi-host": process.env.REACT_APP_X_RAPIDAPI_HOST,
       },
     };
+
     console.log("searching");
     axios
       .request(options)
       .then(function (response) {
-        console.log(response);
+        response.data.results.forEach((i) => {
+          console.log(i);
+        });
       })
       .catch(function (error) {
         console.error(error);
       });
-    // console.log(search);
   };
 
   return (
@@ -240,6 +242,12 @@ export default function Dashboard() {
                 ),
               }}
             />
+          </div>
+          <div className={classes1.results}>
+            <Paper>
+              <h3>Heading</h3>
+              <h4>Description</h4>
+            </Paper>
           </div>
         </Container>
       </main>
