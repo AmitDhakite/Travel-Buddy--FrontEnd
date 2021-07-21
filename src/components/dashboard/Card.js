@@ -27,6 +27,12 @@ export default function OutlinedCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
+  const toTravelSite = () => {
+    console.log("doing something");
+    const win = window.open(props.link, "_blank");
+    win.focus();
+  };
+
   return (
     <Card
       className={classes.root + " " + classes1.card}
@@ -38,9 +44,14 @@ export default function OutlinedCard(props) {
           color="textSecondary"
           gutterBottom
         >
-          {props.link}
+          {props.link.substring(0, 70)}...
         </Typography>
-        <Typography className={classes1.title} variant="h5" component="h2">
+        <Typography
+          onClick={toTravelSite}
+          className={classes1.title}
+          variant="h5"
+          component="h2"
+        >
           {props.title}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
@@ -51,7 +62,9 @@ export default function OutlinedCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button onClick={toTravelSite} size="small">
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

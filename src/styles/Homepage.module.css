@@ -134,7 +134,6 @@
   border-style: outset;
   border-width: 2px;
   border-color: rgba(0, 0, 0, 0.2);
-  animation: slide-down 1000ms ease-out forwards;
   line-height: 4rem;
   margin-top: 50px;
   letter-spacing: 1px;

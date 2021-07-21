@@ -27,6 +27,9 @@ import classes1 from "../../styles/Dashboard.module.css";
 import dotenv from "dotenv";
 import Card from "./Card";
 import AccordianResults from "./AccordianResults";
+import Loading from "../layout/Loading";
+
+import Blog from "./Blog";
 
 dotenv.config();
 function Copyright() {
@@ -128,6 +131,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
+  const [searching, setSearching] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -138,9 +142,12 @@ export default function Dashboard() {
 
   const searchChangeHandler = (e) => {
     const { value } = e.target;
+    if (value === "") setResults([]);
     setSearch(value);
   };
   const searchSubmitHandler = async (e) => {
+    setSearching(true);
+    setResults([]);
     const query =
       "https://google-search3.p.rapidapi.com/api/v1/search/q=top+tourism+attractions+near+" +
       search +
@@ -160,6 +167,7 @@ export default function Dashboard() {
       .then(function (response) {
         console.log(response.data.results);
         setResults(response.data.results);
+        setSearching(false);
       })
       .catch(function (error) {
         console.error(error);
@@ -228,6 +236,9 @@ export default function Dashboard() {
           <div className={classes1.searchDiv}>
             <TextField
               onChange={searchChangeHandler}
+              onKeyDown={(e) => {
+                if (e.keyCode === 13) searchSubmitHandler();
+              }}
               variant="outlined"
               className={classes1.searchField}
               label="Search any place..."
@@ -247,16 +258,35 @@ export default function Dashboard() {
           </div>
           <div className={classes1.results}>
             <Paper style={{ padding: "20px 30px 50px" }}>
-              <h1 style={{ textAlign: "left" }}>
-                Top destinations near {search}:{" "}
-              </h1>
-              {results.map((r) => (
-                <Card
-                  title={r.title}
-                  description={r.description}
-                  link={r.link}
-                />
-              ))}
+              <React.Fragment>
+                {searching && (
+                  <React.Fragment>
+                    <h2 style={{ textAlign: "left" }}>
+                      Hold on! Finding the best matches for your search...
+                    </h2>
+                    <Loading />
+                  </React.Fragment>
+                )}
+                {!searching && results.length !== 0 && (
+                  <React.Fragment>
+                    <h1 className={classes1.topDestinations}>
+                      Top destinations near {search}:{" "}
+                    </h1>
+                    {results.map((r) => (
+                      <Card
+                        title={r.title}
+                        description={r.description}
+                        link={r.link}
+                      />
+                    ))}
+                  </React.Fragment>
+                )}
+                {results.length === 0 && !searching && (
+                  <Paper>
+                    <Blog />
+                  </Paper>
+                )}
+              </React.Fragment>
             </Paper>
           </div>
         </Container>

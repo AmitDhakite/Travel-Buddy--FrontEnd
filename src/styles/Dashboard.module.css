@@ -11,3 +11,11 @@
   margin: 50px 150px;
   text-align: center;
 }
+
+.topDestinations {
+  text-align: left;
+  font-weight: 400;
+  font-family: "Noto Serif", serif;
+  font-family: "Source Sans Pro", sans-serif;
+  color: rgb(42, 187, 172);
+}
