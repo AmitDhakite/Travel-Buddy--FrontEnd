@@ -25,6 +25,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import axios from "axios";
 import classes1 from "../../styles/Dashboard.module.css";
 import dotenv from "dotenv";
+import Card from "./Card";
+import AccordianResults from "./AccordianResults";
+
 dotenv.config();
 function Copyright() {
   return (
@@ -124,7 +127,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState("");
-
+  const [results, setResults] = useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -141,7 +144,7 @@ export default function Dashboard() {
     const query =
       "https://google-search3.p.rapidapi.com/api/v1/search/q=top+tourism+attractions+near+" +
       search +
-      "&num=10";
+      "&num=25";
     var options = {
       method: "GET",
       url: query,
@@ -155,9 +158,8 @@ export default function Dashboard() {
     axios
       .request(options)
       .then(function (response) {
-        response.data.results.forEach((i) => {
-          console.log(i);
-        });
+        console.log(response.data.results);
+        setResults(response.data.results);
       })
       .catch(function (error) {
         console.error(error);
@@ -244,9 +246,17 @@ export default function Dashboard() {
             />
           </div>
           <div className={classes1.results}>
-            <Paper>
-              <h3>Heading</h3>
-              <h4>Description</h4>
+            <Paper style={{ padding: "20px 30px 50px" }}>
+              <h1 style={{ textAlign: "left" }}>
+                Top destinations near {search}:{" "}
+              </h1>
+              {results.map((r) => (
+                <Card
+                  title={r.title}
+                  description={r.description}
+                  link={r.link}
+                />
+              ))}
             </Paper>
           </div>
         </Container>
