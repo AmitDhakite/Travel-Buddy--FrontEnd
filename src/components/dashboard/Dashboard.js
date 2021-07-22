@@ -28,7 +28,7 @@ import dotenv from "dotenv";
 import Card from "./Card";
 import AccordianResults from "./AccordianResults";
 import Loading from "../layout/Loading";
-
+import ImageList from "../layout/ImageList";
 import Blog from "./Blog";
 
 dotenv.config();
@@ -130,6 +130,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState("");
+  const [tempSearch, setTempSearch] = useState("");
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const handleDrawerOpen = () => {
@@ -142,10 +143,14 @@ export default function Dashboard() {
 
   const searchChangeHandler = (e) => {
     const { value } = e.target;
-    if (value === "") setResults([]);
+    if (value === "") {
+      setResults([]);
+      setTempSearch("");
+    }
     setSearch(value);
   };
   const searchSubmitHandler = async (e) => {
+    setTempSearch(search);
     setSearching(true);
     setResults([]);
     const query =
@@ -256,39 +261,39 @@ export default function Dashboard() {
               }}
             />
           </div>
-          <div className={classes1.results}>
-            <Paper style={{ padding: "20px 30px 50px" }}>
-              <React.Fragment>
-                {searching && (
-                  <React.Fragment>
-                    <h2 style={{ textAlign: "left" }}>
-                      Hold on! Finding the best matches for your search...
-                    </h2>
-                    <Loading />
-                  </React.Fragment>
-                )}
-                {!searching && results.length !== 0 && (
-                  <React.Fragment>
-                    <h1 className={classes1.topDestinations}>
-                      Top destinations near {search}:{" "}
-                    </h1>
-                    {results.map((r) => (
-                      <Card
-                        title={r.title}
-                        description={r.description}
-                        link={r.link}
-                      />
-                    ))}
-                  </React.Fragment>
-                )}
-                {results.length === 0 && !searching && (
-                  <Paper>
-                    <Blog />
-                  </Paper>
-                )}
-              </React.Fragment>
-            </Paper>
-          </div>
+          {tempSearch !== "" && (
+            <div className={classes1.results}>
+              <Paper style={{ padding: "20px 30px 50px" }}>
+                <React.Fragment>
+                  {searching && (
+                    <React.Fragment>
+                      <h2 style={{ textAlign: "left" }}>
+                        Hold on! Finding the best matches for your search...
+                      </h2>
+                      <Loading />
+                    </React.Fragment>
+                  )}
+                  {!searching && results.length !== 0 && (
+                    <React.Fragment>
+                      <h1 className={classes1.topDestinations}>
+                        Top destinations near {tempSearch}:{" "}
+                      </h1>
+                      {results.map((r) => (
+                        <Card
+                          title={r.title}
+                          description={r.description}
+                          link={r.link}
+                        />
+                      ))}
+                    </React.Fragment>
+                  )}
+                </React.Fragment>
+              </Paper>
+            </div>
+          )}
+          <Paper className={classes1.imageList}>
+            <ImageList />
+          </Paper>
         </Container>
       </main>
     </div>

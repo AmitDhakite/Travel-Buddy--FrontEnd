@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,6 +16,8 @@ import HomeIcon from "../layout/HomeIcon";
 import { useHistory } from "react-router-dom";
 import classes from "../../styles/ToHome.module.css";
 import tb from "../../images/tb1.png";
+import axios from "../../axios.js";
+import Backdrop from "../layout/Backdrop";
 
 function Copyright() {
   return (
@@ -68,9 +70,44 @@ export default function SignInSide() {
     history.push("/");
   };
 
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    password: "",
+  });
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setUser((p) => {
+      return { ...p, [name]: value };
+    });
+  };
+
+  const submitHandler = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const res = await axios.post("/register", user);
+
+      history.push("/login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
+      {loading && <Backdrop />}
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
@@ -81,16 +118,18 @@ export default function SignInSide() {
             Register
           </Typography>
           <form
+            onSubmit={submitHandler}
             className={classes.form}
             style={{ marginTop: "30px" }}
             noValidate
           >
-            <Grid container spacing={3}>
+            <Grid container spacing={3} onChange={inputChangeHandler}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   id="firstName"
                   name="firstName"
+                  value={user.firstName}
                   label="First name"
                   fullWidth
                   autoComplete="given-name"
@@ -99,6 +138,7 @@ export default function SignInSide() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
+                  value={user.lastName}
                   id="lastName"
                   name="lastName"
                   label="Last name"
@@ -110,6 +150,7 @@ export default function SignInSide() {
                 <TextField
                   required
                   id="email"
+                  value={user.email}
                   name="email"
                   label="Email Address"
                   fullWidth
@@ -120,6 +161,7 @@ export default function SignInSide() {
                 <TextField
                   required
                   id="phone"
+                  value={user.mobile}
                   name="mobile"
                   label="Mobile No."
                   fullWidth
@@ -130,7 +172,8 @@ export default function SignInSide() {
                 <TextField
                   required
                   id="address1"
-                  name="address1"
+                  value={user.addressLine1}
+                  name="addressLine1"
                   label="Address line 1"
                   fullWidth
                   autoComplete="shipping address-line1"
@@ -139,7 +182,8 @@ export default function SignInSide() {
               <Grid item xs={12}>
                 <TextField
                   id="address2"
-                  name="address2"
+                  value={user.addressLine2}
+                  name="addressLine2"
                   label="Address line 2"
                   fullWidth
                   autoComplete="shipping address-line2"
@@ -150,6 +194,7 @@ export default function SignInSide() {
                   required
                   id="city"
                   name="city"
+                  value={user.city}
                   label="City"
                   fullWidth
                   autoComplete="shipping address-level2"
@@ -159,6 +204,7 @@ export default function SignInSide() {
                 <TextField
                   id="state"
                   name="state"
+                  value={user.state}
                   label="State/Province/Region"
                   fullWidth
                 />
@@ -167,7 +213,8 @@ export default function SignInSide() {
                 <TextField
                   required
                   id="zip"
-                  name="zip"
+                  name="zipCode"
+                  value={user.zipCode}
                   label="Zip / Postal code"
                   fullWidth
                   autoComplete="shipping postal-code"
@@ -178,6 +225,7 @@ export default function SignInSide() {
                   required
                   id="country"
                   name="country"
+                  value={user.country}
                   label="Country"
                   fullWidth
                   autoComplete="shipping country"
@@ -188,6 +236,7 @@ export default function SignInSide() {
                   required
                   id="password"
                   name="password"
+                  value={user.password}
                   label="Password"
                   fullWidth
                 />

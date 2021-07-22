@@ -23,9 +23,6 @@ export default function SimpleBackdrop() {
   const number = 1000;
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleToggle}>
-        Show backdrop
-      </Button>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
         <CircularProgress color="inherit" />
       </Backdrop>

@@ -44,7 +44,7 @@ export default function OutlinedCard(props) {
           color="textSecondary"
           gutterBottom
         >
-          {props.link.substring(0, 70)}...
+          {props.link?.substring(0, 70)}...
         </Typography>
         <Typography
           onClick={toTravelSite}
