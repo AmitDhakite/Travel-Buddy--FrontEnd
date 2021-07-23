@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,6 +16,9 @@ import HomeIcon from "../layout/HomeIcon";
 import { useHistory } from "react-router-dom";
 import classes1 from "../../styles/ToHome.module.css";
 import tb from "../../images/tb1.png";
+import Backdrop from "../layout/Backdrop";
+import axios from "../../axios.js";
+import Alert from "../layout/Alert";
 
 function Copyright() {
   return (
@@ -71,13 +74,48 @@ export default function SignInSide() {
     history.push("/");
   };
 
-  const login = () => {
-    history.push("/dashboard");
+  const [loading, setLoading] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showNotFilledMessage, setShowNotFilledMessage] = useState(false);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setUser((p) => {
+      return {
+        ...p,
+        [name]: value,
+      };
+    });
+  };
+
+  const login = async (e) => {
+    e.preventDefault();
+    if (user.email === "" || user.password === "") {
+      setShowNotFilledMessage(true);
+      setShowMessage(false);
+      return;
+    } else setShowNotFilledMessage(false);
+    setLoading(true);
+    try {
+      const res = await axios.post("/auth/login", user);
+      if (res.data.message === "Incorrect email or password.") {
+        setLoading(false);
+        setShowMessage(true);
+      } else history.push("/dashboard");
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
+    }
   };
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
+      {loading && <Backdrop />}
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
@@ -87,10 +125,11 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={login} noValidate>
             <TextField
               className="textField"
               margin="normal"
+              onChange={inputChangeHandler}
               required
               fullWidth
               id="email"
@@ -98,18 +137,21 @@ export default function SignInSide() {
               name="email"
               autoComplete="false"
               autoFocus
+              value={user.email}
               autoFill="false"
             />
 
             <TextField
               className="textField"
               margin="normal"
+              onChange={inputChangeHandler}
               required
               fullWidth
-              id="email"
+              id="password"
               label="Password"
               name="password"
               type="password"
+              value={user.password}
               autoComplete="false"
               autoFocus
               autoFill="false"
@@ -118,6 +160,15 @@ export default function SignInSide() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {showNotFilledMessage && (
+              <Alert
+                color="orange"
+                message="Please fill out all the requierd fields!"
+              />
+            )}
+            {showMessage && (
+              <Alert color="red" message="Invalid Email or Password!" />
+            )}
             <Button
               type="submit"
               fullWidth
@@ -125,7 +176,6 @@ export default function SignInSide() {
               color="primary"
               style={{ backgroundColor: "rgb(42, 187, 172)" }}
               className={classes.submit}
-              onClick={login}
             >
               Login
             </Button>

@@ -18,6 +18,7 @@ import classes from "../../styles/ToHome.module.css";
 import tb from "../../images/tb1.png";
 import axios from "../../axios.js";
 import Backdrop from "../layout/Backdrop";
+import Alert from "../layout/Alert";
 
 function Copyright() {
   return (
@@ -71,6 +72,8 @@ export default function SignInSide() {
   };
 
   const [loading, setLoading] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showNotFilledMessage, setShowNotFilledMessage] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -93,12 +96,31 @@ export default function SignInSide() {
   };
 
   const submitHandler = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    if (
+      user.firstName === "" ||
+      user.lastName === "" ||
+      user.email === "" ||
+      user.mobile === "" ||
+      user.addressLine1 === "" ||
+      user.addressLine2 === "" ||
+      user.city === "" ||
+      user.state === "" ||
+      user.zipCode === "" ||
+      user.country === "" ||
+      user.password === ""
+    ) {
+      setShowNotFilledMessage(true);
+      return;
+    } else setShowNotFilledMessage(false);
+    setLoading(true);
     try {
       const res = await axios.post("/register", user);
-
-      history.push("/login");
+      console.log(res.data);
+      if (res.data === "User already exists") {
+        setLoading(false);
+        setShowMessage(true);
+      } else history.push("/login");
     } catch (e) {
       console.log(e);
     }
@@ -234,6 +256,7 @@ export default function SignInSide() {
               <Grid item xs={12}>
                 <TextField
                   required
+                  type="password"
                   id="password"
                   name="password"
                   value={user.password}
@@ -242,6 +265,15 @@ export default function SignInSide() {
                 />
               </Grid>
             </Grid>
+            {showNotFilledMessage && (
+              <Alert
+                color="orange"
+                message="Please fill out all the requierd fields!"
+              />
+            )}
+            {showMessage && (
+              <Alert message="This email has already registered!" />
+            )}
             <Button
               type="submit"
               fullWidth

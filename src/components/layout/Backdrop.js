@@ -18,12 +18,12 @@ export default function SimpleBackdrop() {
     setOpen(false);
   };
   const handleToggle = () => {
-    setOpen(!open);
+    setOpen(true);
   };
   const number = 1000;
   return (
     <div>
-      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+      <Backdrop className={classes.backdrop} open={open}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </div>
