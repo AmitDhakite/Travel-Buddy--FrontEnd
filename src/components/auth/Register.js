@@ -111,6 +111,7 @@ export default function SignInSide() {
       user.password === ""
     ) {
       setShowNotFilledMessage(true);
+      setShowMessage(false);
       return;
     } else setShowNotFilledMessage(false);
     setLoading(true);
@@ -120,7 +121,7 @@ export default function SignInSide() {
       if (res.data === "User already exists") {
         setLoading(false);
         setShowMessage(true);
-      } else history.push("/login");
+      } else history.push("/login?registered=true");
     } catch (e) {
       console.log(e);
     }
@@ -266,13 +267,13 @@ export default function SignInSide() {
               </Grid>
             </Grid>
             {showNotFilledMessage && (
-              <Alert
-                color="orange"
-                message="Please fill out all the requierd fields!"
-              />
+              <Alert message="Please fill out all the requierd fields!" />
             )}
             {showMessage && (
-              <Alert message="This email has already registered!" />
+              <Alert
+                color="orange"
+                message="This email has already registered!"
+              />
             )}
             <Button
               type="submit"
