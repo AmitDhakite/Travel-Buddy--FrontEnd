@@ -112,7 +112,11 @@ export default function SignInSide() {
     setLoading(true);
     try {
       const res = await axios.post("/auth/login", user);
-      if (res.data.message.message === "Incorrect email or password.") {
+      // console.log(res.data);
+      if (
+        res.data.message.message === "Incorrect email or password 1." ||
+        res.data.message.message === "Incorrect email or password 2."
+      ) {
         setLoading(false);
         setShowMessage(true);
       } else history.push("/dashboard");
