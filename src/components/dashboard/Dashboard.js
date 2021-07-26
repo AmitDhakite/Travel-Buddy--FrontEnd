@@ -30,6 +30,7 @@ import AccordianResults from "./AccordianResults";
 import Loading from "../layout/Loading";
 import ImageList from "../layout/ImageList";
 import Blog from "./Blog";
+import { useSelector } from "react-redux";
 
 dotenv.config();
 function Copyright() {
@@ -127,6 +128,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [search, setSearch] = useState("");

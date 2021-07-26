@@ -20,6 +20,8 @@ import Backdrop from "../layout/Backdrop";
 import Snackbar from "../layout/Snackbar";
 import axios from "../../axios.js";
 import Alert from "../layout/Alert";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/index";
 
 function Copyright() {
   return (
@@ -102,6 +104,7 @@ export default function SignInSide() {
     });
   };
 
+  const dispatch = useDispatch();
   const login = async (e) => {
     e.preventDefault();
     if (user.email === "" || user.password === "") {
@@ -112,14 +115,17 @@ export default function SignInSide() {
     setLoading(true);
     try {
       const res = await axios.post("/auth/login", user);
-      console.log(res.data);
       if (
         res.data.message.message === "Incorrect email or password 1." ||
         res.data.message.message === "Incorrect email or password 2."
       ) {
         setLoading(false);
         setShowMessage(true);
-      } else history.push("/dashboard");
+      } else {
+        console.log(res.data.user);
+        dispatch(authActions.logIn(res.data.user));
+        history.push("/dashboard");
+      }
     } catch (e) {
       setLoading(false);
       console.log(e);
