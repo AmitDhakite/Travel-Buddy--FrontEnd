@@ -123,7 +123,7 @@ export default function SignInSide() {
         setShowMessage(true);
       } else {
         console.log(res.data.user);
-        dispatch(authActions.logIn(res.data.user));
+        dispatch(authActions.logIn(res.data));
         history.push("/dashboard");
       }
     } catch (e) {

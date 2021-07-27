@@ -28,6 +28,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Table from "../layout/Table";
+import Menu from "../layout/Menu";
 
 import classes1 from "../../styles/MyAccount.module.css";
 
@@ -172,6 +173,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Menu />
         </Toolbar>
       </AppBar>
       <Drawer

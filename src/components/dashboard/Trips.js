@@ -22,6 +22,7 @@ import MainListItems, { secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
+import Menu from "../layout/Menu";
 
 function Copyright() {
   return (
@@ -163,6 +164,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Menu />
         </Toolbar>
       </AppBar>
       <Drawer
