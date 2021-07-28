@@ -5,8 +5,10 @@ import classes from "../styles/Homepage.module.css";
 import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
 import Backdrop from "./layout/Backdrop";
+import logout from "./auth/logout.js";
 
 const Homepage = () => {
+  logout();
   return (
     <div>
       <div className={classes.bannerDiv}>

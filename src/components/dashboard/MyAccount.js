@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -23,14 +23,17 @@ import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
 import Button from "@material-ui/core/Button";
-
+import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Table from "../layout/Table";
 import Menu from "../layout/Menu";
-
+import { useSelector, useDispatch } from "react-redux";
 import classes1 from "../../styles/MyAccount.module.css";
+import axios from "../../axios.js";
+import { authActions } from "../../store/index";
+import Backdrop from "../layout/Backdrop";
 
 function Copyright() {
   return (
@@ -126,10 +129,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function MyAccount() {
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  if (localStorage.getItem("token") === null) history.replace("/");
   const [editForm, saveEditForm] = useState(false);
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    password: "",
+  });
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -137,10 +156,56 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [refresh, setRefresh] = useState(0);
+  const data = useSelector((state) => state.auth);
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  useEffect(async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post("/getUser", {
+        userId,
+      });
+      setUser(res.data);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+  const dispatch = useDispatch();
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setUser((p) => {
+      return {
+        ...p,
+        [name]: value,
+      };
+    });
+  };
+
+  const submitHandler = async () => {
+    setLoading(true);
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.post("/editUser", {
+        user: user,
+        userId: userId,
+      });
+      saveEditForm(false);
+      dispatch(authActions.updateUser(res.data));
+      setLoading(false);
+      console.log("complet");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {loading && <Backdrop />}
       <AppBar
         style={{ backgroundColor: "rgb(42, 187, 172)" }}
         position="absolute"
@@ -173,7 +238,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Menu />
+          <Menu name={user.firstName} />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -204,7 +269,7 @@ export default function Dashboard() {
                 Account Details
               </Typography>
               <Grid style={{ marginTop: "30px" }} container spacing={3}>
-                <Table />
+                <Table user={user} />
                 <Button
                   onClick={() => {
                     saveEditForm(true);
@@ -230,64 +295,71 @@ export default function Dashboard() {
               <Typography variant="h6" gutterBottom>
                 Edit Account Details
               </Typography>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} onChange={inputChangeHandler}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     id="firstName"
                     name="firstName"
+                    autoComplete="no"
                     label="First name"
+                    value={user.firstName}
                     fullWidth
-                    autoComplete="given-name"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
+                    autoComplete="no"
                     id="lastName"
+                    value={user.lastName}
                     name="lastName"
                     label="Last name"
                     fullWidth
-                    autoComplete="family-name"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
+                    disabled
+                    autoComplete="no"
                     id="email"
+                    value={user.email}
                     name="email"
                     label="Email Address"
                     fullWidth
-                    autoComplete="email"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
+                    autoComplete="no"
+                    value={user.mobile}
                     id="phone"
                     name="mobile"
                     label="Mobile No."
                     fullWidth
-                    autoComplete="mobile no"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     id="address1"
-                    name="address1"
+                    value={user.addressLine1}
+                    autoComplete="no"
+                    name="addressLine1"
                     label="Address line 1"
                     fullWidth
-                    autoComplete="shipping address-line1"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     id="address2"
-                    name="address2"
+                    name="addressLine2"
+                    value={user.addressLine2}
                     label="Address line 2"
+                    autoComplete="no"
                     fullWidth
-                    autoComplete="shipping address-line2"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -295,14 +367,17 @@ export default function Dashboard() {
                     required
                     id="city"
                     name="city"
+                    value={user.city}
                     label="City"
+                    autoComplete="no"
                     fullWidth
-                    autoComplete="shipping address-level2"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     id="state"
+                    autoComplete="no"
+                    value={user.state}
                     name="state"
                     label="State/Province/Region"
                     fullWidth
@@ -312,10 +387,11 @@ export default function Dashboard() {
                   <TextField
                     required
                     id="zip"
-                    name="zip"
+                    value={user.zipCode}
+                    name="zipCode"
                     label="Zip / Postal code"
                     fullWidth
-                    autoComplete="shipping postal-code"
+                    autoComplete="no"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -324,14 +400,12 @@ export default function Dashboard() {
                     id="country"
                     name="country"
                     label="Country"
+                    value={user.country}
                     fullWidth
-                    autoComplete="shipping country"
+                    autoComplete="no"
                   />
                 </Grid>
                 <Button
-                  onClick={() => {
-                    saveEditForm(false);
-                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -341,6 +415,7 @@ export default function Dashboard() {
                     marginTop: "50px",
                   }}
                   className={classes.submit}
+                  onClick={submitHandler}
                 >
                   Save Changes
                 </Button>

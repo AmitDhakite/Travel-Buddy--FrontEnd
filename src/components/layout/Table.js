@@ -14,24 +14,23 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, value) {
-  return { name, value };
-}
+export default function BasicTable({ user }) {
+  function createData(name, value) {
+    return { name, value };
+  }
 
-const rows = [
-  createData("First Name", "Amit"),
-  createData("Last Name", "Dhakite"),
-  createData("Email Address", "amitdhakite24@gmail.com"),
-  createData("Mobile No.", "7724041565"),
-  createData("Street Address 1", "151, Desai Nagar"),
-  createData("Street Address 2", "Maxi Road"),
-  createData("City", "Ujjain"),
-  createData("State", "Madhya Pradesh"),
-  createData("ZipCode", "456010"),
-  createData("Country", "India"),
-];
-
-export default function BasicTable() {
+  const rows = [
+    createData("First Name", user.firstName),
+    createData("Last Name", user.lastName),
+    createData("Email Address", user.email),
+    createData("Mobile No.", user.mobile),
+    createData("Street Address 1", user.addressLine1),
+    createData("Street Address 2", user.addressLine2),
+    createData("City", user.city),
+    createData("State", user.state),
+    createData("ZipCode", user.zipCode),
+    createData("Country", user.country),
+  ];
   const classes = useStyles();
 
   return (

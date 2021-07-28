@@ -124,6 +124,8 @@ export default function SignInSide() {
       } else {
         console.log(res.data.user);
         dispatch(authActions.logIn(res.data));
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.user._id);
         history.push("/dashboard");
       }
     } catch (e) {

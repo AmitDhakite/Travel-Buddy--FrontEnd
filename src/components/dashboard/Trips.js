@@ -23,6 +23,7 @@ import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
 import Menu from "../layout/Menu";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -118,7 +119,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Trips() {
+  const history = useHistory();
+  if (localStorage.getItem("token") === null) history.replace("/");
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {

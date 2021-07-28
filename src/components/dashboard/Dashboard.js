@@ -32,6 +32,7 @@ import ImageList from "../layout/ImageList";
 import Blog from "./Blog";
 import { useSelector } from "react-redux";
 import Menu from "../layout/Menu";
+import { useHistory } from "react-router-dom";
 
 dotenv.config();
 function Copyright() {
@@ -129,6 +130,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const history = useHistory();
+  if (localStorage.getItem("token") === null) history.replace("/");
   const user = useSelector((state) => state.auth);
   console.log(user);
   const classes = useStyles();

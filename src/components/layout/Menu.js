@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/index";
 import { useHistory } from "react-router-dom";
+import logout1 from "../auth/logout.js";
+import axios from "../../axios";
 
 export default function SimpleMenu() {
+  const resetRedux = async () => {};
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useHistory();
   const handleClick = (event) => {
@@ -20,10 +23,27 @@ export default function SimpleMenu() {
   const user = useSelector((state) => state.auth);
 
   const logout = () => {
-    dispatch(authActions.logOut());
+    localStorage.removeItem("");
+    localStorage.removeItem("token");
     history.push("/");
   };
 
+  const t = useSelector((state) => state.auth.user);
+  const [name, setName] = useState(t.firstName);
+  const fun = async () => {
+    if (t.firstName === "") {
+      try {
+        const userId = localStorage.getItem("userId");
+        const res = await axios.post("/getUser", { userId }); // setName(res.data.firstName);
+        setName(res.data.firstName);
+        dispatch(authActions.updateUser(res.data));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  if (t.firstName === "") fun();
   return (
     <div>
       <Button
@@ -32,7 +52,7 @@ export default function SimpleMenu() {
         onClick={handleClick}
         style={{ color: "white" }}
       >
-        Menu
+        {name}
       </Button>
       <Menu
         id="simple-menu"
