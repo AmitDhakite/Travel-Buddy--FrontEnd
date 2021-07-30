@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   textField: {
-    backgroundColor: "rgb(42, 187, 172)",
+    // backgroundColor: "rgb(42, 187, 172)",
+    color: "red",
   },
 }));
 
@@ -150,7 +151,7 @@ export default function SignInSide() {
           </Typography>
           <form className={classes.form} onSubmit={login} noValidate>
             <TextField
-              className="textField"
+              className={classes.textField}
               margin="normal"
               onChange={inputChangeHandler}
               required
