@@ -18,16 +18,13 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import MainListItems, { secondaryListItems } from "./listItems";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
-import Menu from "../layout/Menu";
+import MainListItems, { secondaryListItems } from "../listItems";
+import Menu from "../../layout/Menu";
 import { useHistory } from "react-router-dom";
-import MyTripCards from "../layout/MyTripCards";
-import classes1 from "../../styles/Trips.module.css";
+import MyTripCards from "./MyTripCards";
+import classes1 from "../../../styles/Trips.module.css";
 import Button from "@material-ui/core/Button";
-import AddTrip from "../layout/AddTrip";
+import AddTrip from "./AddTrip";
 
 function Copyright() {
   return (
@@ -196,16 +193,6 @@ export default function Trips() {
       <main className={classes.content}>
         <Paper className={classes1.tripDecor}>
           <MyTripCards className={classes1.tripDecorCard} />
-          {/*<Button
-            variant="contained"
-            style={{
-              marginTop: "20px",
-              backgroundColor: "rgb(42, 187, 172)",
-              color: "white",
-            }}
-          >
-            Add New trip
-          </Button>*/}
           <div>
             <AddTrip />
           </div>

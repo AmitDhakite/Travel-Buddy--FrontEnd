@@ -5,7 +5,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import MyAccount from "./components/dashboard/MyAccount.js";
-import Trips from "./components/dashboard/Trips.js";
+import Trips from "./components/dashboard/trips/Trips.js";
 
 function App() {
   return (

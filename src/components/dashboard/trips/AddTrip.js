@@ -16,8 +16,9 @@ import {
   RegionDropdown,
 } from "react-indian-state-region-selector";
 import Select from "react-select";
-import classes from "../../styles/AddTrip.module.css";
+import classes from "../../../styles/AddTrip.module.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Alert from "../../layout/Alert";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,10 +54,28 @@ export default function FormDialog() {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setNewTrip({
+      userId: localStorage.getItem("userId"),
+      from: "",
+      to: "",
+      startDate: "",
+      endDate: "",
+      twoWay: false,
+      transport: "",
+    });
   };
 
   const handleClose = () => {
     setOpen(false);
+    setNewTrip({
+      userId: localStorage.getItem("userId"),
+      from: "",
+      to: "",
+      startDate: "",
+      endDate: "",
+      twoWay: false,
+      transport: "",
+    });
   };
 
   const classes1 = useStyles();
@@ -78,7 +97,7 @@ export default function FormDialog() {
         [name]: value,
       };
     });
-    console.log(name, value);
+    console.log(newTrip);
   };
 
   const fromCityChangeHandler = (e) => {
@@ -89,6 +108,7 @@ export default function FormDialog() {
         from: value,
       };
     });
+    console.log(newTrip);
   };
   const toCityChangeHandler = (e) => {
     const value = e.value;
@@ -98,6 +118,7 @@ export default function FormDialog() {
         to: value,
       };
     });
+    console.log(newTrip);
   };
   const transportChangeHandler = (e) => {
     const value = e.value;
@@ -107,6 +128,7 @@ export default function FormDialog() {
         transport: value,
       };
     });
+    console.log(newTrip);
   };
 
   const [state, setState] = React.useState({
@@ -115,6 +137,13 @@ export default function FormDialog() {
 
   const handleChange = (event) => {
     setRoundTrip(event.target.checked);
+    const value = event.target.checked;
+    setNewTrip((p) => {
+      return {
+        ...p,
+        twoWay: value,
+      };
+    });
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
@@ -141,7 +170,35 @@ export default function FormDialog() {
     },
   ];
 
+  const [mes, setMes] = useState("");
+  const [showMes, setShowMes] = useState(false);
   const addNewTrip = () => {
+    setShowMes(false);
+    if (
+      newTrip.from === "" ||
+      newTrip.to === "" ||
+      newTrip.startDate === "" ||
+      (newTrip.twoWay && newTrip.endDate === "")
+    ) {
+      setMes("Please fill out all the necessary details...");
+      setShowMes(true);
+      return;
+    }
+    if (!newTrip.twoWay) newTrip.endDate = "";
+    const start = new Date(newTrip.startDate).getTime();
+    const end = new Date(newTrip.endDate).getTime();
+    if (newTrip.twoWay && start >= end) {
+      setShowMes(true);
+      setMes("Start date should be less than end date...");
+      return;
+    }
+    const currentDate = new Date().getTime();
+    if (currentDate >= start || (newTrip.twoWay && currentDate >= end)) {
+      setShowMes(true);
+      setMes("Travel dates should be future dates...");
+      return;
+    }
+    console.log(newTrip);
     setOpen(false);
   };
 
@@ -194,7 +251,6 @@ export default function FormDialog() {
                 <Typography>End Point</Typography>
                 <Select
                   name="to"
-                  value={newTrip.to}
                   options={cities}
                   isSearchable
                   onChange={toCityChangeHandler}
@@ -204,8 +260,7 @@ export default function FormDialog() {
                 <Typography>Preferred Transport</Typography>
                 <Select
                   name="transport"
-                  value={newTrip.from}
-                  options="transport"
+                  options={transports}
                   isSearchable
                   onChange={transportChangeHandler}
                 />
@@ -260,6 +315,7 @@ export default function FormDialog() {
               )}
             </Grid>
           </DialogContent>
+          {showMes && <Alert message={mes} color="orange" />}
           <DialogActions>
             <Button
               onClick={handleClose}

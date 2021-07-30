@@ -15,7 +15,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import img from "../../images/trip1.jpg";
+import img from "../../../images/trip1.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
