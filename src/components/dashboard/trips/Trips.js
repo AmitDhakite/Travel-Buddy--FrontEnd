@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -25,6 +25,7 @@ import MyTripCards from "./MyTripCards";
 import classes1 from "../../../styles/Trips.module.css";
 import Button from "@material-ui/core/Button";
 import AddTrip from "./AddTrip";
+import axios from "../../../axios.js";
 
 function Copyright() {
   return (
@@ -132,6 +133,17 @@ export default function Trips() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  useEffect(async () => {
+    try {
+      const res = await axios.post("/getAllTripsById", {
+        id: localStorage.getItem("userId"),
+      });
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -19,6 +19,8 @@ import Select from "react-select";
 import classes from "../../../styles/AddTrip.module.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Alert from "../../layout/Alert";
+import axios from "../../../axios.js";
+import Backdrop from "../../layout/Backdrop";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -169,10 +171,11 @@ export default function FormDialog() {
       value: "Own Vehicle",
     },
   ];
-
+  const [loading, setLoading] = useState(false);
   const [mes, setMes] = useState("");
   const [showMes, setShowMes] = useState(false);
-  const addNewTrip = () => {
+  const addNewTrip = async () => {
+    setLoading(true);
     setShowMes(false);
     if (
       newTrip.from === "" ||
@@ -182,6 +185,11 @@ export default function FormDialog() {
     ) {
       setMes("Please fill out all the necessary details...");
       setShowMes(true);
+      return;
+    }
+    if (newTrip.from === newTrip.to) {
+      setShowMes(true);
+      setMes("Start point and end point cannot be same...");
       return;
     }
     if (!newTrip.twoWay) newTrip.endDate = "";
@@ -198,12 +206,18 @@ export default function FormDialog() {
       setMes("Travel dates should be future dates...");
       return;
     }
-    console.log(newTrip);
-    setOpen(false);
+    try {
+      const res = await axios.post("/addTrip", newTrip);
+      console.log(res.data);
+      setOpen(false);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
-
   return (
     <div>
+      {loading && <Backdrop />}
       <Button
         variant="outlined"
         style={{

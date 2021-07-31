@@ -7,6 +7,7 @@ import { authActions } from "../../store/index";
 import { useHistory } from "react-router-dom";
 import logout1 from "../auth/logout.js";
 import axios from "../../axios";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
 export default function SimpleMenu() {
   const resetRedux = async () => {};
@@ -52,7 +53,7 @@ export default function SimpleMenu() {
         onClick={handleClick}
         style={{ color: "white" }}
       >
-        {name}
+        <p style={{ marginRight: "10px" }}>{name}</p> <AccountBoxIcon />
       </Button>
       <Menu
         id="simple-menu"
