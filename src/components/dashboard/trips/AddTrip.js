@@ -21,6 +21,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Alert from "../../layout/Alert";
 import axios from "../../../axios.js";
 import Backdrop from "../../layout/Backdrop";
+import Snackbar from "../../layout/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormDialog() {
+export default function FormDialog(props) {
   const [open, setOpen] = useState(false);
   const [roundTrip, setRoundTrip] = useState(false);
   const PurpleSwitch = withStyles({
@@ -64,6 +65,7 @@ export default function FormDialog() {
       endDate: "",
       twoWay: false,
       transport: "",
+      noOfPeople: 0,
     });
   };
 
@@ -77,8 +79,11 @@ export default function FormDialog() {
       endDate: "",
       twoWay: false,
       transport: "",
+      noOfPeople: 0,
     });
   };
+
+  const [snackbar, setSnackbar] = useState(false);
 
   const classes1 = useStyles();
   const [newTrip, setNewTrip] = useState({
@@ -89,6 +94,7 @@ export default function FormDialog() {
     endDate: "",
     twoWay: false,
     transport: "",
+    noOfPeople: 0,
   });
 
   const newTripChangeHandler = (e) => {
@@ -128,6 +134,16 @@ export default function FormDialog() {
       return {
         ...p,
         transport: value,
+      };
+    });
+    console.log(newTrip);
+  };
+  const personsChangeHandler = (e) => {
+    const value = e.value;
+    setNewTrip((p) => {
+      return {
+        ...p,
+        noOfPeople: value,
       };
     });
     console.log(newTrip);
@@ -175,12 +191,12 @@ export default function FormDialog() {
   const [mes, setMes] = useState("");
   const [showMes, setShowMes] = useState(false);
   const addNewTrip = async () => {
-    setLoading(true);
     setShowMes(false);
     if (
       newTrip.from === "" ||
       newTrip.to === "" ||
       newTrip.startDate === "" ||
+      newTrip.noOfPeople === 0 ||
       (newTrip.twoWay && newTrip.endDate === "")
     ) {
       setMes("Please fill out all the necessary details...");
@@ -210,14 +226,22 @@ export default function FormDialog() {
       const res = await axios.post("/addTrip", newTrip);
       console.log(res.data);
       setOpen(false);
-      setLoading(false);
+      setSnackbar(true);
+      props.counter((p) => p++);
     } catch (e) {
       console.log(e);
     }
+    setLoading(false);
   };
+  const numberOfPersons = [];
+  for (var i = 1; i < 100; i++) {
+    numberOfPersons.push({ label: i, value: i });
+  }
+
   return (
     <div>
       {loading && <Backdrop />}
+      {snackbar && <Snackbar mes="Trip Added Successfully!!" />}
       <Button
         variant="outlined"
         style={{
@@ -280,6 +304,16 @@ export default function FormDialog() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <Typography>Number of Persons Travelling</Typography>
+                <Select
+                  name="noOfPeople"
+                  options={numberOfPersons}
+                  isSearchable
+                  onChange={personsChangeHandler}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
                 <div style={{ display: "flex" }}>
                   <p>One Way</p>
                   <Switch
@@ -340,7 +374,10 @@ export default function FormDialog() {
               Cancel
             </Button>
             <Button
-              onClick={addNewTrip}
+              onClick={() => {
+                setLoading(true);
+                addNewTrip();
+              }}
               style={{
                 color: "rgb(42, 187, 172)",
               }}

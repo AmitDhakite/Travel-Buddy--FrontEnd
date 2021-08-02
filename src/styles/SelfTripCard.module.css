@@ -1,0 +1,21 @@
+.route {
+  display: flex;
+  justify-content: center;
+}
+
+.from {
+  background-color: rgba(42, 187, 172, 1);
+  padding: 5px 30px;
+  margin: auto 50px;
+  border-radius: 3px;
+  color: white;
+}
+
+.header {
+  color: white;
+  background-color: #055052;
+  margin: -15px -16px;
+  padding: 10px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}

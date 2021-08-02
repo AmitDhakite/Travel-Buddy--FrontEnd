@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -26,6 +26,7 @@ import classes1 from "../../../styles/Trips.module.css";
 import Button from "@material-ui/core/Button";
 import AddTrip from "./AddTrip";
 import axios from "../../../axios.js";
+import SelfTripCard from "./SelfTripCard";
 
 function Copyright() {
   return (
@@ -134,12 +135,14 @@ export default function Trips() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const [myTrips, setMyTrips] = useState([]);
+  const [counter, setCounter] = useState(0);
   useEffect(async () => {
     try {
       const res = await axios.post("/getAllTripsById", {
         id: localStorage.getItem("userId"),
       });
-      console.log(res.data);
+      setMyTrips(res.data);
     } catch (e) {
       console.log(e);
     }
@@ -206,7 +209,14 @@ export default function Trips() {
         <Paper className={classes1.tripDecor}>
           <MyTripCards className={classes1.tripDecorCard} />
           <div>
-            <AddTrip />
+            <AddTrip counters={setCounter} />
+          </div>
+          <div className={classes1.selfTripDiv}>
+            {myTrips.map((t, i) => (
+              <div className={classes1.selfTripCard}>
+                <SelfTripCard from={t.from} to={t.to} twoWay={t.twoWay} />
+              </div>
+            ))}
           </div>
         </Paper>
       </main>
