@@ -13,6 +13,8 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import { useHistory } from "react-router-dom";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
+import ChatIcon from "@material-ui/icons/Chat";
+
 const MainListItems = () => {
   const history = useHistory();
   const toDashboard = () => {
@@ -44,18 +46,18 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="My Trips" />
       </ListItem>
+
+      <ListItem button>
+        <ListItemIcon>
+          <ChatIcon style={{ color: "rgb(42, 187, 172)" }} />
+        </ListItemIcon>
+        <ListItemText primary="Chats" />
+      </ListItem>
       <ListItem onClick={toAccount} button>
         <ListItemIcon>
           <PermIdentityIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
         <ListItemText primary="My Account" />
-      </ListItem>
-
-      <ListItem button>
-        <ListItemIcon>
-          <LayersIcon style={{ color: "rgb(42, 187, 172)" }} />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
       </ListItem>
     </div>
   );

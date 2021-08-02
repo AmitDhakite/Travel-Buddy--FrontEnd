@@ -148,6 +148,22 @@ export default function Trips() {
     }
   }, []);
 
+  const deleteHandler = async (e) => {
+    try {
+      const res = await axios.post("/deleteTrip", myTrips[e]._id);
+      console.log(res.data);
+      setMyTrips((p) => {
+        const newOb = [];
+        p.forEach((k, i) => {
+          if (i != k) newOb.push(k);
+        });
+        return newOb;
+      });
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -214,7 +230,16 @@ export default function Trips() {
           <div className={classes1.selfTripDiv}>
             {myTrips.map((t, i) => (
               <div className={classes1.selfTripCard}>
-                <SelfTripCard from={t.from} to={t.to} twoWay={t.twoWay} />
+                <SelfTripCard
+                  delete={() => {
+                    deleteHandler(i);
+                  }}
+                  noOfPeople={t.noOfPeople}
+                  transport={t.transport}
+                  from={t.from}
+                  to={t.to}
+                  twoWay={t.twoWay}
+                />
               </div>
             ))}
           </div>

@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import classes1 from "../../../styles/SelfTripCard.module.css";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import SyncAltIcon from "@material-ui/icons/SyncAlt";
+import SpeedDial from "../../layout/SpeedDial";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 14,
+    fontSize: 18,
   },
   pos: {
     marginBottom: 12,
@@ -29,12 +31,19 @@ export default function SimpleCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
+  const handleClick = (e) => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Card className={classes.root}>
       <CardContent>
         <div className={classes1.header}>
           <Typography className={classes.title} color="white" gutterBottom>
-            Word of the Day
+            {props.twoWay ? "Round Trip" : "One Way Trip"}
           </Typography>
         </div>
         <Typography variant="h5" component="h2" className={classes1.route}>
@@ -53,16 +62,16 @@ export default function SimpleCard(props) {
           <p className={classes1.from}>{props.to}</p>
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          adjective
+          Preffering by {props.transport}
         </Typography>
         <Typography variant="body2" component="p">
-          well meaning and kindly.
+          Number of people: {props.noOfPeople}
           <br />
-          {'"a benevolent smile"'}
         </Typography>
       </CardContent>
+      <Button size="small">Learn More</Button>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <SpeedDial handleClick={handleClick} delete={props.delete} />
       </CardActions>
     </Card>
   );

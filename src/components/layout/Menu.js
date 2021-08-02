@@ -29,6 +29,10 @@ export default function SimpleMenu() {
     history.push("/");
   };
 
+  const toAccount = () => {
+    history.push("/myAccount");
+  };
+
   const t = useSelector((state) => state.auth.user);
   const [name, setName] = useState(t.firstName);
   const fun = async () => {
@@ -63,7 +67,7 @@ export default function SimpleMenu() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={toAccount}>My account</MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </div>

@@ -13,9 +13,12 @@
 
 .header {
   color: white;
-  background-color: #055052;
+  font-size: 3rem;
+  /* background-color: #055052; */
+  background-color: #00838f;
   margin: -15px -16px;
-  padding: 10px;
+  margin-bottom: 10px;
+  padding: 12px 18px 8px;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
 }
