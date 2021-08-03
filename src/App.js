@@ -6,6 +6,7 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import MyAccount from "./components/dashboard/MyAccount.js";
 import Trips from "./components/dashboard/trips/Trips.js";
+import TravelBuddy from "./components/dashboard/travelBuddy/TravelBuddy.js";
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route path="/myTrips" exact>
             <Trips />
+          </Route>
+          <Route path="/travelBuddy" exact>
+            <TravelBuddy />
           </Route>
           <Route path="/" exact>
             <Homepage />

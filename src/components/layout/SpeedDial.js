@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
 import ShareIcon from "@material-ui/icons/Share";
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
+  { icon: <EditOutlinedIcon />, name: "Edit" },
   { icon: <DeleteIcon />, name: "Delete" },
 ];
 
@@ -52,6 +52,8 @@ export default function OpenIconSpeedDial(props) {
     if (e === "Delete") {
       console.log("setShowBox");
       setShowBox(true);
+    } else if (e === "Edit") {
+      props.edit();
     }
   };
 

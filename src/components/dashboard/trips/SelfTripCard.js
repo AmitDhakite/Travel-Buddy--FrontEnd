@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -12,6 +12,7 @@ import SpeedDial from "../../layout/SpeedDial";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CommuteIcon from "@material-ui/icons/Commute";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import EditTrip from "./EditTrip";
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +41,10 @@ export default function SimpleCard(props) {
       console.log(e);
     }
   };
+  const [editOpen, setEditOpen] = useState(false);
+  const editHandler = () => {
+    setEditOpen(true);
+  };
 
   const showDate = (e) => {
     const months = [
@@ -67,22 +72,30 @@ export default function SimpleCard(props) {
 
   return (
     <Card className={classes.root}>
+      {editOpen && (
+        <EditTrip
+          props={props}
+          closeEdit={() => {
+            setEditOpen(false);
+          }}
+        />
+      )}
       <CardContent>
         <div className={classes1.header}>
           <Typography className={classes.title} color="white" gutterBottom>
             {props.twoWay ? "Round Trip" : "One Way Trip"}
           </Typography>
         </div>
-        <Typography variant="h5" component="h2" className={classes1.route}>
+        <Typography variant="h6" component="h2" className={classes1.route}>
           <p className={classes1.from}>{props.from}</p>{" "}
           <p>
             {!props.twoWay ? (
               <ArrowRightAltIcon
-                style={{ color: "rgb(42, 187, 172)", fontSize: "3rem" }}
+                style={{ color: "rgb(42, 187, 172)", fontSize: "2rem" }}
               />
             ) : (
               <SyncAltIcon
-                style={{ color: "rgb(42, 187, 172)", fontSize: "3rem" }}
+                style={{ color: "rgb(42, 187, 172)", fontSize: "2rem" }}
               />
             )}
           </p>{" "}
@@ -141,7 +154,11 @@ export default function SimpleCard(props) {
           backgroundImage: "linear-gradient(rgba(42, 187, 172, 1), #00838f)",
         }}
       >
-        <SpeedDial handleClick={handleClick} delete={props.delete} />
+        <SpeedDial
+          handleClick={handleClick}
+          delete={props.delete}
+          edit={editHandler}
+        />
       </CardActions>
     </Card>
   );

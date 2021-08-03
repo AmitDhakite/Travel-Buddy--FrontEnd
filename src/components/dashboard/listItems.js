@@ -26,6 +26,9 @@ const MainListItems = () => {
   const toTrips = () => {
     history.push("/myTrips");
   };
+  const toTravelBuddy = () => {
+    history.push("/travelBuddy");
+  };
   return (
     <div>
       <ListItem onClick={toDashboard} button>
@@ -34,11 +37,11 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={toTravelBuddy}>
         <ListItemIcon>
           <PeopleOutlineIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
-        <ListItemText primary="Find Travel Buddies" />
+        <ListItemText primary="Travel Buddies" />
       </ListItem>
       <ListItem onClick={toTrips} button>
         <ListItemIcon>

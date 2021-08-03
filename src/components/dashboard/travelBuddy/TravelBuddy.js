@@ -18,15 +18,14 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import MainListItems, { secondaryListItems } from "../listItems";
+import MainListItems, { secondaryListItems } from "../listItems.js";
 import Menu from "../../layout/Menu";
 import { useHistory } from "react-router-dom";
-import MyTripCards from "./MyTripCards";
+import MyTripCards from "../trips/MyTripCards";
 import classes1 from "../../../styles/Trips.module.css";
 import Button from "@material-ui/core/Button";
-import AddTrip from "./AddTrip";
 import axios from "../../../axios.js";
-import SelfTripCard from "./SelfTripCard";
+import SelfTripCard from "../trips/SelfTripCard";
 
 function Copyright() {
   return (
@@ -135,38 +134,21 @@ export default function Trips() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const [myTrips, setMyTrips] = useState([]);
+  const [trips, setTrips] = useState([]);
   const [counter, setCounter] = useState(0);
   useEffect(async () => {
     try {
-      const res = await axios.post("/getAllTripsById", {
-        id: localStorage.getItem("userId"),
-      });
-      setMyTrips(res.data);
+      const res = await axios.post("/getAllTrips", {});
+      setTrips(res.data);
+      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
   }, []);
 
-  const deleteHandler = async (e) => {
-    try {
-      const res = await axios.post("/deleteTrip", { id: myTrips[e]._id });
-      console.log(res.data);
-      setMyTrips((p) => {
-        const newOb = [];
-        p.forEach((k, i) => {
-          if (i !== e) newOb.push(k);
-        });
-        return newOb;
-      });
-    } catch (er) {
-      console.log(er);
-    }
-  };
-
   const editHandler = async (e) => {
     try {
-      // const res = await axios.post("/editTrip", { id: myTrips[e]._id });
+      // const res = await axios.post("/editTrip", { id: Trips[e]._id });
       console.log("to Edit:" + e);
       // setMyTrips((p) => {
       //   const newOb = [];
@@ -181,7 +163,7 @@ export default function Trips() {
   };
 
   const addNewTrip = (e) => {
-    setMyTrips((p) => [e, ...p]);
+    setTrips((p) => [e, ...p]);
   };
 
   return (
@@ -212,7 +194,7 @@ export default function Trips() {
             noWrap
             className={classes.title}
           >
-            My Trips
+            Find your Travel Buddies
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -244,21 +226,17 @@ export default function Trips() {
       <main className={classes.content}>
         <Paper className={classes1.tripDecor}>
           <MyTripCards className={classes1.tripDecorCard} />
-          <div>
-            <AddTrip addNewTrip={addNewTrip} />
-          </div>
+
           <div className={classes1.selfTripDiv}>
-            {myTrips.length === 0 ? (
-              <p>You haven't added any Trips yet...</p>
+            {trips.length === 0 ? (
+              <p>There are no Trips yet...</p>
             ) : (
-              <p>Your added Trips...</p>
+              <p>Trips you can board on...</p>
             )}
-            {myTrips.map((t, i) => (
+            {trips.map((t, i) => (
               <div className={classes1.selfTripCard}>
                 <SelfTripCard
-                  delete={() => {
-                    deleteHandler(i);
-                  }}
+                  delete={() => {}}
                   edit={() => {
                     editHandler(i);
                   }}

@@ -7,9 +7,14 @@
 }
 
 .selfTripDiv {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgba(42, 187, 172, 1);
   margin: 5% 10%;
 }
 
 .selfTripCard {
+  text-align: left;
   margin: 50px 0;
 }

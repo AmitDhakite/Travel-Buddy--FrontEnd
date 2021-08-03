@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormDialog(props) {
-  const [open, setOpen] = useState(false);
-  const [roundTrip, setRoundTrip] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [roundTrip, setRoundTrip] = useState(props.props.twoWay);
   const PurpleSwitch = withStyles({
     switchBase: {
       color: purple[300],
@@ -70,17 +70,7 @@ export default function FormDialog(props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setNewTrip({
-      userId: localStorage.getItem("userId"),
-      from: "",
-      to: "",
-      startDate: "",
-      endDate: "",
-      twoWay: false,
-      transport: "",
-      noOfPeople: 0,
-    });
+    props.closeEdit();
   };
 
   const [snackbar, setSnackbar] = useState(false);
@@ -88,7 +78,7 @@ export default function FormDialog(props) {
   const classes1 = useStyles();
   const [newTrip, setNewTrip] = useState({
     userId: localStorage.getItem("userId"),
-    from: "",
+    from: props.props.from,
     to: "",
     startDate: "",
     endDate: "",
@@ -241,18 +231,6 @@ export default function FormDialog(props) {
   return (
     <div>
       {loading && <Backdrop />}
-      {snackbar && <Snackbar mes="Trip Added Successfully!!" />}
-      <Button
-        variant="outlined"
-        style={{
-          marginTop: "20px",
-          backgroundColor: "rgb(42, 187, 172)",
-          color: "white",
-        }}
-        onClick={handleClickOpen}
-      >
-        Add New Trip
-      </Button>
       <Dialog
         style={{}}
         open={open}
@@ -264,7 +242,7 @@ export default function FormDialog(props) {
             id="form-dialog-title"
             style={{ fontWeight: "600", color: "rgb(42, 187, 172)" }}
           >
-            Add Trip
+            Edit Trip
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -279,6 +257,7 @@ export default function FormDialog(props) {
               <Grid item xs={12} sm={12} lg={6}>
                 <Typography>Start Point</Typography>
                 <Select
+                  value={newTrip.from}
                   name="from"
                   options={cities}
                   isSearchable
@@ -288,6 +267,7 @@ export default function FormDialog(props) {
               <Grid item xs={12} sm={12} lg={6}>
                 <Typography>End Point</Typography>
                 <Select
+                  value={newTrip.to}
                   name="to"
                   options={cities}
                   isSearchable
