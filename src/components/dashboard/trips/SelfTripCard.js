@@ -9,6 +9,9 @@ import classes1 from "../../../styles/SelfTripCard.module.css";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import SyncAltIcon from "@material-ui/icons/SyncAlt";
 import SpeedDial from "../../layout/SpeedDial";
+import EventNoteIcon from "@material-ui/icons/EventNote";
+import CommuteIcon from "@material-ui/icons/Commute";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 
 const useStyles = makeStyles({
   root: {
@@ -38,6 +41,30 @@ export default function SimpleCard(props) {
     }
   };
 
+  const showDate = (e) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    if (e === "") return;
+    var d = e.substring(8, 10);
+    d += "/";
+    d += months[parseInt(e.substring(5, 7))];
+    d += "/";
+    d += e.substring(0, 4);
+    return d;
+  };
+
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -62,15 +89,58 @@ export default function SimpleCard(props) {
           <p className={classes1.from}>{props.to}</p>
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Preffering by {props.transport}
+          <div style={{ marginLeft: "20px", marginTop: "10px" }}>
+            <CommuteIcon
+              style={{
+                color: "rgba(42, 187, 172, 1)",
+                marginBottom: "-10px",
+                fontSize: "2rem",
+                marginRight: "10px",
+              }}
+            />{" "}
+            Preffering by {props.transport}
+          </div>
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography
+          style={{ marginLeft: "20px", marginTop: "10px" }}
+          className={classes.pos}
+          color="textSecondary"
+        >
+          <PeopleAltIcon
+            style={{
+              marginRight: "10px",
+              color: "rgba(42, 187, 172, 1)",
+              marginBottom: "-10px",
+              fontSize: "2rem",
+            }}
+          />
           Number of people: {props.noOfPeople}
           <br />
         </Typography>
+        <Typography
+          style={{ marginLeft: "20px", marginTop: "20px", display: "flex" }}
+          className={classes.pos}
+          color="textSecondary"
+        >
+          <EventNoteIcon
+            style={{
+              marginRight: "10px",
+              color: "rgba(42, 187, 172, 1)",
+              fontSize: "2rem",
+            }}
+          />
+          {showDate(props.startDate)}{" "}
+          {props.twoWay && (
+            <React.Fragment>- {showDate(props.endDate)}</React.Fragment>
+          )}
+          <br />
+        </Typography>
       </CardContent>
-      <Button size="small">Learn More</Button>
-      <CardActions>
+      <CardActions
+        style={{
+          backgroundImage: "linear-gradient(rgba(42, 187, 172, 1), #00838f)",
+        }}
+      >
         <SpeedDial handleClick={handleClick} delete={props.delete} />
       </CardActions>
     </Card>

@@ -150,12 +150,12 @@ export default function Trips() {
 
   const deleteHandler = async (e) => {
     try {
-      const res = await axios.post("/deleteTrip", myTrips[e]._id);
+      const res = await axios.post("/deleteTrip", { id: myTrips[e]._id });
       console.log(res.data);
       setMyTrips((p) => {
         const newOb = [];
         p.forEach((k, i) => {
-          if (i != k) newOb.push(k);
+          if (i !== e) newOb.push(k);
         });
         return newOb;
       });
@@ -239,6 +239,8 @@ export default function Trips() {
                   from={t.from}
                   to={t.to}
                   twoWay={t.twoWay}
+                  startDate={t.startDate}
+                  endDate={t.endDate}
                 />
               </div>
             ))}

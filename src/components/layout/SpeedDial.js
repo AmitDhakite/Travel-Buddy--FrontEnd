@@ -73,11 +73,11 @@ export default function OpenIconSpeedDial(props) {
               width: "60px",
               padding: "15px",
               borderRadius: "50%",
-              backgroundColor: "#00838f",
+              backgroundColor: "#00b0ff",
             }}
             openIcon={
               <EditIcon
-                style={{ borderRadius: "50%", backgroundColor: "#00838f" }}
+                style={{ borderRadius: "50%", backgroundColor: "#00b0ff" }}
               />
             }
           />
