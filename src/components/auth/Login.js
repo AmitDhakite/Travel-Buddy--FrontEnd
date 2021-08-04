@@ -72,6 +72,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInSide() {
+  useEffect(() => {
+    if (
+      localStorage.getItem("token") !== null &&
+      localStorage.getItem("token") !== undefined &&
+      localStorage.getItem("token") !== ""
+    ) {
+      if (
+        localStorage.getItem("userId") !== null &&
+        localStorage.getItem("userId") !== undefined &&
+        localStorage.getItem("userId") !== ""
+      ) {
+        history.push("/dashboard");
+      }
+    }
+  }, []);
   const classes = useStyles();
   const history = useHistory();
   const toHome = () => {

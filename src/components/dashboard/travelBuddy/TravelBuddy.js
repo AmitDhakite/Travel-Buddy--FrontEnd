@@ -21,11 +21,13 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MainListItems, { secondaryListItems } from "../listItems.js";
 import Menu from "../../layout/Menu";
 import { useHistory } from "react-router-dom";
-import MyTripCards from "../trips/MyTripCards";
-import classes1 from "../../../styles/Trips.module.css";
+import MyTripCards from "./MyTripCards";
+import classes1 from "../../../styles/TravelBuddy.module.css";
 import Button from "@material-ui/core/Button";
 import axios from "../../../axios.js";
 import SelfTripCard from "../trips/SelfTripCard";
+import img from "../../../images/TravelBuddy.png";
+import Filter from "./Filter.js";
 
 function Copyright() {
   return (
@@ -225,31 +227,48 @@ export default function Trips() {
       </Drawer>
       <main className={classes.content}>
         <Paper className={classes1.tripDecor}>
-          <MyTripCards className={classes1.tripDecorCard} />
-
-          <div className={classes1.selfTripDiv}>
-            {trips.length === 0 ? (
-              <p>There are no Trips yet...</p>
-            ) : (
-              <p>Trips you can board on...</p>
-            )}
-            {trips.map((t, i) => (
-              <div className={classes1.selfTripCard}>
-                <SelfTripCard
-                  delete={() => {}}
-                  edit={() => {
-                    editHandler(i);
-                  }}
-                  noOfPeople={t.noOfPeople}
-                  transport={t.transport}
-                  from={t.from}
-                  to={t.to}
-                  twoWay={t.twoWay}
-                  startDate={t.startDate}
-                  endDate={t.endDate}
-                />
+          <img className={classes1.tripDecorCard} src={img} />
+          <div className={classes1.parentDiv}>
+            <Paper className={classes1.filter}>
+              <h3>Filter your search</h3>
+              <div>
+                <h4>Type of Journey</h4>
+                <Filter label="One Way" />
+                <Filter label="Two Way" />
               </div>
-            ))}
+              <div>
+                <h4>Preffered Transport</h4>
+                <Filter label="Bus" />
+                <Filter label="Cab" />
+                <Filter label="Flight" />
+                <Filter label="Own Vehicle" />
+                <Filter label="Train" />
+              </div>
+            </Paper>
+            <div className={classes1.selfTripDiv}>
+              {trips.length === 0 ? (
+                <p>There are no Trips yet...</p>
+              ) : (
+                <p>Trips you can board on...</p>
+              )}
+              {trips.map((t, i) => (
+                <div className={classes1.selfTripCard}>
+                  <SelfTripCard
+                    delete={() => {}}
+                    edit={() => {
+                      editHandler(i);
+                    }}
+                    noOfPeople={t.noOfPeople}
+                    transport={t.transport}
+                    from={t.from}
+                    to={t.to}
+                    twoWay={t.twoWay}
+                    startDate={t.startDate}
+                    endDate={t.endDate}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </Paper>
       </main>
