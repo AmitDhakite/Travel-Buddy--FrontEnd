@@ -71,7 +71,7 @@ export default function SimpleCard(props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root + " " + classes1.tripcard}>
       {editOpen && (
         <EditTrip
           props={props}

@@ -9,28 +9,30 @@
 }
 
 .selfTripDiv {
+  width: 60%;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
   color: rgba(42, 187, 172, 1);
-  margin: 5% 10%;
+  margin: 5% 5%;
 }
 
 .selfTripCard {
   text-align: left;
-  margin: 50px 0;
+  margin: 40px 0;
 }
 
 .parentDiv {
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* position: relative; */
   display: flex;
 }
 
 .filter {
-  margin: 200px 30px auto 30px;
+  margin: 200px 10px auto 30px;
   padding: 20px 100px;
   display: flex;
   flex-direction: column;
   align-items: left;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
 }

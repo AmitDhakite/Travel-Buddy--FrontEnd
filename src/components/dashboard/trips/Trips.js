@@ -256,6 +256,7 @@ export default function Trips() {
             {myTrips.map((t, i) => (
               <div className={classes1.selfTripCard}>
                 <SelfTripCard
+                  className={classes1.tripcard}
                   delete={() => {
                     deleteHandler(i);
                   }}

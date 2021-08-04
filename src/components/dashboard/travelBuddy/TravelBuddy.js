@@ -229,7 +229,7 @@ export default function Trips() {
         <Paper className={classes1.tripDecor}>
           <img className={classes1.tripDecorCard} src={img} />
           <div className={classes1.parentDiv}>
-            <Paper className={classes1.filter}>
+            <div className={classes1.filter}>
               <h3>Filter your search</h3>
               <div>
                 <h4>Type of Journey</h4>
@@ -244,7 +244,7 @@ export default function Trips() {
                 <Filter label="Own Vehicle" />
                 <Filter label="Train" />
               </div>
-            </Paper>
+            </div>
             <div className={classes1.selfTripDiv}>
               {trips.length === 0 ? (
                 <p>There are no Trips yet...</p>
