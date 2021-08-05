@@ -48,14 +48,26 @@
 .filterHead {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
+}
+.filterHeadDate1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.filterHeadDate2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  margin-top: 30px;
 }
 
 .filterDiv {
+  margin-right: -80px;
   margin-bottom: 20px;
   line-height: 1px;
 }
 
 .checkbox {
-  margin: -8px 0;
+  margin: -8px;
 }

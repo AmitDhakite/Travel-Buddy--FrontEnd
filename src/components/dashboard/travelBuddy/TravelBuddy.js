@@ -280,14 +280,13 @@ export default function Trips() {
                 </div>
               </div>
               <div className={classes1.filterDiv}>
-                <p className={classes1.filterHead}>Preffered Start Date</p>
-                <div className={classes1.checkbox}>
+                <p className={classes1.filterHeadDate1}>Preffered Start Date</p>
+                <div style={{ width: "80%" }} className={classes1.checkbox}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <div style={{ marginRight: "-50px", padding: "4px" }}>
+                    <div>
                       <KeyboardDatePicker
                         margin="normal"
                         id="date-picker-dialog"
-                        label="Date picker dialog"
                         format="dd/MM/yyyy"
                         value={selectedDate}
                         onChange={handleDateChange}
@@ -295,10 +294,16 @@ export default function Trips() {
                           "aria-label": "change date",
                         }}
                       />
+                    </div>
+                  </MuiPickersUtilsProvider>
+                </div>
+                <p className={classes1.filterHeadDate2}>Preffered End Date</p>
+                <div style={{ width: "80%" }} className={classes1.checkbox}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <div>
                       <KeyboardDatePicker
                         margin="normal"
                         id="date-picker-dialog"
-                        label="Date picker dialog"
                         format="dd/MM/yyyy"
                         value={selectedDate}
                         onChange={handleDateChange}
