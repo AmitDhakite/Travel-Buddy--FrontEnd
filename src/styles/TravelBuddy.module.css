@@ -29,10 +29,33 @@
 }
 
 .filter {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 80px;
   margin: 200px 10px auto 30px;
-  padding: 20px 100px;
+  padding: 10px 100px 10px 40px;
   display: flex;
   flex-direction: column;
   align-items: left;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 18px 0 rgba(0, 0, 0, 0.19);
+}
+
+.filterYourSearch {
+  font-size: 1.3rem;
+  font-family: "PT Serif", serif;
+}
+
+.filterHead {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.filterDiv {
+  margin-bottom: 20px;
+  line-height: 1px;
+}
+
+.checkbox {
+  margin: -8px 0;
 }

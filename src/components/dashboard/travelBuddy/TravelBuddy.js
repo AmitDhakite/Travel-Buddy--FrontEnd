@@ -29,6 +29,14 @@ import SelfTripCard from "../trips/SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
 
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -168,6 +176,15 @@ export default function Trips() {
     setTrips((p) => [e, ...p]);
   };
 
+  // Date
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date("2021-08-15T21:11:54")
+  );
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -230,19 +247,68 @@ export default function Trips() {
           <img className={classes1.tripDecorCard} src={img} />
           <div className={classes1.parentDiv}>
             <div className={classes1.filter}>
-              <h3>Filter your search</h3>
-              <div>
-                <h4>Type of Journey</h4>
-                <Filter label="One Way" />
-                <Filter label="Two Way" />
+              <p className={classes1.filterYourSearch}>Filter your search</p>
+              <div className={classes1.filterDiv}>
+                <p className={classes1.filterHead}>Type of Journey</p>
+                <div className={classes1.checkbox}>
+                  <Filter label="One Way" />
+                </div>
+                <div className={classes1.checkbox}>
+                  <Filter label="Two Way" />
+                </div>
               </div>
-              <div>
-                <h4>Preffered Transport</h4>
-                <Filter label="Bus" />
-                <Filter label="Cab" />
-                <Filter label="Flight" />
-                <Filter label="Own Vehicle" />
-                <Filter label="Train" />
+              <div className={classes1.filterDiv}>
+                <p className={classes1.filterHead}>Preffered Transport</p>
+                <div className={classes1.checkbox}>
+                  <Filter label="Bus" />
+                </div>
+
+                <div className={classes1.checkbox}>
+                  <Filter label="Cab" />
+                </div>
+
+                <div className={classes1.checkbox}>
+                  <Filter label="Flight" />
+                </div>
+
+                <div className={classes1.checkbox}>
+                  <Filter label="Own Vehicle" />
+                </div>
+
+                <div className={classes1.checkbox}>
+                  <Filter label="Train" />
+                </div>
+              </div>
+              <div className={classes1.filterDiv}>
+                <p className={classes1.filterHead}>Preffered Start Date</p>
+                <div className={classes1.checkbox}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <div style={{ marginRight: "-50px", padding: "4px" }}>
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="date-picker-dialog"
+                        label="Date picker dialog"
+                        format="dd/MM/yyyy"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                      />
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="date-picker-dialog"
+                        label="Date picker dialog"
+                        format="dd/MM/yyyy"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
+                      />
+                    </div>
+                  </MuiPickersUtilsProvider>
+                </div>
               </div>
             </div>
             <div className={classes1.selfTripDiv}>
