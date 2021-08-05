@@ -251,7 +251,14 @@ export default function Trips() {
             {myTrips.length === 0 ? (
               <p>You haven't added any Trips yet...</p>
             ) : (
-              <p>Your added Trips...</p>
+              <p
+                style={{
+                  fontSize: "2rem",
+                  fontFamily: "'Playfair Display', serif",
+                }}
+              >
+                Your added Trips:
+              </p>
             )}
             {myTrips.map((t, i) => (
               <div className={classes1.selfTripCard}>

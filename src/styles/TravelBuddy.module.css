@@ -10,7 +10,7 @@
 
 .selfTripDiv {
   width: 60%;
-  text-align: center;
+  /* text-align: center; */
   font-size: 1.5rem;
   font-weight: 600;
   color: rgba(42, 187, 172, 1);
@@ -70,4 +70,9 @@
 
 .checkbox {
   margin: -8px;
+}
+
+.tripHead {
+  font-size: 2rem;
+  font-family: "Playfair Display", serif;
 }

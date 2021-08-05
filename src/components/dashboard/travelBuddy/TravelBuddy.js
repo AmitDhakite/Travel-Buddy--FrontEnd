@@ -25,7 +25,7 @@ import MyTripCards from "./MyTripCards";
 import classes1 from "../../../styles/TravelBuddy.module.css";
 import Button from "@material-ui/core/Button";
 import axios from "../../../axios.js";
-import SelfTripCard from "../trips/SelfTripCard";
+import SelfTripCard from "./SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
 
@@ -149,6 +149,7 @@ export default function Trips() {
   useEffect(async () => {
     try {
       const res = await axios.post("/getAllTrips", {});
+      // const results = res.data.filter((r)=>r)
       setTrips(res.data);
       console.log(res.data);
     } catch (e) {
@@ -172,10 +173,6 @@ export default function Trips() {
     }
   };
 
-  const addNewTrip = (e) => {
-    setTrips((p) => [e, ...p]);
-  };
-
   // Date
   const [selectedDate, setSelectedDate] = React.useState(
     new Date("2021-08-15T21:11:54")
@@ -183,6 +180,43 @@ export default function Trips() {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+  //filterDiv
+
+  const [filter, setFilter] = useState({
+    typeOfJourney: [],
+    prefferedTransport: [],
+    date: "",
+  });
+
+  const typeChange = (e) => {
+    const { checked, name } = e.target;
+    if (!checked) {
+      setFilter((p) => {
+        var newType = p.typeOfJourney;
+        if (newType.includes(name)) {
+          const ind = newType.indexOf(name);
+          newType.splice(ind, 1);
+        }
+        const newOb = {
+          prefferedTransport: p.prefferedTransport,
+          date: p.date,
+          typeOfJourney: newType,
+        };
+        return newOb;
+      });
+    } else {
+      setFilter((p) => {
+        var newType = [...p.typeOfJourney, name];
+        const newOb = {
+          prefferedTransport: p.prefferedTransport,
+          date: p.date,
+          typeOfJourney: newType,
+        };
+        return newOb;
+      });
+    }
+    console.log(filter);
   };
 
   return (
@@ -248,19 +282,19 @@ export default function Trips() {
           <div className={classes1.parentDiv}>
             <div className={classes1.filter}>
               <p className={classes1.filterYourSearch}>Filter your search</p>
-              <div className={classes1.filterDiv}>
+              <div className={classes1.filterDiv} onChange={typeChange}>
                 <p className={classes1.filterHead}>Type of Journey</p>
                 <div className={classes1.checkbox}>
-                  <Filter label="One Way" />
+                  <Filter label="One Way" name="One Way" />
                 </div>
                 <div className={classes1.checkbox}>
-                  <Filter label="Two Way" />
+                  <Filter label="Two Way" name="Two Way" />
                 </div>
               </div>
               <div className={classes1.filterDiv}>
                 <p className={classes1.filterHead}>Preffered Transport</p>
                 <div className={classes1.checkbox}>
-                  <Filter label="Bus" />
+                  <Filter label="Bus" name="Bus" />
                 </div>
 
                 <div className={classes1.checkbox}>
@@ -280,24 +314,10 @@ export default function Trips() {
                 </div>
               </div>
               <div className={classes1.filterDiv}>
-                <p className={classes1.filterHeadDate1}>Preffered Start Date</p>
-                <div style={{ width: "80%" }} className={classes1.checkbox}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <div>
-                      <KeyboardDatePicker
-                        margin="normal"
-                        id="date-picker-dialog"
-                        format="dd/MM/yyyy"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                      />
-                    </div>
-                  </MuiPickersUtilsProvider>
+                <p className={classes1.filterHeadDate1}></p>
+                <div className={classes1.checkbox}>
+                  <Filter label="Preffered Date" />
                 </div>
-                <p className={classes1.filterHeadDate2}>Preffered End Date</p>
                 <div style={{ width: "80%" }} className={classes1.checkbox}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <div>
@@ -318,9 +338,9 @@ export default function Trips() {
             </div>
             <div className={classes1.selfTripDiv}>
               {trips.length === 0 ? (
-                <p>There are no Trips yet...</p>
+                <p className={classes1.tripHead}>There are no Trips yet:</p>
               ) : (
-                <p>Trips you can board on...</p>
+                <p className={classes1.tripHead}>Trips you can board on:</p>
               )}
               {trips.map((t, i) => (
                 <div className={classes1.selfTripCard}>
@@ -329,13 +349,14 @@ export default function Trips() {
                     edit={() => {
                       editHandler(i);
                     }}
-                    noOfPeople={t.noOfPeople}
-                    transport={t.transport}
-                    from={t.from}
-                    to={t.to}
-                    twoWay={t.twoWay}
-                    startDate={t.startDate}
-                    endDate={t.endDate}
+                    noOfPeople={t.trip.noOfPeople}
+                    transport={t.trip.transport}
+                    from={t.trip.from}
+                    to={t.trip.to}
+                    twoWay={t.trip.twoWay}
+                    startDate={t.trip.startDate}
+                    endDate={t.trip.endDate}
+                    by={t.user}
                   />
                 </div>
               ))}
