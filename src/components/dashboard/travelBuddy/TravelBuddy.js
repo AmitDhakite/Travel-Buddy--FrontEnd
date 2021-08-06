@@ -146,16 +146,21 @@ export default function Trips() {
 
   const [trips, setTrips] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [allTrips, setAllTrips] = useState([]);
   useEffect(async () => {
     try {
       const res = await axios.post("/getAllTrips", {});
-      // const results = res.data.filter((r)=>r)
-      setTrips(res.data);
-      console.log(res.data);
+      const results = res.data.filter(
+        (r) => r.userId !== localStorage.getItem("userId")
+      );
+      setTrips(results);
+      setAllTrips(results);
     } catch (e) {
       console.log(e);
     }
   }, []);
+
+  //useEffect(() => {}, [filter]);
 
   const editHandler = async (e) => {
     try {
@@ -404,14 +409,14 @@ export default function Trips() {
                     edit={() => {
                       editHandler(i);
                     }}
-                    noOfPeople={t.trip.noOfPeople}
-                    transport={t.trip.transport}
-                    from={t.trip.from}
-                    to={t.trip.to}
-                    twoWay={t.trip.twoWay}
-                    startDate={t.trip.startDate}
-                    endDate={t.trip.endDate}
-                    by={t.user}
+                    noOfPeople={t.noOfPeople}
+                    transport={t.transport}
+                    from={t.from}
+                    to={t.to}
+                    twoWay={t.twoWay}
+                    startDate={t.startDate}
+                    endDate={t.endDate}
+                    by={t}
                   />
                 </div>
               ))}

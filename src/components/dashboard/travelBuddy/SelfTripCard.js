@@ -79,8 +79,7 @@ export default function SimpleCard(props) {
             {props.twoWay ? "Round Trip" : "One Way Trip"}
           </Typography>
           <Typography className={classes.title} color="white" gutterBottom>
-            <PersonIcon style={{ marginBottom: "-5px" }} />{" "}
-            {props.by.firstName + " " + props.by.lastName}
+            <PersonIcon style={{ marginBottom: "-5px" }} /> {props.by.name}
           </Typography>
         </div>
         <Typography variant="h6" component="h2" className={classes1.route}>
