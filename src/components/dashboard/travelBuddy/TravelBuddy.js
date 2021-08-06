@@ -143,7 +143,6 @@ export default function Trips() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   const [trips, setTrips] = useState([]);
   const [counter, setCounter] = useState(0);
   const [allTrips, setAllTrips] = useState([]);
@@ -153,14 +152,67 @@ export default function Trips() {
       const results = res.data.filter(
         (r) => r.userId !== localStorage.getItem("userId")
       );
-      setTrips(results);
-      setAllTrips(results);
+      setTrips(res.data);
+      setAllTrips(res.data);
+      // setTrips(results);
+      // setAllTrips(results);
     } catch (e) {
       console.log(e);
     }
   }, []);
+  const [filter, setFilter] = useState({
+    typeOfJourney: [],
+    prefferedTransport: [],
+    date: "",
+  });
 
-  //useEffect(() => {}, [filter]);
+  useEffect(() => {
+    var typeFilteredArray = [];
+    if (filter.typeOfJourney.length > 0) {
+      typeFilteredArray = allTrips.filter((t) => {
+        var flag = false;
+        filter.typeOfJourney.forEach((f) => {
+          if (f === "Two Way") {
+            if (t.twoWay) {
+              flag = true;
+              return;
+            }
+          } else {
+            if (!t.twoWay) {
+              flag = true;
+              return;
+            }
+          }
+        });
+        return flag;
+      });
+    } else typeFilteredArray = allTrips;
+    var transportFiltered = [];
+    if (filter.prefferedTransport.length > 0) {
+      transportFiltered = typeFilteredArray.filter((t) => {
+        var flag = false;
+        filter.prefferedTransport.forEach((f) => {
+          if (f == t.transport) {
+            flag = true;
+            return;
+          }
+        });
+        return flag;
+      });
+    } else transportFiltered = typeFilteredArray;
+
+    var dateFiltered = [];
+    if (filterByDate) {
+      dateFiltered = transportFiltered.filter((t) => {
+        return (
+          t.startDate.substring(8, 10) == filter.date.getDate() &&
+          t.startDate.substring(5, 7) == filter.date.getMonth() &&
+          t.startDate.substring(0, 4) == filter.date.getFullYear()
+        );
+      });
+    } else dateFiltered = transportFiltered;
+    setTrips(dateFiltered);
+  }, [filter]);
 
   const editHandler = async (e) => {
     try {
@@ -185,16 +237,6 @@ export default function Trips() {
 
   const handleDateChange = (date) => {};
   //filterDiv
-
-  const [filter, setFilter] = useState({
-    typeOfJourney: [],
-    prefferedTransport: [],
-    date: {
-      dd: 0,
-      mm: 0,
-      yy: 0,
-    },
-  });
 
   const typeChange = (e) => {
     const { checked, name } = e.target;
@@ -263,11 +305,7 @@ export default function Trips() {
     setFilter((p) => {
       return {
         ...p,
-        date: {
-          dd: e.getDate(),
-          mm: e.getMonth(),
-          yy: e.getFullYear(),
-        },
+        date: e,
       };
     });
     console.log(filter.date);
