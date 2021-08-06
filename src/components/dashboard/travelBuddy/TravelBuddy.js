@@ -178,45 +178,99 @@ export default function Trips() {
     new Date("2021-08-15T21:11:54")
   );
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  const handleDateChange = (date) => {};
   //filterDiv
 
   const [filter, setFilter] = useState({
     typeOfJourney: [],
     prefferedTransport: [],
-    date: "",
+    date: {
+      dd: 0,
+      mm: 0,
+      yy: 0,
+    },
   });
 
   const typeChange = (e) => {
     const { checked, name } = e.target;
-    if (!checked) {
+    if (checked) {
       setFilter((p) => {
         var newType = p.typeOfJourney;
-        if (newType.includes(name)) {
-          const ind = newType.indexOf(name);
-          newType.splice(ind, 1);
-        }
-        const newOb = {
-          prefferedTransport: p.prefferedTransport,
-          date: p.date,
-          typeOfJourney: newType,
+        if (!newType.includes(name)) newType.push(name);
+        let uniqueChars = [...new Set(newType)];
+        return {
+          ...p,
+          typeOfJourney: uniqueChars,
         };
-        return newOb;
       });
     } else {
-      setFilter((p) => {
-        var newType = [...p.typeOfJourney, name];
-        const newOb = {
-          prefferedTransport: p.prefferedTransport,
-          date: p.date,
-          typeOfJourney: newType,
-        };
-        return newOb;
-      });
+      if (filter.typeOfJourney.includes(name)) {
+        const ind = filter.typeOfJourney.indexOf(name);
+        if (ind >= 0) {
+          setFilter((p) => {
+            var newType = p.typeOfJourney;
+            newType.splice(ind, 1);
+            return {
+              ...p,
+              typeOfJourney: newType,
+            };
+          });
+        }
+      }
     }
-    console.log(filter);
+    console.log(filter.typeOfJourney);
+  };
+  const transportChange = (e) => {
+    const { checked, name } = e.target;
+    if (checked) {
+      setFilter((p) => {
+        var newType = p.prefferedTransport;
+        if (!newType.includes(name)) newType.push(name);
+        let uniqueChars = [...new Set(newType)];
+        return {
+          ...p,
+          prefferedTransport: uniqueChars,
+        };
+      });
+    } else {
+      if (filter.prefferedTransport.includes(name)) {
+        const ind = filter.prefferedTransport.indexOf(name);
+        if (ind >= 0) {
+          setFilter((p) => {
+            var newType = p.prefferedTransport;
+            newType.splice(ind, 1);
+            return {
+              ...p,
+              prefferedTransport: newType,
+            };
+          });
+        }
+      }
+    }
+    console.log(filter.prefferedTransport);
+  };
+
+  const [filterByDate, setFilterByDate] = useState(false);
+
+  const months = [];
+  const dateChange = (e) => {
+    setSelectedDate(e);
+    setFilter((p) => {
+      return {
+        ...p,
+        date: {
+          dd: e.getDate(),
+          mm: e.getMonth(),
+          yy: e.getFullYear(),
+        },
+      };
+    });
+    console.log(filter.date);
+  };
+
+  const filterDate = (e) => {
+    const { checked } = e.target;
+    setFilterByDate(checked);
   };
 
   return (
@@ -291,42 +345,43 @@ export default function Trips() {
                   <Filter label="Two Way" name="Two Way" />
                 </div>
               </div>
-              <div className={classes1.filterDiv}>
+              <div className={classes1.filterDiv} onChange={transportChange}>
                 <p className={classes1.filterHead}>Preffered Transport</p>
                 <div className={classes1.checkbox}>
                   <Filter label="Bus" name="Bus" />
                 </div>
 
                 <div className={classes1.checkbox}>
-                  <Filter label="Cab" />
+                  <Filter label="Cab" name="Cab" />
                 </div>
 
                 <div className={classes1.checkbox}>
-                  <Filter label="Flight" />
+                  <Filter label="Flight" name="Flight" />
                 </div>
 
                 <div className={classes1.checkbox}>
-                  <Filter label="Own Vehicle" />
+                  <Filter label="Own Vehicle" name="Own Vehicle" />
                 </div>
 
                 <div className={classes1.checkbox}>
-                  <Filter label="Train" />
+                  <Filter label="Train" name="Train" />
                 </div>
               </div>
               <div className={classes1.filterDiv}>
                 <p className={classes1.filterHeadDate1}></p>
-                <div className={classes1.checkbox}>
+                <div className={classes1.checkbox} onChange={filterDate}>
                   <Filter label="Preffered Date" />
                 </div>
                 <div style={{ width: "80%" }} className={classes1.checkbox}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <div>
                       <KeyboardDatePicker
+                        onChange={dateChange}
+                        disabled={!filterByDate}
                         margin="normal"
                         id="date-picker-dialog"
                         format="dd/MM/yyyy"
                         value={selectedDate}
-                        onChange={handleDateChange}
                         KeyboardButtonProps={{
                           "aria-label": "change date",
                         }}
