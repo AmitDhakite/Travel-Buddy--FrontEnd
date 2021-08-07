@@ -29,6 +29,8 @@ import SelfTripCard from "./SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
 
+import LoadingTrips from '../../layout/LoadingTrips';
+
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -146,14 +148,17 @@ export default function Trips() {
   const [trips, setTrips] = useState([]);
   const [counter, setCounter] = useState(0);
   const [allTrips, setAllTrips] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
   useEffect(async () => {
     try {
+      setIsFetching(true);
       const res = await axios.post("/getAllTrips", {});
       const results = res.data.filter(
         (r) => r.userId !== localStorage.getItem("userId")
       );
       setTrips(res.data);
       setAllTrips(res.data);
+      setIsFetching(false);
       // setTrips(results);
       // setAllTrips(results);
     } catch (e) {
@@ -435,6 +440,10 @@ export default function Trips() {
               </div>
             </div>
             <div className={classes1.selfTripDiv}>
+            {isFetching ?             
+              <div className={classes1.loadingTrips}>
+              <p className={classes1.tripHead}>Loading trips to board on...</p>
+              <div style={{marginLeft: '50%'}}><LoadingTrips/><LoadingTrips/><LoadingTrips/></div></div>:<React.Fragment>
               {trips.length === 0 ? (
                 <p className={classes1.tripHead}>There are no Trips yet:</p>
               ) : (
@@ -458,6 +467,7 @@ export default function Trips() {
                   />
                 </div>
               ))}
+              </React.Fragment>}
             </div>
           </div>
         </Paper>
