@@ -1,6 +1,11 @@
+import TextField from '@material-ui/core/TextField';
 import React, { useState, useEffect } from "react";
-import clsx from "clsx";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -38,6 +43,8 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import cities from "./cities.js";
+
 
 function Copyright() {
   return (
@@ -51,7 +58,7 @@ function Copyright() {
     </Typography>
   );
 }
-
+const filter1 = createFilterOptions();
 const drawerWidth = 230;
 
 const useStyles = makeStyles((theme) => ({
@@ -166,10 +173,14 @@ export default function Trips() {
     }
   }, []);
   const [filter, setFilter] = useState({
+    from: "",
+    to: "",
     typeOfJourney: [],
     prefferedTransport: [],
     date: "",
   });
+  const [value, setValue] = React.useState(null);
+  const [value1, setValue1] = React.useState(null);
 
   useEffect(() => {
     var typeFilteredArray = [];
@@ -216,7 +227,20 @@ export default function Trips() {
         );
       });
     } else dateFiltered = transportFiltered;
-    setTrips(dateFiltered);
+
+    var routeFiltered = [];
+    if(filter.from !== "")
+    {
+      routeFiltered = dateFiltered.filter(t=>t.from === filter.from);
+    } else routeFiltered = dateFiltered;
+
+    var routeFiltered1 = [];
+    if(filter.to !== "")
+    {
+      routeFiltered1 = routeFiltered.filter(t=>t.to===filter.to);
+    } else routeFiltered1 = routeFiltered;
+
+    setTrips(routeFiltered1);
   }, [filter]);
 
   const editHandler = async (e) => {
@@ -270,7 +294,7 @@ export default function Trips() {
         }
       }
     }
-    console.log(filter.typeOfJourney);
+    console.log(filter);
   };
   const transportChange = (e) => {
     const { checked, name } = e.target;
@@ -320,6 +344,44 @@ export default function Trips() {
     const { checked } = e.target;
     setFilterByDate(checked);
   };
+
+  const fromCityChangeHandler = ()=>{};
+
+  const [age, setAge] = React.useState('');
+
+const handleChange = (event) => {
+  setAge(event.target.value);
+};
+
+  const fromChange = (e, v)=>{
+    console.log(e.target.value);
+    const name = e.target;
+    setFilter(p=>{
+      return {
+        ...p, 
+        [name]: v
+      };
+    });
+    console.log(v.inputValue);
+  };
+
+  useEffect(()=>{
+   if(value) setFilter(p=>{
+      return {
+        ...p,
+        from: value.title
+      };
+    });
+  }, [value]);
+
+  useEffect(()=>{
+    if(value1)    setFilter(p=>{
+      return {
+        ...p,
+        to: value1.title
+      };
+    });
+  }, [value1]);
 
   return (
     <div className={classes.root}>
@@ -384,7 +446,102 @@ export default function Trips() {
           <div className={classes1.parentDiv}>
             <div className={classes1.filter}>
               <p className={classes1.filterYourSearch}>Filter your search</p>
-              <div className={classes1.filterDiv} onChange={typeChange}>
+              <div className={classes1.filterDiv} >
+              <p className={classes1.filterRouteHead}>Route</p>
+              <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === 'string') {
+                      setValue({
+                        title: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      setValue({
+                        title: newValue.inputValue,
+                      });
+                    } else {
+                      setValue(newValue);
+                    }
+                  }}
+                name="from"
+                value={value}             
+                filterOptions={(options, params) => {
+                  const filtered = filter1(options, params);
+                  // Suggest the creation of a new value
+                  return filtered;
+                }}
+                selectOnFocus
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={cities}
+                getOptionLabel={(option) => {
+                  // Value selected with enter, right from the input
+                  if (typeof option === 'string') {
+                    return option;
+                  }
+                  // Add "xxx" option created dynamically
+                  if (option.inputValue) {
+                    return option.inputValue;
+                  }
+                  // Regular option
+                  return option.title;
+                }}
+                renderOption={(option) => option.title}
+                style={{ width: 150 }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField {...params} label="From" variant="standard" />
+                )}
+              />
+              <Autocomplete
+                 onChange={(event, newValue) => {
+                  if (typeof newValue === 'string') {
+                    setValue1({
+                      title: newValue,
+                    });
+                  } else if (newValue && newValue.inputValue) {
+                    // Create a new value from the user input
+                    setValue1({
+                      title: newValue.inputValue,
+                    });
+                  } else {
+                    setValue1(newValue);
+                  }
+                }}
+                value={filter.to}
+                 filterOptions={(options, params) => {
+                  const filtered = filter1(options, params);
+                  // Suggest the creation of a new value
+                  return filtered;
+                }}
+                selectOnFocus
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={cities}
+                getOptionLabel={(option) => {
+                  // Value selected with enter, right from the input
+                  if (typeof option === 'string') {
+                    return option;
+                  }
+                  // Add "xxx" option created dynamically
+                  if (option.inputValue) {
+                    return option.inputValue;
+                  }
+                  // Regular option
+                  return option.title;
+                }}
+                renderOption={(option) => option.title}
+                style={{ width: 150 }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField {...params} label="To" variant="standard" />
+                )}
+              />
+            </div>
+            <div className={classes1.filterDiv} onChange={typeChange}>
+
+              
+              <div className={classes1.checkbox1}> 
                 <p className={classes1.filterHead}>Type of Journey</p>
                 <div className={classes1.checkbox}>
                   <Filter label="One Way" name="One Way" />
@@ -398,11 +555,9 @@ export default function Trips() {
                 <div className={classes1.checkbox}>
                   <Filter label="Bus" name="Bus" />
                 </div>
-
                 <div className={classes1.checkbox}>
                   <Filter label="Cab" name="Cab" />
                 </div>
-
                 <div className={classes1.checkbox}>
                   <Filter label="Flight" name="Flight" />
                 </div>
@@ -438,6 +593,7 @@ export default function Trips() {
                   </MuiPickersUtilsProvider>
                 </div>
               </div>
+          </div>
             </div>
             <div className={classes1.selfTripDiv}>
             {isFetching ?             

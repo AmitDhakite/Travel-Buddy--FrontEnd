@@ -42,14 +42,22 @@
 
 .filterYourSearch {
   font-size: 1.3rem;
+  font-weight: 600;
   font-family: "PT Serif", serif;
 }
 
 .filterHead {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
-  margin-bottom: 17px;
+  margin-bottom: 25px;
 }
+
+.filterRouteHead{
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-top: -5px;
+}
+
 .filterHeadDate1 {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
@@ -69,11 +77,15 @@
 }
 
 .checkbox {
-  margin: -8px;
+  margin: -15px 0;
+}
+.checkbox1 {
+  margin-bottom: 50px;
 }
 
 .tripHead {
   font-size: 2rem;
   font-family: "Playfair Display", serif;
+
 }
 
