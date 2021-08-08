@@ -32,8 +32,8 @@
   position: sticky;
   position: -webkit-sticky;
   top: 80px;
-  margin: 200px 10px auto 30px;
-  padding: 10px 100px 10px 40px;
+  margin: 100px 10px auto 30px;
+  padding: 10px 25px 20px 40px;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -52,7 +52,7 @@
   margin-bottom: 25px;
 }
 
-.filterRouteHead{
+.filterRouteHead {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   margin-top: -5px;
@@ -71,9 +71,8 @@
 }
 
 .filterDiv {
-  margin-right: -80px;
-  margin-bottom: 20px;
-  line-height: 1px;
+  /* margin-right: -80px; */
+  margin-bottom: 0;
 }
 
 .checkbox {
@@ -86,6 +85,38 @@
 .tripHead {
   font-size: 2rem;
   font-family: "Playfair Display", serif;
-
 }
 
+.routeDiv {
+  display: flex;
+  width: 100%;
+}
+
+.selectDiv {
+  margin-left: 20px;
+  width: 170px;
+}
+.selectDiv1 {
+  margin-left: 39px;
+  width: 170px;
+}
+
+.routeP {
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.cancel {
+  font-size: 1.3rem;
+  margin-top: -2px;
+  margin-left: 10px;
+  color: rgba(42, 187, 172, 1);
+}
+.cancel :hover {
+  color: rgba(42, 187, 172, 0.8);
+  cursor: pointer;
+}
+.clear {
+  margin: -2px;
+  margin-left: 120px;
+}

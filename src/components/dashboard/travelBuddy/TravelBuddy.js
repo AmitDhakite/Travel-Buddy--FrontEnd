@@ -1,11 +1,16 @@
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
+import Select from "react-select";
 import React, { useState, useEffect } from "react";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';import clsx from "clsx";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import CancelIcon from "@material-ui/icons/Cancel";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -34,7 +39,7 @@ import SelfTripCard from "./SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
 
-import LoadingTrips from '../../layout/LoadingTrips';
+import LoadingTrips from "../../layout/LoadingTrips";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -44,7 +49,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import cities from "./cities.js";
-
 
 function Copyright() {
   return (
@@ -163,11 +167,11 @@ export default function Trips() {
       const results = res.data.filter(
         (r) => r.userId !== localStorage.getItem("userId")
       );
-      setTrips(res.data);
-      setAllTrips(res.data);
+      // setTrips(res.data);
+      // setAllTrips(res.data);
       setIsFetching(false);
-      // setTrips(results);
-      // setAllTrips(results);
+      setTrips(results);
+      setAllTrips(results);
     } catch (e) {
       console.log(e);
     }
@@ -179,8 +183,6 @@ export default function Trips() {
     prefferedTransport: [],
     date: "",
   });
-  const [value, setValue] = React.useState(null);
-  const [value1, setValue1] = React.useState(null);
 
   useEffect(() => {
     var typeFilteredArray = [];
@@ -218,7 +220,7 @@ export default function Trips() {
     } else transportFiltered = typeFilteredArray;
 
     var dateFiltered = [];
-    if (filterByDate) {
+    if (filterByDate && filter.date !== "") {
       dateFiltered = transportFiltered.filter((t) => {
         return (
           t.startDate.substring(8, 10) == filter.date.getDate() &&
@@ -229,15 +231,13 @@ export default function Trips() {
     } else dateFiltered = transportFiltered;
 
     var routeFiltered = [];
-    if(filter.from !== "")
-    {
-      routeFiltered = dateFiltered.filter(t=>t.from === filter.from);
+    if (filter.from !== "") {
+      routeFiltered = dateFiltered.filter((t) => t.from === filter.from);
     } else routeFiltered = dateFiltered;
 
     var routeFiltered1 = [];
-    if(filter.to !== "")
-    {
-      routeFiltered1 = routeFiltered.filter(t=>t.to===filter.to);
+    if (filter.to !== "") {
+      routeFiltered1 = routeFiltered.filter((t) => t.to === filter.to);
     } else routeFiltered1 = routeFiltered;
 
     setTrips(routeFiltered1);
@@ -345,43 +345,41 @@ export default function Trips() {
     setFilterByDate(checked);
   };
 
-  const fromCityChangeHandler = ()=>{};
-
-  const [age, setAge] = React.useState('');
-
-const handleChange = (event) => {
-  setAge(event.target.value);
-};
-
-  const fromChange = (e, v)=>{
-    console.log(e.target.value);
-    const name = e.target;
-    setFilter(p=>{
+  const fromCityChangeHandler = (e) => {
+    const value = e.title;
+    setFilter((p) => {
       return {
-        ...p, 
-        [name]: v
+        ...p,
+        from: value,
       };
     });
-    console.log(v.inputValue);
+  };
+  const toCityChangeHandler = (e) => {
+    const value = e.title;
+    console.log(value);
+    setFilter((p) => {
+      return {
+        ...p,
+        to: value,
+      };
+    });
   };
 
-  useEffect(()=>{
-   if(value) setFilter(p=>{
+  const resetRoute = () => {
+    setFilter((p) => {
       return {
         ...p,
-        from: value.title
+        from: "",
+        to: "",
       };
     });
-  }, [value]);
+  };
 
-  useEffect(()=>{
-    if(value1)    setFilter(p=>{
-      return {
-        ...p,
-        to: value1.title
-      };
-    });
-  }, [value1]);
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -446,184 +444,139 @@ const handleChange = (event) => {
           <div className={classes1.parentDiv}>
             <div className={classes1.filter}>
               <p className={classes1.filterYourSearch}>Filter your search</p>
-              <div className={classes1.filterDiv} >
-              <p className={classes1.filterRouteHead}>Route</p>
-              <Autocomplete
-                  onChange={(event, newValue) => {
-                    if (typeof newValue === 'string') {
-                      setValue({
-                        title: newValue,
-                      });
-                    } else if (newValue && newValue.inputValue) {
-                      // Create a new value from the user input
-                      setValue({
-                        title: newValue.inputValue,
-                      });
-                    } else {
-                      setValue(newValue);
-                    }
-                  }}
-                name="from"
-                value={value}             
-                filterOptions={(options, params) => {
-                  const filtered = filter1(options, params);
-                  // Suggest the creation of a new value
-                  return filtered;
-                }}
-                selectOnFocus
-                handleHomeEndKeys
-                id="free-solo-with-text-demo"
-                options={cities}
-                getOptionLabel={(option) => {
-                  // Value selected with enter, right from the input
-                  if (typeof option === 'string') {
-                    return option;
-                  }
-                  // Add "xxx" option created dynamically
-                  if (option.inputValue) {
-                    return option.inputValue;
-                  }
-                  // Regular option
-                  return option.title;
-                }}
-                renderOption={(option) => option.title}
-                style={{ width: 150 }}
-                freeSolo
-                renderInput={(params) => (
-                  <TextField {...params} label="From" variant="standard" />
-                )}
-              />
-              <Autocomplete
-                 onChange={(event, newValue) => {
-                  if (typeof newValue === 'string') {
-                    setValue1({
-                      title: newValue,
-                    });
-                  } else if (newValue && newValue.inputValue) {
-                    // Create a new value from the user input
-                    setValue1({
-                      title: newValue.inputValue,
-                    });
-                  } else {
-                    setValue1(newValue);
-                  }
-                }}
-                value={filter.to}
-                 filterOptions={(options, params) => {
-                  const filtered = filter1(options, params);
-                  // Suggest the creation of a new value
-                  return filtered;
-                }}
-                selectOnFocus
-                handleHomeEndKeys
-                id="free-solo-with-text-demo"
-                options={cities}
-                getOptionLabel={(option) => {
-                  // Value selected with enter, right from the input
-                  if (typeof option === 'string') {
-                    return option;
-                  }
-                  // Add "xxx" option created dynamically
-                  if (option.inputValue) {
-                    return option.inputValue;
-                  }
-                  // Regular option
-                  return option.title;
-                }}
-                renderOption={(option) => option.title}
-                style={{ width: 150 }}
-                freeSolo
-                renderInput={(params) => (
-                  <TextField {...params} label="To" variant="standard" />
-                )}
-              />
-            </div>
-            <div className={classes1.filterDiv} onChange={typeChange}>
-
-              
-              <div className={classes1.checkbox1}> 
-                <p className={classes1.filterHead}>Type of Journey</p>
-                <div className={classes1.checkbox}>
-                  <Filter label="One Way" name="One Way" />
-                </div>
-                <div className={classes1.checkbox}>
-                  <Filter label="Two Way" name="Two Way" />
-                </div>
-              </div>
-              <div className={classes1.filterDiv} onChange={transportChange}>
-                <p className={classes1.filterHead}>Preffered Transport</p>
-                <div className={classes1.checkbox}>
-                  <Filter label="Bus" name="Bus" />
-                </div>
-                <div className={classes1.checkbox}>
-                  <Filter label="Cab" name="Cab" />
-                </div>
-                <div className={classes1.checkbox}>
-                  <Filter label="Flight" name="Flight" />
-                </div>
-
-                <div className={classes1.checkbox}>
-                  <Filter label="Own Vehicle" name="Own Vehicle" />
-                </div>
-
-                <div className={classes1.checkbox}>
-                  <Filter label="Train" name="Train" />
-                </div>
-              </div>
               <div className={classes1.filterDiv}>
-                <p className={classes1.filterHeadDate1}></p>
-                <div className={classes1.checkbox} onChange={filterDate}>
-                  <Filter label="Preffered Date" />
-                </div>
-                <div style={{ width: "80%" }} className={classes1.checkbox}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <div>
-                      <KeyboardDatePicker
-                        onChange={dateChange}
-                        disabled={!filterByDate}
-                        margin="normal"
-                        id="date-picker-dialog"
-                        format="dd/MM/yyyy"
-                        value={selectedDate}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                      />
-                    </div>
-                  </MuiPickersUtilsProvider>
-                </div>
-              </div>
-          </div>
-            </div>
-            <div className={classes1.selfTripDiv}>
-            {isFetching ?             
-              <div className={classes1.loadingTrips}>
-              <p className={classes1.tripHead}>Loading trips to board on...</p>
-              <div style={{marginLeft: '50%'}}><LoadingTrips/><LoadingTrips/><LoadingTrips/></div></div>:<React.Fragment>
-              {trips.length === 0 ? (
-                <p className={classes1.tripHead}>There are no Trips yet:</p>
-              ) : (
-                <p className={classes1.tripHead}>Trips you can board on:</p>
-              )}
-              {trips.map((t, i) => (
-                <div className={classes1.selfTripCard}>
-                  <SelfTripCard
-                    delete={() => {}}
-                    edit={() => {
-                      editHandler(i);
-                    }}
-                    noOfPeople={t.noOfPeople}
-                    transport={t.transport}
-                    from={t.from}
-                    to={t.to}
-                    twoWay={t.twoWay}
-                    startDate={t.startDate}
-                    endDate={t.endDate}
-                    by={t}
+                <div style={{ display: "flex" }}>
+                  <p className={classes1.filterRouteHead}>Route</p>
+                  <p className={classes1.clear}>Clear</p>
+                  <CancelIcon
+                    onClick={resetRoute}
+                    className={classes1.cancel}
                   />
                 </div>
-              ))}
-              </React.Fragment>}
+                <div className={classes1.routeDiv}>
+                  <p className={classes1.routeP}>From:</p>
+                  <div className={classes1.selectDiv}>
+                    <Select
+                      name="from"
+                      options={cities}
+                      isSearchable
+                      onChange={fromCityChangeHandler}
+                      value={{ label: filter.from, title: filter.from }}
+                    />
+                  </div>
+                </div>
+                <div className={classes1.routeDiv}>
+                  <p className={classes1.routeP}>To:</p>
+                  <div className={classes1.selectDiv1}>
+                    <Select
+                      name="to"
+                      options={cities}
+                      isSearchable
+                      onChange={toCityChangeHandler}
+                      value={{ label: filter.to, title: filter.to }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={classes1.filterDiv} onChange={typeChange}>
+                <div className={classes1.checkbox1}>
+                  <p className={classes1.filterHead}>Type of Journey</p>
+                  <div className={classes1.checkbox}>
+                    <Filter label="One Way" name="One Way" />
+                  </div>
+                  <div className={classes1.checkbox}>
+                    <Filter label="Two Way" name="Two Way" />
+                  </div>
+                </div>
+                <div className={classes1.filterDiv} onChange={transportChange}>
+                  <p className={classes1.filterHead}>Preffered Transport</p>
+                  <div className={classes1.checkbox}>
+                    <Filter label="Bus" name="Bus" />
+                  </div>
+                  <div className={classes1.checkbox}>
+                    <Filter label="Cab" name="Cab" />
+                  </div>
+                  <div className={classes1.checkbox}>
+                    <Filter label="Flight" name="Flight" />
+                  </div>
+
+                  <div className={classes1.checkbox}>
+                    <Filter label="Own Vehicle" name="Own Vehicle" />
+                  </div>
+
+                  <div className={classes1.checkbox}>
+                    <Filter label="Train" name="Train" />
+                  </div>
+                </div>
+                <div className={classes1.filterDiv}>
+                  <p className={classes1.filterHeadDate1}></p>
+                  <div className={classes1.checkbox} onChange={filterDate}>
+                    <Filter label="Preffered Date" />
+                  </div>
+                  <div style={{ width: "80%" }} className={classes1.checkbox}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <div>
+                        <KeyboardDatePicker
+                          onChange={dateChange}
+                          disabled={!filterByDate}
+                          margin="normal"
+                          id="date-picker-dialog"
+                          format="dd/MM/yyyy"
+                          value={selectedDate}
+                          KeyboardButtonProps={{
+                            "aria-label": "change date",
+                          }}
+                        />
+                      </div>
+                    </MuiPickersUtilsProvider>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={classes1.selfTripDiv}>
+              {isFetching ? (
+                <div className={classes1.loadingTrips}>
+                  <p className={classes1.tripHead}>
+                    Loading trips to board on...
+                  </p>
+                  <div style={{ marginLeft: "50%" }}>
+                    <LoadingTrips />
+                    <LoadingTrips />
+                    <LoadingTrips />
+                  </div>
+                </div>
+              ) : (
+                <React.Fragment>
+                  {trips.length === 0 ? (
+                    <p
+                      style={{ marginTop: "150px" }}
+                      className={classes1.tripHead}
+                    >
+                      There are no Trips added yet according to your search:
+                    </p>
+                  ) : (
+                    <p className={classes1.tripHead}>Trips you can board on:</p>
+                  )}
+                  {trips.map((t, i) => (
+                    <div className={classes1.selfTripCard}>
+                      <SelfTripCard
+                        delete={() => {}}
+                        edit={() => {
+                          editHandler(i);
+                        }}
+                        noOfPeople={t.noOfPeople}
+                        transport={t.transport}
+                        from={t.from}
+                        to={t.to}
+                        twoWay={t.twoWay}
+                        startDate={t.startDate}
+                        endDate={t.endDate}
+                        by={t}
+                      />
+                    </div>
+                  ))}
+                </React.Fragment>
+              )}
             </div>
           </div>
         </Paper>
