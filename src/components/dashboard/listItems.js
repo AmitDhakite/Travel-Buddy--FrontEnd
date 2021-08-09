@@ -15,7 +15,14 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
 import ChatIcon from "@material-ui/icons/Chat";
 
-const MainListItems = () => {
+const MainListItems = ({ page }) => {
+  const color = [];
+  for (var i = 0; i < 5; i++) {
+    if (i != page) {
+      color.push("white");
+    } else color.push("rgba(0,0,0,0.1)");
+  }
+  console.log(page);
   const history = useHistory();
   const toDashboard = () => {
     history.push("/dashboard");
@@ -29,34 +36,48 @@ const MainListItems = () => {
   const toTravelBuddy = () => {
     history.push("/travelBuddy");
   };
+  const toChat = () => {
+    history.push("/chat");
+  };
   return (
     <div>
-      <ListItem onClick={toDashboard} button>
+      <ListItem
+        onClick={toDashboard}
+        button
+        style={{ backgroundColor: color[0] }}
+      >
         <ListItemIcon>
           <DashboardIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      <ListItem button onClick={toTravelBuddy}>
+      <ListItem
+        button
+        onClick={toTravelBuddy}
+        style={{ backgroundColor: color[1] }}
+      >
         <ListItemIcon>
           <PeopleOutlineIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
         <ListItemText primary="Travel Buddies" />
       </ListItem>
-      <ListItem onClick={toTrips} button>
+      <ListItem onClick={toTrips} button style={{ backgroundColor: color[2] }}>
         <ListItemIcon>
           <CardTravelIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
         <ListItemText primary="My Trips" />
       </ListItem>
-
-      <ListItem button>
+      <ListItem button style={{ backgroundColor: color[3] }} onClick={toChat}>
         <ListItemIcon>
           <ChatIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>
         <ListItemText primary="Chats" />
       </ListItem>
-      <ListItem onClick={toAccount} button>
+      <ListItem
+        style={{ backgroundColor: color[4] }}
+        onClick={toAccount}
+        button
+      >
         <ListItemIcon>
           <PermIdentityIcon style={{ color: "rgb(42, 187, 172)" }} />
         </ListItemIcon>

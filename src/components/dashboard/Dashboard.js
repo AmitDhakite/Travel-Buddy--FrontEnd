@@ -238,7 +238,7 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>
-          <MainListItems />
+          <MainListItems page="0" />
         </List>
         <Divider />
         <List>{secondaryListItems}</List>

@@ -236,7 +236,7 @@ export default function Trips() {
         </div>
         <Divider />
         <List>
-          <MainListItems />
+          <MainListItems page="2" />
         </List>
         <Divider />
         <List>{secondaryListItems}</List>

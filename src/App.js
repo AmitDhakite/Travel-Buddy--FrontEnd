@@ -7,6 +7,7 @@ import Dashboard from "./components/dashboard/Dashboard.js";
 import MyAccount from "./components/dashboard/MyAccount.js";
 import Trips from "./components/dashboard/trips/Trips.js";
 import TravelBuddy from "./components/dashboard/travelBuddy/TravelBuddy.js";
+import Chat from "./components/dashboard/Chat/Chat.js";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/travelBuddy" exact>
             <TravelBuddy />
+          </Route>
+          <Route path="/chat" exact>
+            <Chat />
           </Route>
           <Route path="/" exact>
             <Homepage />
