@@ -144,6 +144,17 @@ export default function Trips() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  useEffect(async () => {
+    try {
+      const res = await axios.get(
+        "/getConversations/" + localStorage.getItem("userId")
+      );
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -252,7 +263,6 @@ export default function Trips() {
                     </div>
                   </div>
                 </div>
-
                 <div className={classes2.mesgs}>
                   <div className={classes2.msgHeader}>Shawn Parker</div>
                   <div className={classes2.msg_history}>
