@@ -31,6 +31,7 @@ import MainListItems, { secondaryListItems } from "../listItems.js";
 import Menu from "../../layout/Menu";
 import { useHistory } from "react-router-dom";
 import classes1 from "../../../styles/Chat.module.css";
+import classes2 from "../../../styles/Chat2.module.css";
 import Button from "@material-ui/core/Button";
 import axios from "../../../axios.js";
 import cities from "../trips/cities.js";
@@ -125,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 240,
+    height: 200,
   },
   title1: {
     fontSize: 18,
@@ -202,6 +203,140 @@ export default function Trips() {
       </Drawer>
       <main className={classes.content}>
         <Paper className={classes1.chat}>
+          <div className={classes2.container}>
+            <div className={classes2.messaging}>
+              <div className={classes2.inbox_msg}>
+                <div className={classes2.inbox_people}>
+                  <div className={classes2.headind_srch}>
+                    <div className={classes2.recent_heading}>
+                      <h4>Buddies</h4>
+                    </div>
+                    <div className={classes2.srch_bar}>
+                      <div className={classes2.stylish_input_group}>
+                        <span className={classes2.input_group_addon}>
+                          <button type="button">
+                            <i
+                              className={classes2.fa + " " + classes2.fa_search}
+                              aria-hidden="true"
+                            ></i>{" "}
+                          </button>
+                        </span>{" "}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={classes2.inbox_chat}>
+                    <div
+                      className={
+                        classes2.chat_list + " " + classes2.active_chat
+                      }
+                    >
+                      <div className={classes2.chat_people}>
+                        <div className={classes2.chat_img}>
+                          {" "}
+                          <img
+                            src="https://ptetutorials.com/images/user-profile.png"
+                            alt="sunil"
+                          />{" "}
+                        </div>
+                        <div className={classes2.chat_ib}>
+                          <h5>
+                            Shawn Parker{" "}
+                            <span className={classes2.chat_date}>Dec 25</span>
+                          </h5>
+                          <p>
+                            Test, which is a new approach to have all solutions
+                            astrology under one roof.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={classes2.mesgs}>
+                  <div className={classes2.msgHeader}>Shawn Parker</div>
+                  <div className={classes2.msg_history}>
+                    <div className={classes2.incoming_msg}>
+                      <div className={classes2.incoming_msg_img}>
+                        {" "}
+                        <img
+                          src="https://ptetutorials.com/images/user-profile.png"
+                          alt="sunil"
+                        />{" "}
+                      </div>
+                      <div className={classes2.received_msg}>
+                        <div className={classes2.received_withd_msg}>
+                          <p>
+                            Test which is a new approach to have all solutions
+                          </p>
+                          <span className={classes2.time_date}>
+                            {" "}
+                            11:01 AM | June 9
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={classes2.incoming_msg}>
+                      <div className={classes2.incoming_msg_img}>
+                        {" "}
+                        <img
+                          src="https://ptetutorials.com/images/user-profile.png"
+                          alt="sunil"
+                        />{" "}
+                      </div>
+                      <div className={classes2.received_msg}>
+                        <div className={classes2.received_withd_msg}>
+                          <p>
+                            We work directly with our designers and suppliers,
+                            and sell direct to you, which means quality,
+                            exclusive products, at a price anyone can afford.
+                          </p>
+                          <span className={classes2.time_date}>
+                            {" "}
+                            11:01 AM | Today
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={classes2.outgoing_msg}>
+                      <div className={classes2.sent_msg}>
+                        <p>Apollo University, Delhi, India Test</p>
+                        <span className={classes2.time_date}>
+                          {" "}
+                          11:01 AM | Today
+                        </span>{" "}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={classes2.type_msg}>
+                    <div className={classes2.input_msg_write}>
+                      <input
+                        type="text"
+                        className={classes2.write_msg}
+                        placeholder="Type a message"
+                      />
+                      <button className={classes2.msg_send_btn} type="button">
+                        <i
+                          className={
+                            classes2.fa + " " + classes2.fa_paper_plane_o
+                          }
+                          aria-hidden="true"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Paper>
+      </main>
+    </div>
+  );
+}
+{
+  /* <Paper className={classes1.chat}>
           <Paper className={classes1.people}>
             <div className={classes1.headerPeople}>
               <Typography className={classes.title1} color="white" gutterBottom>
@@ -221,8 +356,5 @@ export default function Trips() {
               </Typography>
             </div>
           </Paper>
-        </Paper>
-      </main>
-    </div>
-  );
+        </Paper> */
 }

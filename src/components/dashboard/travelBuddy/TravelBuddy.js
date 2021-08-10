@@ -185,11 +185,13 @@ export default function Trips() {
   });
 
   useEffect(() => {
+    console.log(filter);
     var typeFilteredArray = [];
     if (filter.typeOfJourney.length > 0) {
       typeFilteredArray = allTrips.filter((t) => {
         var flag = false;
         filter.typeOfJourney.forEach((f) => {
+          if (f === "") return false;
           if (f === "Two Way") {
             if (t.twoWay) {
               flag = true;
@@ -208,6 +210,7 @@ export default function Trips() {
     var transportFiltered = [];
     if (filter.prefferedTransport.length > 0) {
       transportFiltered = typeFilteredArray.filter((t) => {
+        if (t === "") return false;
         var flag = false;
         filter.prefferedTransport.forEach((f) => {
           if (f == t.transport) {
@@ -221,6 +224,7 @@ export default function Trips() {
 
     var dateFiltered = [];
     if (filterByDate && filter.date !== "") {
+      console.log(filter.date);
       dateFiltered = transportFiltered.filter((t) => {
         return (
           t.startDate.substring(8, 10) == filter.date.getDate() &&
@@ -342,6 +346,14 @@ export default function Trips() {
 
   const filterDate = (e) => {
     const { checked } = e.target;
+    if (!checked) {
+      setFilter((f) => {
+        return {
+          ...f,
+          date: "",
+        };
+      });
+    }
     setFilterByDate(checked);
   };
 
@@ -478,8 +490,8 @@ export default function Trips() {
                   </div>
                 </div>
               </div>
-              <div className={classes1.filterDiv} onChange={typeChange}>
-                <div className={classes1.checkbox1}>
+              <div className={classes1.filterDiv}>
+                <div className={classes1.checkbox1} onChange={typeChange}>
                   <p className={classes1.filterHead}>Type of Journey</p>
                   <div className={classes1.checkbox}>
                     <Filter label="One Way" name="One Way" />
