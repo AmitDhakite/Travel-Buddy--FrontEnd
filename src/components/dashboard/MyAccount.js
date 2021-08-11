@@ -163,9 +163,7 @@ export default function MyAccount() {
   useEffect(async () => {
     setLoading(true);
     try {
-      const res = await axios.post("/getUser", {
-        userId,
-      });
+      const res = await axios.get("/getUser/" + userId);
       setUser(res.data);
       setLoading(false);
     } catch (e) {

@@ -39,7 +39,7 @@ export default function SimpleMenu() {
     if (t.firstName === "") {
       try {
         const userId = localStorage.getItem("userId");
-        const res = await axios.post("/getUser", { userId }); // setName(res.data.firstName);
+        const res = await axios.get("/getUser/" + userId); // setName(res.data.firstName);
         setName(res.data.firstName);
         dispatch(authActions.updateUser(res.data));
       } catch (e) {

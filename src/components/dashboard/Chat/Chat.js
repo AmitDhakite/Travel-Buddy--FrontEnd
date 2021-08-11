@@ -35,6 +35,10 @@ import classes2 from "../../../styles/Chat2.module.css";
 import Button from "@material-ui/core/Button";
 import axios from "../../../axios.js";
 import cities from "../trips/cities.js";
+import SendIcon from "@material-ui/icons/Send";
+import Send from "@material-ui/icons/Send";
+import Friends from "./Friends";
+// import Message from "../../../../../server-side/models/message.model.js";
 
 function Copyright() {
   return (
@@ -143,17 +147,36 @@ export default function Trips() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  const [conversations, setConversations] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [friends, setFriends] = useState([]);
   useEffect(async () => {
     try {
       const res = await axios.get(
         "/getConversations/" + localStorage.getItem("userId")
       );
+      setConversations(res.data);
       console.log(res.data);
     } catch (e) {
       console.log(e);
     }
   }, []);
+
+  const chatChange = (c) => {
+    console.log(c);
+    setCurrentChat(c);
+  };
+
+  useEffect(async () => {
+    try {
+      const msges = await axios.get("/getChats/" + currentChat?._id);
+      console.log(msges.data);
+      setMessages(msges.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentChat]);
 
   return (
     <div className={classes.root}>
@@ -220,7 +243,7 @@ export default function Trips() {
                 <div className={classes2.inbox_people}>
                   <div className={classes2.headind_srch}>
                     <div className={classes2.recent_heading}>
-                      <h4>Buddies</h4>
+                      <h4>Connected Buddies</h4>
                     </div>
                     <div className={classes2.srch_bar}>
                       <div className={classes2.stylish_input_group}>
@@ -241,102 +264,87 @@ export default function Trips() {
                         classes2.chat_list + " " + classes2.active_chat
                       }
                     >
-                      <div className={classes2.chat_people}>
-                        <div className={classes2.chat_img}>
-                          {" "}
-                          <img
-                            src="https://ptetutorials.com/images/user-profile.png"
-                            alt="sunil"
-                          />{" "}
+                      {conversations.map((c) => (
+                        <div
+                          onClick={() => {
+                            chatChange(c);
+                          }}
+                        >
+                          <Friends members={c.members} />
                         </div>
-                        <div className={classes2.chat_ib}>
-                          <h5>
-                            Shawn Parker{" "}
-                            <span className={classes2.chat_date}>Dec 25</span>
-                          </h5>
-                          <p>
-                            Test, which is a new approach to have all solutions
-                            astrology under one roof.
-                          </p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-                <div className={classes2.mesgs}>
-                  <div className={classes2.msgHeader}>Shawn Parker</div>
-                  <div className={classes2.msg_history}>
-                    <div className={classes2.incoming_msg}>
-                      <div className={classes2.incoming_msg_img}>
-                        {" "}
-                        <img
-                          src="https://ptetutorials.com/images/user-profile.png"
-                          alt="sunil"
-                        />{" "}
-                      </div>
-                      <div className={classes2.received_msg}>
-                        <div className={classes2.received_withd_msg}>
-                          <p>
-                            Test which is a new approach to have all solutions
-                          </p>
-                          <span className={classes2.time_date}>
-                            {" "}
-                            11:01 AM | June 9
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                {currentChat ? (
+                  <React.Fragment>
+                    <div className={classes2.mesgs}>
+                      <div className={classes2.msgHeader}>Shawn Parker</div>
+                      <div className={classes2.msg_history}>
+                        {messages.map((m) => (
+                          <div className={classes2.incoming_msg}>
+                            <div className={classes2.incoming_msg_img}>
+                              {" "}
+                              <img
+                                src="https://ptetutorials.com/images/user-profile.png"
+                                alt="sunil"
+                              />{" "}
+                            </div>
+                            <div className={classes2.received_msg}>
+                              <div className={classes2.received_withd_msg}>
+                                <p>
+                                  Test which is a new approach to have all
+                                  solutions
+                                </p>
+                                <span className={classes2.time_date}>
+                                  {" "}
+                                  11:01 AM | June 9
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
 
-                    <div className={classes2.incoming_msg}>
-                      <div className={classes2.incoming_msg_img}>
-                        {" "}
-                        <img
-                          src="https://ptetutorials.com/images/user-profile.png"
-                          alt="sunil"
-                        />{" "}
+                        <div className={classes2.outgoing_msg}>
+                          <div className={classes2.sent_msg}>
+                            <p>Apollo University, Delhi, India Test</p>
+                            <span className={classes2.time_date}>
+                              {" "}
+                              11:01 AM | Today
+                            </span>{" "}
+                          </div>
+                        </div>
                       </div>
-                      <div className={classes2.received_msg}>
-                        <div className={classes2.received_withd_msg}>
-                          <p>
-                            We work directly with our designers and suppliers,
-                            and sell direct to you, which means quality,
-                            exclusive products, at a price anyone can afford.
-                          </p>
-                          <span className={classes2.time_date}>
-                            {" "}
-                            11:01 AM | Today
-                          </span>
+                      <div className={classes2.type_msg}>
+                        <div className={classes2.input_msg_write}>
+                          <input
+                            type="text"
+                            className={classes2.write_msg}
+                            placeholder="Type a message"
+                          />
+                          <button
+                            className={classes2.msg_send_btn}
+                            type="button"
+                          >
+                            <SendIcon className={classes2.sendIcon} />
+                          </button>
                         </div>
                       </div>
                     </div>
-                    <div className={classes2.outgoing_msg}>
-                      <div className={classes2.sent_msg}>
-                        <p>Apollo University, Delhi, India Test</p>
-                        <span className={classes2.time_date}>
-                          {" "}
-                          11:01 AM | Today
-                        </span>{" "}
+                  </React.Fragment>
+                ) : (
+                  <div className={classes2.mesgs1}>
+                    <div className={classes2.openConversation}>
+                      <div style={{ color: "white" }}>
+                        .......................
                       </div>
+                      <p className={classes2.line}>
+                        Click on any buddy to start a conversation or connect to
+                        new buddies...
+                      </p>
                     </div>
                   </div>
-                  <div className={classes2.type_msg}>
-                    <div className={classes2.input_msg_write}>
-                      <input
-                        type="text"
-                        className={classes2.write_msg}
-                        placeholder="Type a message"
-                      />
-                      <button className={classes2.msg_send_btn} type="button">
-                        <i
-                          className={
-                            classes2.fa + " " + classes2.fa_paper_plane_o
-                          }
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

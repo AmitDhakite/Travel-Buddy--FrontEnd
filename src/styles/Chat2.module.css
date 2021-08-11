@@ -23,15 +23,15 @@ img {
 
 .recent_heading {
   float: left;
-  width: 40%;
+  width: 80%;
 }
 .srch_bar {
   display: inline-block;
   text-align: right;
-  width: 60%;
+  width: 40%;
 }
 .headind_srch {
-  padding: 10px 29px 10px 20px;
+  padding: 10px 20px 0 20px;
   background-color: #2f5d62;
   overflow: hidden;
   border-bottom: 1px solid #c4c4c4;
@@ -84,15 +84,38 @@ img {
   padding: 0 0 0 15px;
   width: 88%;
 }
+.chat_ib :hover {
+  background-color: none;
+}
 
 .chat_people {
+  padding: 10px;
+  /* border-top-color: grey; */
+  /* border-top-width: 10px; */
+  border-bottom-width: 0.5px;
+  border-bottom: solid;
+  border-bottom-color: grey;
+  /* border-top: solid; */
   overflow: hidden;
   clear: both;
 }
+
+.hh :hover {
+  /* background-color: rgba(42, 187, 172, 0.6); */
+  background-color: grey;
+  /* color: white; */
+  cursor: pointer;
+}
+
+.hh :hover {
+  /* background-color: rgba(42, 187, 172, 0.2); */
+  cursor: pointer;
+}
+
 .chat_list {
   border-bottom: 1px solid #c4c4c4;
   margin: 0;
-  padding: 18px 16px 10px;
+  padding: 18px 0 10px;
 }
 .inbox_chat {
   height: 580px;
@@ -135,10 +158,11 @@ img {
   float: left;
   padding: 30px 15px 20px 25px;
   width: 60%;
+  /* min-width: none; */
 }
 
 .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
+  background: #2f5d62 none repeat scroll 0 0;
   border-radius: 3px;
   font-size: 14px;
   margin: 0;
@@ -164,13 +188,15 @@ img {
 }
 
 .type_msg {
-  border-top: 1px solid #c4c4c4;
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding: 0 5px 0 10px;
   position: relative;
 }
 .msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
+  /* background: #05728f none repeat scroll 0 0; */
   border: medium none;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   color: #fff;
   cursor: pointer;
   font-size: 17px;
@@ -179,6 +205,12 @@ img {
   right: 0;
   top: 11px;
   width: 33px;
+  margin-right: 10px;
+  margin-top: -3px;
+}
+.sendIcon {
+  color: rgb(42, 187, 172);
+  /* margin-left: -10px; */
 }
 .messaging {
   padding: 0 0 0 0;
@@ -194,4 +226,25 @@ img {
   background-color: #2f5d62;
   color: white;
   font-size: 1rem;
+}
+
+.write_msg {
+  padding: 0 5px 0 10px;
+}
+.openConversation {
+  display: flex;
+  margin-left: 100px;
+  margin-right: 80px;
+}
+.line {
+  color: rgb(42, 187, 172);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2rem;
+}
+.mesgs1 {
+  /* float: left; */
+  padding: 10% 25px 20px 55px;
+  width: 1200px;
+  /* width: 150%; */
+  /* min-width: none; */
 }
