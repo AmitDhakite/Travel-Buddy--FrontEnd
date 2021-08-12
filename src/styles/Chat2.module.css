@@ -1,5 +1,6 @@
 .container {
-  max-width: 1170px;
+  max-width: 1500px;
+  width: 90%;
   margin: auto;
 }
 img {
@@ -160,8 +161,8 @@ img {
 .mesgs {
   float: left;
   padding: 30px 15px 20px 25px;
-  /* width: 80%; */
-  width: 1000px;
+  width: 70%;
+  /* width: 1000px; */
   /* min-width: 10px; */
 }
 
@@ -247,8 +248,8 @@ img {
 }
 .mesgs1 {
   /* float: left; */
-  padding: 10% 25px 20px 55px;
-  width: 1200px;
+  padding: 10% 25px 20px 2%;
+  width: 70%;
   /* width: 150%; */
   /* min-width: none; */
 }

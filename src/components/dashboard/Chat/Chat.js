@@ -1,8 +1,9 @@
 import TextField from "@material-ui/core/TextField";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { format } from "timeago.js";
 import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -138,6 +139,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Trips() {
+  const userId = localStorage.getItem("userId");
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -149,8 +151,11 @@ export default function Trips() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const [currentChattingFriend, setCurrentChattingFriend] = useState("");
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const scrollRef = useRef();
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -169,6 +174,19 @@ export default function Trips() {
   };
 
   useEffect(async () => {
+    console.log(currentChat);
+    if (currentChat) {
+      var friendId = currentChat?.members[1];
+      if (friendId == userId) friendId = currentChat?.members[0];
+      try {
+        const user = await axios.get("/getUser/" + friendId);
+        setCurrentChattingFriend(
+          user.data.firstName + " " + user.data.lastName
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
     try {
       const msges = await axios.get("/getChats/" + currentChat?._id);
       console.log(msges.data);
@@ -177,6 +195,38 @@ export default function Trips() {
       console.log(error);
     }
   }, [currentChat]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const sendMessage = async () => {
+    console.log("Send Mes: " + newMessage);
+    if (newMessage !== "") {
+      setMessages([
+        ...messages,
+        { conversationId: currentChat._id, sender: userId, text: newMessage },
+      ]);
+      try {
+        console.log(currentChat._id);
+        const res = await axios.post("/addNewMessage", {
+          conversationId: currentChat._id,
+          sender: userId,
+          text: newMessage,
+        });
+        setNewMessage("");
+        // console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const enterHandler = (e) => {
+    if (e.code == "Enter") {
+      sendMessage();
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -279,50 +329,71 @@ export default function Trips() {
                 {currentChat ? (
                   <React.Fragment>
                     <div className={classes2.mesgs}>
-                      <div className={classes2.msgHeader}>Shawn Parker</div>
+                      <div className={classes2.msgHeader}>
+                        {currentChattingFriend}
+                      </div>
                       <div className={classes2.msg_history}>
-                        {messages.map((m) => (
-                          <div className={classes2.incoming_msg}>
-                            <div className={classes2.incoming_msg_img}>
-                              {" "}
-                              <img
-                                src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"
-                              />{" "}
-                            </div>
-                            <div className={classes2.received_msg}>
-                              <div className={classes2.received_withd_msg}>
-                                <p>
-                                  Test which is a new approach to have all
-                                  solutions
-                                </p>
-                                <span className={classes2.time_date}>
-                                  {" "}
-                                  11:01 AM | June 9
-                                </span>
+                        {messages.length === 0 && (
+                          <h1 style={{ color: "grey", textAlign: "center" }}>
+                            Start a conversation
+                          </h1>
+                        )}
+                        {messages.map((m) => {
+                          if (m.sender == userId)
+                            return (
+                              <div ref={scrollRef}>
+                                <div className={classes2.outgoing_msg}>
+                                  <div className={classes2.sent_msg}>
+                                    <p>{m.text}</p>
+                                    <span className={classes2.time_date}>
+                                      {" "}
+                                      {format(m.createdAt)}
+                                    </span>{" "}
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        ))}
-
-                        <div className={classes2.outgoing_msg}>
-                          <div className={classes2.sent_msg}>
-                            <p>Apollo University, Delhi, India Test</p>
-                            <span className={classes2.time_date}>
-                              {" "}
-                              11:01 AM | Today
-                            </span>{" "}
-                          </div>
-                        </div>
+                            );
+                          else
+                            return (
+                              <div ref={scrollRef}>
+                                <div className={classes2.incoming_msg}>
+                                  <div className={classes2.incoming_msg_img}>
+                                    {" "}
+                                    <img
+                                      src="https://ptetutorials.com/images/user-profile.png"
+                                      alt="sunil"
+                                    />{" "}
+                                  </div>
+                                  <div className={classes2.received_msg}>
+                                    <div
+                                      className={classes2.received_withd_msg}
+                                    >
+                                      <p>{m.text}</p>
+                                      <span className={classes2.time_date}>
+                                        {" "}
+                                        {format(m.createdAt)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                        })}
                       </div>
                       <div className={classes2.type_msg}>
                         <div className={classes2.input_msg_write}>
                           <input
+                            onKeyDown={enterHandler}
+                            value={newMessage}
+                            onChange={(e) => {
+                              setNewMessage(e.target.value);
+                            }}
                             type="text"
                             className={classes2.write_msg}
                             placeholder="Type a message"
                           />
                           <button
+                            onClick={sendMessage}
                             className={classes2.msg_send_btn}
                             type="button"
                           >
@@ -352,27 +423,4 @@ export default function Trips() {
       </main>
     </div>
   );
-}
-{
-  /* <Paper className={classes1.chat}>
-          <Paper className={classes1.people}>
-            <div className={classes1.headerPeople}>
-              <Typography className={classes.title1} color="white" gutterBottom>
-                Talk to your Travel Buddies
-              </Typography>
-            </div>
-            <div className={classes1.peopleBody}>
-              {cities.map((c) => (
-                <div>{c.label}</div>
-              ))}
-            </div>
-          </Paper>
-          <Paper className={classes1.chatting}>
-            <div className={classes1.headerPeople}>
-              <Typography className={classes.title1} color="white" gutterBottom>
-                John Doe
-              </Typography>
-            </div>
-          </Paper>
-        </Paper> */
 }

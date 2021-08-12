@@ -28,6 +28,7 @@
     "react-select": "^4.3.1",
     "react-select-places": "^1.1.8",
     "recharts": "^2.0.10",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
