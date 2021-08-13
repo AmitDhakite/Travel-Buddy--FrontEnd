@@ -39,6 +39,10 @@ import cities from "../trips/cities.js";
 import SendIcon from "@material-ui/icons/Send";
 import Send from "@material-ui/icons/Send";
 import Friends from "./Friends";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { current } from "@reduxjs/toolkit";
+import { io } from "socket.io-client";
+
 // import Message from "../../../../../server-side/models/message.model.js";
 
 function Copyright() {
@@ -156,6 +160,12 @@ export default function Trips() {
   const [friends, setFriends] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
+  const [loading, setLoading] = useState(true);
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    setSocket(io("ws://localhost:8900"));
+  }, []);
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -174,6 +184,7 @@ export default function Trips() {
   };
 
   useEffect(async () => {
+    setLoading(true);
     console.log(currentChat);
     if (currentChat) {
       var friendId = currentChat?.members[1];
@@ -191,6 +202,7 @@ export default function Trips() {
       const msges = await axios.get("/getChats/" + currentChat?._id);
       console.log(msges.data);
       setMessages(msges.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -198,7 +210,8 @@ export default function Trips() {
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    console.log("scroll");
+  }, [messages, currentChat]);
 
   const sendMessage = async () => {
     console.log("Send Mes: " + newMessage);
@@ -326,7 +339,19 @@ export default function Trips() {
                     </div>
                   </div>
                 </div>
-                {currentChat ? (
+                {loading && (
+                  <div className={classes2.mesgs1}>
+                    <div className={classes2.openConversation}>
+                      <div style={{ color: "white" }}>
+                        .......................
+                      </div>
+                      <CircularProgress
+                        style={{ marginLeft: "25%", marginTop: "30%" }}
+                      />
+                    </div>
+                  </div>
+                )}
+                {currentChat && !loading && (
                   <React.Fragment>
                     <div className={classes2.mesgs}>
                       <div className={classes2.msgHeader}>
@@ -341,15 +366,13 @@ export default function Trips() {
                         {messages.map((m) => {
                           if (m.sender == userId)
                             return (
-                              <div ref={scrollRef}>
-                                <div className={classes2.outgoing_msg}>
-                                  <div className={classes2.sent_msg}>
-                                    <p>{m.text}</p>
-                                    <span className={classes2.time_date}>
-                                      {" "}
-                                      {format(m.createdAt)}
-                                    </span>{" "}
-                                  </div>
+                              <div className={classes2.outgoing_msg}>
+                                <div className={classes2.sent_msg}>
+                                  <p>{m.text}</p>
+                                  <span className={classes2.time_date}>
+                                    {" "}
+                                    {format(m.createdAt)}
+                                  </span>{" "}
                                 </div>
                               </div>
                             );
@@ -379,6 +402,7 @@ export default function Trips() {
                               </div>
                             );
                         })}
+                        <div ref={scrollRef}>d</div>
                       </div>
                       <div className={classes2.type_msg}>
                         <div className={classes2.input_msg_write}>
@@ -403,7 +427,8 @@ export default function Trips() {
                       </div>
                     </div>
                   </React.Fragment>
-                ) : (
+                )}
+                {!currentChat && !loading && (
                   <div className={classes2.mesgs1}>
                     <div className={classes2.openConversation}>
                       <div style={{ color: "white" }}>
