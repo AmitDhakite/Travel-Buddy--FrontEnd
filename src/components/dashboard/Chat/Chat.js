@@ -161,11 +161,34 @@ export default function Trips() {
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
-  const [socket, setSocket] = useState(null);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
 
   useEffect(() => {
-    setSocket(io("ws://localhost:8900"));
+    socket.current = io("ws://localhost:8900");
+    socket.current?.on("getMessage", (msg) => {
+      console.log(msg);
+      setArrivalMessage({
+        sender: msg.senderId,
+        text: msg.text,
+        createdAt: Date.now(),
+      });
+    });
   }, []);
+
+  useEffect(() => {
+    if (arrivalMessage && currentChat?.members.includes(arrivalMessage.sender))
+      setMessages((p) => [...p, arrivalMessage]);
+    console.log(arrivalMessage);
+  }, [arrivalMessage, currentChat]);
+
+  useEffect(() => {
+    socket.current?.emit("addUser", userId);
+    socket.current?.on("getUsers", (users) => {
+      console.log(users);
+    });
+  }, [userId]);
+
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -179,13 +202,11 @@ export default function Trips() {
   }, []);
 
   const chatChange = (c) => {
-    console.log(c);
     setCurrentChat(c);
   };
 
   useEffect(async () => {
     setLoading(true);
-    console.log(currentChat);
     if (currentChat) {
       var friendId = currentChat?.members[1];
       if (friendId == userId) friendId = currentChat?.members[0];
@@ -200,7 +221,6 @@ export default function Trips() {
     }
     try {
       const msges = await axios.get("/getChats/" + currentChat?._id);
-      console.log(msges.data);
       setMessages(msges.data);
       setLoading(false);
     } catch (error) {
@@ -210,16 +230,23 @@ export default function Trips() {
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("scroll");
   }, [messages, currentChat]);
 
   const sendMessage = async () => {
-    console.log("Send Mes: " + newMessage);
     if (newMessage !== "") {
       setMessages([
         ...messages,
         { conversationId: currentChat._id, sender: userId, text: newMessage },
       ]);
+      const recieverId = currentChat.members.find(
+        (member) => member !== userId
+      );
+      socket.current.emit("sendMessage", {
+        senderId: userId,
+        recieverId,
+        text: newMessage,
+      });
+
       try {
         console.log(currentChat._id);
         const res = await axios.post("/addNewMessage", {

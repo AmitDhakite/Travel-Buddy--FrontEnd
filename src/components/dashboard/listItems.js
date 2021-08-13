@@ -22,7 +22,6 @@ const MainListItems = ({ page }) => {
       color.push("white");
     } else color.push("rgba(0,0,0,0.1)");
   }
-  console.log(page);
   const history = useHistory();
   const toDashboard = () => {
     history.push("/dashboard");
