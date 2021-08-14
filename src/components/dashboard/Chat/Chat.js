@@ -236,9 +236,11 @@ export default function Trips() {
 
   const sendMessage = async () => {
     if (newMessage !== "") {
+      const newMsg = newMessage;
+      setNewMessage("");
       setMessages([
         ...messages,
-        { conversationId: currentChat._id, sender: userId, text: newMessage },
+        { conversationId: currentChat._id, sender: userId, text: newMsg },
       ]);
       const recieverId = currentChat.members.find(
         (member) => member !== userId
@@ -246,7 +248,7 @@ export default function Trips() {
       socket.current.emit("sendMessage", {
         senderId: userId,
         recieverId,
-        text: newMessage,
+        text: newMsg,
       });
 
       try {
@@ -254,9 +256,8 @@ export default function Trips() {
         const res = await axios.post("/addNewMessage", {
           conversationId: currentChat._id,
           sender: userId,
-          text: newMessage,
+          text: newMsg,
         });
-        setNewMessage("");
         // console.log(res);
       } catch (error) {
         console.log(error);
