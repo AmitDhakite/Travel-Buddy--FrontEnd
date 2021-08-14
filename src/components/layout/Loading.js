@@ -8,6 +8,12 @@ const useStyles = makeStyles((theme) => ({
     "& > * + *": {
       marginTop: theme.spacing(2),
     },
+    colorPrimary: {
+      backgroundColor: "red",
+    },
+    barColorPrimary: {
+      backgroundColor: "white",
+    },
   },
 }));
 
@@ -15,7 +21,7 @@ export default function LinearIndeterminate() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <LinearProgress style={{ color: "rgb(42, 187, 172)" }} />
+      <LinearProgress />
     </div>
   );
 }

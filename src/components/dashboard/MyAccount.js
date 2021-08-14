@@ -34,6 +34,7 @@ import classes1 from "../../styles/MyAccount.module.css";
 import axios from "../../axios.js";
 import { authActions } from "../../store/index";
 import Backdrop from "../layout/Backdrop";
+import Footer from "../layout/Footer";
 
 function Copyright() {
   return (
@@ -421,6 +422,9 @@ export default function MyAccount() {
             </React.Fragment>
           </Paper>
         )}
+        <div style={{ marginTop: "-200px" }}>
+          <Footer />
+        </div>
       </main>
     </div>
   );

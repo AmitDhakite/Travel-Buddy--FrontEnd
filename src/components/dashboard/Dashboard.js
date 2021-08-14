@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -23,6 +23,10 @@ import MainListItems, { secondaryListItems } from "./listItems";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import axios from "axios";
+import InputBase from "@material-ui/core/InputBase";
+import cyan from "@material-ui/core/colors/cyan";
+
+import Slide from "@material-ui/core/Slide";
 import classes1 from "../../styles/Dashboard.module.css";
 import dotenv from "dotenv";
 import Card from "./Card";
@@ -34,6 +38,7 @@ import { useSelector } from "react-redux";
 import Menu from "../layout/Menu";
 import { useHistory } from "react-router-dom";
 import Footer from "../layout/Footer";
+import Carausel from "../layout/Carausel";
 
 dotenv.config();
 function Copyright() {
@@ -54,6 +59,58 @@ const drawerWidth = 230;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  root1: {
+    flexGrow: 1,
+  },
+
+  title: {
+    flexGrow: 1,
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+    marginLeft: "0",
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "black",
+  },
+  inputRoot: {
+    color: "white",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "28ch",
+      "&:focus": {
+        width: "35ch",
+      },
+    },
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -140,7 +197,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [tempSearch, setTempSearch] = useState("");
   const [results, setResults] = useState([]);
-  const [searching, setSearching] = useState(false);
+  const [searching, setSearching] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -246,30 +303,58 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <div className={classes1.searchDiv}>
-            <TextField
-              onChange={searchChangeHandler}
-              onKeyDown={(e) => {
-                if (e.keyCode === 13) searchSubmitHandler();
-              }}
-              variant="outlined"
-              className={classes1.searchField}
-              label="Search any place..."
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment>
-                    <IconButton>
-                      <SearchIcon
-                        style={{ color: " rgb(42, 187, 172)" }}
-                        onClick={searchSubmitHandler}
+        <Container
+          maxWidth="lg"
+          className={classes.container}
+          style={{ textAlign: "center" }}
+        >
+          <Slide
+            direction="right"
+            in={true}
+            timeout={400}
+            mountOnEnter
+            unmountOnExit
+          >
+            <div className={classes1.newSearch}>
+              <div className={classes.root} style={{ textAlign: "center" }}>
+                <AppBar
+                  position="static"
+                  style={{
+                    backgroundColor: cyan[800],
+                    textAlign: "center",
+                  }}
+                >
+                  <Toolbar>
+                    <Typography
+                      style={{ textAlign: "left" }}
+                      className={classes.title}
+                      variant="h6"
+                      noWrap
+                    >
+                      Search for tourism places anywhere...
+                    </Typography>
+                    <div className={classes.search}>
+                      <div className={classes.searchIcon}>
+                        <SearchIcon />
+                      </div>
+                      <InputBase
+                        placeholder="Search…"
+                        onChange={searchChangeHandler}
+                        onKeyDown={(e) => {
+                          if (e.keyCode === 13) searchSubmitHandler();
+                        }}
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        inputProps={{ "aria-label": "search" }}
                       />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
+                    </div>
+                  </Toolbar>
+                </AppBar>
+              </div>
+            </div>
+          </Slide>
           {tempSearch !== "" && (
             <div className={classes1.results}>
               <Paper style={{ padding: "20px 30px 50px" }}>
@@ -288,11 +373,13 @@ export default function Dashboard() {
                         Top destinations near {tempSearch}:{" "}
                       </h1>
                       {results.map((r) => (
-                        <Card
-                          title={r.title}
-                          description={r.description}
-                          link={r.link}
-                        />
+                        <div className={classes1.oneResultCard}>
+                          <Card
+                            title={r.title}
+                            description={r.description}
+                            link={r.link}
+                          />
+                        </div>
                       ))}
                     </React.Fragment>
                   )}
@@ -300,9 +387,14 @@ export default function Dashboard() {
               </Paper>
             </div>
           )}
-          <Paper className={classes1.imageList}>
-            <ImageList />
-          </Paper>
+          <div className={classes1.imageList}>
+            {/* <Slide direction="up" in={true} mountOnEnter unmountOnExit> */}
+            <Carausel
+              style={{ textAlign: "center", backgroundColor: "white" }}
+            />
+            {/* <ImageList /> */}
+            {/* </Slide> */}
+          </div>
         </Container>
         <div style={{ marginTop: "-200px" }}>
           <Footer />

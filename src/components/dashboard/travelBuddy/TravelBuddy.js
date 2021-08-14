@@ -38,6 +38,7 @@ import axios from "../../../axios.js";
 import SelfTripCard from "./SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
+import Slide from "@material-ui/core/Slide";
 import Footer from "../../layout/Footer";
 
 import LoadingTrips from "../../layout/LoadingTrips";
@@ -453,7 +454,15 @@ export default function Trips() {
       </Drawer>
       <main className={classes.content}>
         <Paper className={classes1.tripDecor}>
-          <img className={classes1.tripDecorCard} src={img} />
+          <Slide
+            direction="up"
+            in={true}
+            timeout={600}
+            mountOnEnter
+            unmountOnExit
+          >
+            <img className={classes1.tripDecorCard} src={img} />
+          </Slide>
           <div className={classes1.parentDiv}>
             <div className={classes1.filter}>
               <p className={classes1.filterYourSearch}>Filter your search</p>

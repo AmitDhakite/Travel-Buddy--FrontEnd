@@ -27,6 +27,7 @@ import Button from "@material-ui/core/Button";
 import AddTrip from "./AddTrip";
 import axios from "../../../axios.js";
 import SelfTripCard from "./SelfTripCard";
+import Footer from "../../layout/Footer";
 
 function Copyright() {
   return (
@@ -282,6 +283,9 @@ export default function Trips() {
             ))}
           </div>
         </Paper>
+        <div style={{ marginTop: "-200px" }}>
+          <Footer />
+        </div>
       </main>
     </div>
   );

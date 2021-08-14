@@ -147,7 +147,8 @@ export default function SimpleCard(props) {
       </CardContent>
       <CardActions
         style={{
-          backgroundImage: "linear-gradient(rgba(42, 187, 172, 1), #00838f)",
+          backgroundImage:
+            "linear-gradient(rgba(42, 187, 172, 1), rgb(1,96,100))",
         }}
       >
         <SpeedDial

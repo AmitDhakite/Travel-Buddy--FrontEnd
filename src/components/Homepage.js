@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import Backdrop from "./layout/Backdrop";
 import logout from "./auth/logout.js";
 import Footer from "./layout/Footer";
-
 const Homepage = () => {
   logout();
   return (

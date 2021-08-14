@@ -7,6 +7,7 @@ import Link from "@material-ui/core/Link";
 import Love from "@material-ui/icons/FavoriteBorder";
 import cyan from "@material-ui/core/colors/cyan";
 import InstagramIcon from "@material-ui/icons/Instagram";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 function Copyright() {
   return (
     <Typography
@@ -49,13 +50,12 @@ export default function StickyFooter({ homepage }) {
       <CssBaseline />
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          {homepage && (
-            <Typography style={{ color: "white" }} variant="body1">
-              Made with{" "}
-              <Love style={{ color: "white", marginBottom: "-5px" }} /> by Amit
-              Dhakite
-            </Typography>
-          )}
+          <Typography style={{ color: "white" }} variant="body1">
+            Made with{" "}
+            {/* <Love style={{ color: "red", marginBottom: "-5px" }} /> */}
+            <FavoriteIcon style={{ color: "white", marginBottom: "-5px" }} /> by
+            AMIT DHAKITE
+          </Typography>
           <Copyright />
         </Container>
       </footer>
