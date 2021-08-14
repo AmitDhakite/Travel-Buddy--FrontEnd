@@ -42,8 +42,10 @@ import Friends from "./Friends";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { current } from "@reduxjs/toolkit";
 import { io } from "socket.io-client";
+import dotenv from "dotenv";
 
 // import Message from "../../../../../server-side/models/message.model.js";
+dotenv.config();
 
 function Copyright() {
   return (
@@ -165,7 +167,7 @@ export default function Trips() {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io(process.env.REACT_APP_BASE_URL_SOCKET);
     socket.current?.on("getMessage", (msg) => {
       console.log(msg);
       setArrivalMessage({
@@ -429,7 +431,7 @@ export default function Trips() {
                               </div>
                             );
                         })}
-                        <div ref={scrollRef}>d</div>
+                        <div ref={scrollRef}></div>
                       </div>
                       <div className={classes2.type_msg}>
                         <div className={classes2.input_msg_write}>

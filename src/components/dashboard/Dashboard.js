@@ -396,6 +396,7 @@ export default function Dashboard() {
             {/* </Slide> */}
           </div>
         </Container>
+
         <div style={{ marginTop: "-200px" }}>
           <Footer />
         </div>
