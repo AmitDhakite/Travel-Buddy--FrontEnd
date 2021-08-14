@@ -6,6 +6,7 @@ import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
 import Backdrop from "./layout/Backdrop";
 import logout from "./auth/logout.js";
+import Footer from "./layout/Footer";
 
 const Homepage = () => {
   logout();
@@ -59,6 +60,7 @@ const Homepage = () => {
         </div>
       </div>
       <div className={classes.fourthDiv}></div>
+      <Footer homepage />
     </div>
   );
 };

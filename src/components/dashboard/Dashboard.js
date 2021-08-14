@@ -33,6 +33,7 @@ import Blog from "./Blog";
 import { useSelector } from "react-redux";
 import Menu from "../layout/Menu";
 import { useHistory } from "react-router-dom";
+import Footer from "../layout/Footer";
 
 dotenv.config();
 function Copyright() {
@@ -303,6 +304,9 @@ export default function Dashboard() {
             <ImageList />
           </Paper>
         </Container>
+        <div style={{ marginTop: "-200px" }}>
+          <Footer />
+        </div>
       </main>
     </div>
   );

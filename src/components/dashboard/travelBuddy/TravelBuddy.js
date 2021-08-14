@@ -38,6 +38,7 @@ import axios from "../../../axios.js";
 import SelfTripCard from "./SelfTripCard";
 import img from "../../../images/TravelBuddy.png";
 import Filter from "./Filter.js";
+import Footer from "../../layout/Footer";
 
 import LoadingTrips from "../../layout/LoadingTrips";
 
@@ -592,6 +593,9 @@ export default function Trips() {
             </div>
           </div>
         </Paper>
+        <div style={{ marginTop: "-200px" }}>
+          <Footer />
+        </div>
       </main>
     </div>
   );
