@@ -277,3 +277,35 @@ img {
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.4), 0 10px 24px 0 rgba(0, 0, 0, 0.19);
   display: block;
 }
+@media only screen and (max-width: 800px) {
+  .chat_ib h5 {
+    /* float: right; */
+    font-size: 14px;
+    color: #464646;
+    /* color: red; */
+    margin: 0 0 8px 17px;
+    font-family: "Crimson Text", serif;
+    font-family: "Merriweather", serif;
+  }
+  .chat_ib h5 span {
+    font-size: 10px;
+    float: right;
+  }
+  .chat_ib p {
+    font-size: 10px;
+    color: #989898;
+    /* margin: auto; */
+  }
+  .recent_heading h4 {
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: -10px;
+    margin-top: 10px;
+    font-family: "Merriweather", serif;
+  }
+  .chat_img {
+    float: left;
+    width: 12%;
+  }
+}
