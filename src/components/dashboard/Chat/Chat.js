@@ -167,9 +167,9 @@ export default function Trips() {
   const socket = useRef();
 
   useEffect(() => {
+    // socket.current = io("http://localhost:8900");
     socket.current = io(process.env.REACT_APP_BASE_URL_SOCKET);
     socket.current?.on("getMessage", (msg) => {
-      console.log(msg);
       setArrivalMessage({
         sender: msg.senderId,
         text: msg.text,
@@ -181,13 +181,29 @@ export default function Trips() {
   useEffect(() => {
     if (arrivalMessage && currentChat?.members.includes(arrivalMessage.sender))
       setMessages((p) => [...p, arrivalMessage]);
-    console.log(arrivalMessage);
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
     socket.current?.emit("addUser", userId);
     socket.current?.on("getUsers", (users) => {
-      console.log(users);
+      const fr = [];
+      users.forEach((u) => {
+        fr.push(u.userId);
+      });
+      setFriends(fr);
+      setConversations((c) => {
+        return conversations.map((con) => {
+          var friendsId = con.members[0];
+          if (friendsId == userId) friendsId = con.members[1];
+          if (fr.includes(friendsId)) {
+            return { ...con, isOnline: true };
+          } else
+            return {
+              ...con,
+              isOnline: false,
+            };
+        });
+      });
     });
   }, [userId]);
 
@@ -197,7 +213,6 @@ export default function Trips() {
         "/getConversations/" + localStorage.getItem("userId")
       );
       setConversations(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }
@@ -231,8 +246,28 @@ export default function Trips() {
   }, [currentChat]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, currentChat]);
+    scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [messages]);
+
+  useEffect(() => {
+    setConversations((c) => {
+      return conversations.map((con) => {
+        var friendsId = con.members[0];
+        if (friendsId == userId) friendsId = con.members[1];
+        if (friends.includes(friendsId)) {
+          return { ...con, isOnline: true };
+        } else
+          return {
+            ...con,
+            isOnline: false,
+          };
+      });
+    });
+  }, [friends, messages]);
 
   const sendMessage = async () => {
     if (newMessage !== "") {
@@ -252,13 +287,11 @@ export default function Trips() {
       });
 
       try {
-        console.log(currentChat._id);
         const res = await axios.post("/addNewMessage", {
           conversationId: currentChat._id,
           sender: userId,
           text: newMsg,
         });
-        // console.log(res);
       } catch (error) {
         console.log(error);
       }
@@ -363,7 +396,7 @@ export default function Trips() {
                             chatChange(c);
                           }}
                         >
-                          <Friends members={c.members} />
+                          <Friends members={c.members} isOnline={c.isOnline} />
                         </div>
                       ))}
                     </div>
@@ -396,43 +429,44 @@ export default function Trips() {
                         {messages.map((m) => {
                           if (m.sender == userId)
                             return (
-                              <div className={classes2.outgoing_msg}>
-                                <div className={classes2.sent_msg}>
-                                  <p>{m.text}</p>
-                                  <span className={classes2.time_date}>
-                                    {" "}
-                                    {format(m.createdAt)}
-                                  </span>{" "}
+                              <div ref={scrollRef}>
+                                <div className={classes2.outgoing_msg}>
+                                  <div className={classes2.sent_msg}>
+                                    <p>{m.text}</p>
+                                    <span className={classes2.time_date}>
+                                      {" "}
+                                      {format(m.createdAt)}
+                                    </span>{" "}
+                                  </div>
                                 </div>
                               </div>
                             );
                           else
                             return (
-                              <div ref={scrollRef}>
-                                <div className={classes2.incoming_msg}>
-                                  <div className={classes2.incoming_msg_img}>
-                                    {" "}
-                                    <img
-                                      src="https://ptetutorials.com/images/user-profile.png"
-                                      alt="sunil"
-                                    />{" "}
-                                  </div>
-                                  <div className={classes2.received_msg}>
-                                    <div
-                                      className={classes2.received_withd_msg}
-                                    >
-                                      <p>{m.text}</p>
-                                      <span className={classes2.time_date}>
-                                        {" "}
-                                        {format(m.createdAt)}
-                                      </span>
-                                    </div>
+                              <div
+                                ref={scrollRef}
+                                className={classes2.incoming_msg}
+                              >
+                                <div className={classes2.incoming_msg_img}>
+                                  {" "}
+                                  <img
+                                    src="https://ptetutorials.com/images/user-profile.png"
+                                    alt="sunil"
+                                  />{" "}
+                                </div>
+                                <div className={classes2.received_msg}>
+                                  <div className={classes2.received_withd_msg}>
+                                    <p>{m.text}</p>
+                                    <span className={classes2.time_date}>
+                                      {" "}
+                                      {format(m.createdAt)}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
                             );
                         })}
-                        <div ref={scrollRef}></div>
+                        <div />
                       </div>
                       <div className={classes2.type_msg}>
                         <div className={classes2.input_msg_write}>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friends = ({ members }) => {
+const Friends = ({ members, isOnline }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   useEffect(async () => {
@@ -41,7 +41,8 @@ const Friends = ({ members }) => {
         </div>
         <div className={classes2.chat_ib}>
           <h5>
-            {name} <span className={classes2.chat_date}>Dec 25</span>
+            {name}
+            <span className={classes2.chat_date}>{isOnline && "Online"}</span>
           </h5>
         </div>
       </div>
