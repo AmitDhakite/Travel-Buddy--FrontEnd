@@ -22,8 +22,8 @@ export default function AlertDialogSlide(props) {
     setOpen(props.showBox);
   }, [props.showBox]);
 
-  const deleteHandle = () => {
-    props.delete();
+  const sendConnectionRequest = () => {
+    props.connect();
     props.setShowBox(false);
     setOpen(false);
   };
@@ -68,7 +68,7 @@ export default function AlertDialogSlide(props) {
               backgroundColor: " rgba(42, 187, 172, 1)",
               color: "white",
             }}
-            onClick={deleteHandle}
+            onClick={sendConnectionRequest}
             color="primary"
           >
             Connect

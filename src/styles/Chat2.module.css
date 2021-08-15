@@ -115,10 +115,8 @@ img {
 }
 
 .chat_list {
-  /* border-bottom: 1px solid red; */
-  /* margin: 0; */
+  background-color: white;
   padding: 18px 0 10px;
-  /* width: 100%; */
 }
 .inbox_chat {
   height: 580px;
@@ -240,7 +238,7 @@ img {
 }
 .openConversation {
   display: flex;
-  margin-left: 100px;
+  margin-left: 5%;
   margin-right: 80px;
 }
 .line {
@@ -250,7 +248,7 @@ img {
 }
 .mesgs1 {
   /* float: left; */
-  padding: 10% 25px 20px 2%;
+  padding: 2% 15px 10px 1%;
   width: 70%;
   /* width: 150%; */
   /* min-width: none; */
@@ -277,6 +275,14 @@ img {
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.4), 0 10px 24px 0 rgba(0, 0, 0, 0.19);
   display: block;
 }
+
+.noBuddies {
+  background-color: white;
+  padding: 10px 40px;
+  font-size: 1.2rem;
+  color: grey;
+}
+
 @media only screen and (max-width: 800px) {
   .chat_ib h5 {
     /* float: right; */
@@ -307,5 +313,32 @@ img {
   .chat_img {
     float: left;
     width: 12%;
+  }
+  .chat_list {
+    background-color: white;
+    padding: 0 0;
+  }
+  .noBuddies {
+    background-color: white;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    color: grey;
+  }
+  .openConversation {
+    display: flex;
+    margin-left: 1%;
+    margin-right: 80px;
+  }
+  .line {
+    color: rgb(42, 187, 172);
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1rem;
+  }
+  .mesgs1 {
+    /* float: left; */
+    padding: 2% 5px 5px 1%;
+    width: 70%;
+    /* width: 150%; */
+    /* min-width: none; */
   }
 }

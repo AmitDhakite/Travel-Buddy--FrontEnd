@@ -169,6 +169,7 @@ export default function Trips() {
       const results = res.data.filter(
         (r) => r.userId !== localStorage.getItem("userId")
       );
+      console.log(res.data);
       // setTrips(res.data);
       // setAllTrips(res.data);
       setIsFetching(false);
@@ -586,6 +587,8 @@ export default function Trips() {
                         edit={() => {
                           editHandler(i);
                         }}
+                        id={t._id}
+                        userId={t.userId}
                         noOfPeople={t.noOfPeople}
                         transport={t.transport}
                         from={t.from}

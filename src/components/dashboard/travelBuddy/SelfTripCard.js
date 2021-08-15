@@ -13,7 +13,9 @@ import EventNoteIcon from "@material-ui/icons/EventNote";
 import CommuteIcon from "@material-ui/icons/Commute";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import PersonIcon from "@material-ui/icons/Person";
+import { useHistory } from "react-router-dom";
 // import EditTrip from "./EditTrip";
+import axios from "../../../axios";
 
 const useStyles = makeStyles({
   root: {
@@ -34,8 +36,9 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
+  const history = useHistory();
   const bull = <span className={classes.bullet}>•</span>;
-
+  const userId = localStorage.getItem("userId");
   const handleClick = (e) => {
     try {
     } catch (e) {
@@ -69,6 +72,28 @@ export default function SimpleCard(props) {
     d += "/";
     d += e.substring(0, 4);
     return d;
+  };
+
+  const sendConnectionRequest = async () => {
+    try {
+      console.log(props.id);
+      const res = await axios.post("/addNewConnection", {
+        senderId: userId,
+        tripId: props.id,
+        userId: props.userId,
+      });
+      if (res.data === "saved") {
+        const res1 = await axios.post("/addNewConversation", {
+          senderId: userId,
+          recieverId: props.userId,
+        });
+      }
+      if (res.data == "saved") history.push("/chat?name=" + props.by.name);
+      else history.push("/chat?name=Already");
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -151,11 +176,7 @@ export default function SimpleCard(props) {
             "linear-gradient(rgba(42, 187, 172, 1), rgb(1,96,100))",
         }}
       >
-        <SpeedDial
-          handleClick={handleClick}
-          delete={props.delete}
-          edit={editHandler}
-        />
+        <SpeedDial handleClick={handleClick} connect={sendConnectionRequest} />
       </CardActions>
     </Card>
   );

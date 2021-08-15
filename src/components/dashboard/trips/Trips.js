@@ -137,13 +137,22 @@ export default function Trips() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const [myTrips, setMyTrips] = useState([]);
+  const [connections, setConnections] = useState([]);
   const [counter, setCounter] = useState(0);
+  const userId = localStorage.getItem("userId");
   useEffect(async () => {
     try {
       const res = await axios.post("/getAllTripsById", {
-        id: localStorage.getItem("userId"),
+        id: userId,
       });
       setMyTrips(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      const res = await axios.get("/getConnections/" + userId);
+      console.log(res.data);
+      setConnections(res.data);
     } catch (e) {
       console.log(e);
     }

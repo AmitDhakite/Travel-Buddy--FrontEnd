@@ -59,7 +59,7 @@ export default function OpenIconSpeedDial(props) {
       <RequestConformation
         showBox={showBox}
         setShowBox={setShowBox}
-        delete={props.delete}
+        connect={props.connect}
       />
       <SpeedDial
         ariaLabel="SpeedDial openIcon example"

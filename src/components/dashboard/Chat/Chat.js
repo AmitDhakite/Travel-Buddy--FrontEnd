@@ -30,6 +30,9 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MainListItems, { secondaryListItems } from "../listItems.js";
 import Menu from "../../layout/Menu";
+import Snackbar from "@material-ui/core/Snackbar";
+import CloseIcon from "@material-ui/icons/Close";
+
 import { useHistory } from "react-router-dom";
 import classes1 from "../../../styles/Chat.module.css";
 import classes2 from "../../../styles/Chat2.module.css";
@@ -43,7 +46,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { current } from "@reduxjs/toolkit";
 import { io } from "socket.io-client";
 import dotenv from "dotenv";
-
+import { useLocation } from "react-router-dom";
 // import Message from "../../../../../server-side/models/message.model.js";
 dotenv.config();
 
@@ -143,6 +146,51 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
 }));
+const useStylesFacebook = makeStyles((theme) => ({
+  root: {
+    position: "relative",
+  },
+  bottom: {
+    color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  top: {
+    color: "#1a90ff",
+    animationDuration: "550ms",
+    position: "absolute",
+    left: 0,
+  },
+  circle: {
+    strokeLinecap: "round",
+  },
+}));
+
+function FacebookCircularProgress(props) {
+  const classes = useStylesFacebook();
+
+  return (
+    <div className={classes.root}>
+      <CircularProgress
+        variant="determinate"
+        className={classes.bottom}
+        size={40}
+        thickness={4}
+        {...props}
+        value={100}
+      />
+      <CircularProgress
+        variant="indeterminate"
+        disableShrink
+        className={classes.top}
+        classes={{
+          circle: classes.circle,
+        }}
+        size={40}
+        thickness={4}
+        {...props}
+      />
+    </div>
+  );
+}
 
 export default function Trips() {
   const userId = localStorage.getItem("userId");
@@ -154,6 +202,12 @@ export default function Trips() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleClose1 = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbar(false);
+  };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -164,7 +218,26 @@ export default function Trips() {
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [loadingConversations, setLoadingConversations] = useState(false);
   const socket = useRef();
+
+  const [snackbar, setSnackbar] = useState(false);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const [mes, setMes] = useState("");
+  useEffect(() => {
+    if (query.get("name") !== null) {
+      if (query.get("name") === "Already") {
+        setMes("You are already connected with this user...");
+      } else
+        setMes(
+          "You are now connected with " +
+            query.get("name") +
+            ", and you can have a chat with them here..."
+        );
+      setSnackbar(true);
+    }
+  }, []);
 
   useEffect(() => {
     // socket.current = io("http://localhost:8900");
@@ -208,11 +281,13 @@ export default function Trips() {
   }, [userId]);
 
   useEffect(async () => {
+    setLoadingConversations(true);
     try {
       const res = await axios.get(
         "/getConversations/" + localStorage.getItem("userId")
       );
       setConversations(res.data);
+      setLoadingConversations(false);
     } catch (e) {
       console.log(e);
     }
@@ -390,6 +465,19 @@ export default function Trips() {
                         classes2.chat_list + " " + classes2.active_chat
                       }
                     >
+                      {conversations.length === 0 && !loadingConversations && (
+                        <div className={classes2.noBuddies}>
+                          <p>
+                            No connected Buddies, please connect with some
+                            buddies to have chat...
+                          </p>
+                        </div>
+                      )}
+                      {loadingConversations && (
+                        <FacebookCircularProgress
+                          style={{ marginLeft: "45%" }}
+                        />
+                      )}
                       {conversations.map((c) => (
                         <div
                           className={classes2.friendDiv}
@@ -413,9 +501,9 @@ export default function Trips() {
                       <div style={{ color: "white" }}>
                         .......................
                       </div>
-                      <CircularProgress
-                        style={{ marginLeft: "25%", marginTop: "30%" }}
-                      />
+                      <div style={{ marginTop: "30%", marginLeft: "35%" }}>
+                        <FacebookCircularProgress />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -500,9 +588,7 @@ export default function Trips() {
                 {!currentChat && !loading && (
                   <div className={classes2.mesgs1}>
                     <div className={classes2.openConversation}>
-                      <div style={{ color: "white" }}>
-                        .......................
-                      </div>
+                      <div style={{ color: "white" }}>.............</div>
                       <p className={classes2.line}>
                         Click on any buddy to start a conversation or connect to
                         new buddies...
@@ -514,6 +600,28 @@ export default function Trips() {
             </div>
           </div>
         </Paper>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={snackbar}
+          autoHideDuration={6000}
+          onClose={handleClose1}
+          message={mes}
+          action={
+            <React.Fragment>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose1}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </main>
     </div>
   );
