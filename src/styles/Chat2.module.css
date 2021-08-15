@@ -25,6 +25,7 @@ img {
 }
 
 .recent_heading {
+  margin-top: -11px;
   float: left;
   width: 80%;
 }
@@ -34,8 +35,8 @@ img {
   width: 40%;
 }
 .headind_srch {
-  padding: 10px 20px 0 20px;
-  background-color: #2f5d62;
+  padding: 15px 20px 0 20px;
+  background-color: #00828f;
   overflow: hidden;
   border-bottom: 1px solid #c4c4c4;
 }
@@ -44,7 +45,9 @@ img {
   color: white;
   font-weight: 400;
   font-size: 21px;
-  margin: auto;
+  margin-bottom: -10px;
+  margin-top: 10px;
+  font-family: "Merriweather", serif;
 }
 .srch_bar input {
   border: 1px solid #cdcdcd;
@@ -65,9 +68,11 @@ img {
 }
 
 .chat_ib h5 {
-  font-size: 15px;
+  font-size: 17px;
   color: #464646;
   margin: 0 0 8px 0;
+  font-family: "Crimson Text", serif;
+  font-family: "Merriweather", serif;
 }
 .chat_ib h5 span {
   font-size: 13px;
@@ -82,6 +87,12 @@ img {
   float: left;
   width: 11%;
 }
+.chat_img :hover {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+}
+.chat_ib :hover {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+}
 .chat_ib {
   float: left;
   padding: 0 0 0 15px;
@@ -93,31 +104,19 @@ img {
 
 .chat_people {
   padding: 10px;
-  /* border-top-color: grey; */
-  /* border-top-width: 10px; */
-  border-bottom-width: 0.5px;
-  border-bottom: solid;
-  border-bottom-color: grey;
-  /* border-top: solid; */
   overflow: hidden;
   clear: both;
 }
 
 .hh :hover {
-  /* background-color: rgba(42, 187, 172, 0.6); */
-  background-color: grey;
-  /* color: white; */
-  cursor: pointer;
-}
-
-.hh :hover {
-  /* background-color: rgba(42, 187, 172, 0.2); */
+  border-radius: 5px;
+  /* background-color: grey; */
   cursor: pointer;
 }
 
 .chat_list {
-  border-bottom: 1px solid #c4c4c4;
-  margin: 0;
+  /* border-bottom: 1px solid red; */
+  /* margin: 0; */
   padding: 18px 0 10px;
   /* width: 100%; */
 }
@@ -167,7 +166,7 @@ img {
 }
 
 .sent_msg p {
-  background: #2f5d62 none repeat scroll 0 0;
+  background: #00828f none repeat scroll 0 0;
   border-radius: 3px;
   font-size: 14px;
   margin: 0;
@@ -227,10 +226,13 @@ img {
 
 .msgHeader {
   margin: -30px -30px 30px -25px;
-  padding: 13px 250px 10px 10px;
-  background-color: #2f5d62;
+  padding: 16px 250px 13px 10px;
+  background-color: #00828f;
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-family: "Crimson Text", serif;
+  font-family: "Merriweather", serif;
+  font-weight: 600;
 }
 
 .write_msg {
@@ -252,4 +254,26 @@ img {
   width: 70%;
   /* width: 150%; */
   /* min-width: none; */
+}
+
+.friendDiv {
+  background-color: white;
+  border-radius: 5px;
+  margin: 10px 4px;
+  position: relative;
+}
+
+.hh1 {
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.4), 0 10px 24px 0 rgba(0, 0, 0, 0.19);
+}
+.hh1 :hover {
+  cursor: pointer;
+}
+
+.friendDiv:hover .hh,
+.friendDiv.hover .hh,
+.friendDiv.hover .chat_ib,
+.friendDiv.hover .chat_img {
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.4), 0 10px 24px 0 rgba(0, 0, 0, 0.19);
+  display: block;
 }

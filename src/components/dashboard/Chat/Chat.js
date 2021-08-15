@@ -369,7 +369,7 @@ export default function Trips() {
                 <div className={classes2.inbox_people}>
                   <div className={classes2.headind_srch}>
                     <div className={classes2.recent_heading}>
-                      <h4>Connected Buddies</h4>
+                      <h4 className={classes2.connected}>Connected Buddies</h4>
                     </div>
                     <div className={classes2.srch_bar}>
                       <div className={classes2.stylish_input_group}>
@@ -392,11 +392,16 @@ export default function Trips() {
                     >
                       {conversations.map((c) => (
                         <div
+                          className={classes2.friendDiv}
                           onClick={() => {
                             chatChange(c);
                           }}
                         >
-                          <Friends members={c.members} isOnline={c.isOnline} />
+                          <Friends
+                            current={currentChattingFriend}
+                            members={c.members}
+                            isOnline={c.isOnline}
+                          />
                         </div>
                       ))}
                     </div>

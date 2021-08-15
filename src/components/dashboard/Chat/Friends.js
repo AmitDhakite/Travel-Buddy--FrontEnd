@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friends = ({ members, isOnline }) => {
+const Friends = ({ members, isOnline, current }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   useEffect(async () => {
@@ -34,7 +34,7 @@ const Friends = ({ members, isOnline }) => {
     }
   }, []);
   return (
-    <div className={classes2.hh}>
+    <div className={current === name ? classes2.hh1 : classes2.hh}>
       <div className={classes2.chat_people}>
         <div className={classes2.chat_img}>
           <Avatar className={classes.blue}>{name.substring(0, 1)}</Avatar>
