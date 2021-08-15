@@ -1,5 +1,6 @@
 import { useState } from "react";
 import topBanner from "../images/TopBanner.png";
+import Homepage2 from "../images/Homepage22.png";
 import thirdDivImg from "../images/TB.png";
 import classes from "../styles/Homepage.module.css";
 import Select from "react-dropdown-select";
@@ -57,6 +58,9 @@ const Homepage = () => {
             Register
           </Link>
         </div>
+      </div>
+      <div>
+        <img className={classes.banner1} src={Homepage2} alt="travelBuddy" />
       </div>
       <div className={classes.fourthDiv}></div>
       <Footer homepage />
