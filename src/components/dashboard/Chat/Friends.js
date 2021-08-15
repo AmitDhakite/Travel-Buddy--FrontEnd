@@ -42,7 +42,7 @@ const Friends = ({ members, isOnline, current }) => {
         <div className={classes2.chat_ib}>
           <h5>
             {name}
-            <span className={classes2.chat_date}>{!isOnline && "Online"}</span>
+            <span className={classes2.chat_date}>{isOnline && "Online"}</span>
           </h5>
         </div>
       </div>
