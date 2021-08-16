@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/index";
 import { useHistory } from "react-router-dom";
 import logout1 from "../auth/logout.js";
+import Error from "./Error";
 import axios from "../../axios";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
@@ -22,6 +23,7 @@ export default function SimpleMenu() {
   };
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
+  const [showError, setShowError] = useState(false);
 
   const logout = () => {
     localStorage.removeItem("");
@@ -38,14 +40,18 @@ export default function SimpleMenu() {
 
   const t = useSelector((state) => state.auth.user);
   const [name, setName] = useState(t.firstName);
+  const token = localStorage.getItem("token");
   const fun = async () => {
     if (t.firstName === "") {
       try {
         const userId = localStorage.getItem("userId");
-        const res = await axios.get("/getUser/" + userId); // setName(res.data.firstName);
+        const res = await axios.get("/getUser/" + userId, {
+          headers: { authorization: "Bearer " + token },
+        }); // setName(res.data.firstName);
         setName(res.data.firstName);
         dispatch(authActions.updateUser(res.data));
       } catch (e) {
+        setShowError(true);
         console.log(e);
       }
     }
@@ -54,6 +60,7 @@ export default function SimpleMenu() {
   if (t.firstName === "") fun();
   return (
     <div>
+      {showError && <Error />}
       <Button
         aria-controls="simple-menu"
         aria-haspopup="true"

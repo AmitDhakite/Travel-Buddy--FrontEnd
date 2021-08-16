@@ -35,6 +35,7 @@ import axios from "../../axios.js";
 import { authActions } from "../../store/index";
 import Backdrop from "../layout/Backdrop";
 import Footer from "../layout/Footer";
+import Error from "../layout/Error";
 
 function Copyright() {
   return (
@@ -132,6 +133,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyAccount() {
   const history = useHistory();
+  const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
   if (localStorage.getItem("token") === null) history.replace("/");
   const [editForm, saveEditForm] = useState(false);
@@ -164,10 +166,13 @@ export default function MyAccount() {
   useEffect(async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/getUser/" + userId);
+      const res = await axios.get("/getUser/" + userId, {
+        headers: { authorization: "Bearer " + token },
+      });
       setUser(res.data);
       setLoading(false);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
   }, []);
@@ -258,6 +263,7 @@ export default function MyAccount() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        {showError && <Error />}
         <div className={classes.appBarSpacer} />
         {!editForm ? (
           <Paper className={classes1.profileDetails}>

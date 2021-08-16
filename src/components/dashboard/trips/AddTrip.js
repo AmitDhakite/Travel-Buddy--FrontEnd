@@ -8,6 +8,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import Error from "../../layout/Error";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import cities from "./cities";
@@ -84,6 +85,7 @@ export default function FormDialog(props) {
   };
 
   const [snackbar, setSnackbar] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const classes1 = useStyles();
   const [newTrip, setNewTrip] = useState({
@@ -189,6 +191,7 @@ export default function FormDialog(props) {
   ];
   const [loading, setLoading] = useState(false);
   const [mes, setMes] = useState("");
+  const token = localStorage.getItem("token");
   const [showMes, setShowMes] = useState(false);
   const addNewTrip = async () => {
     setShowMes(false);
@@ -223,12 +226,15 @@ export default function FormDialog(props) {
       return;
     }
     try {
-      const res = await axios.post("/addTrip", newTrip);
+      const res = await axios.post("/addTrip", newTrip, {
+        headers: { authorization: "Bearer " + token },
+      });
       console.log(res.data);
       setOpen(false);
       setSnackbar(true);
       props.addNewTrip(newTrip);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
     setLoading(false);
@@ -242,10 +248,14 @@ export default function FormDialog(props) {
     <div>
       {loading && <Backdrop />}
       {snackbar && <Snackbar mes="Trip Added Successfully!!" />}
+      {showError && <Error />}
       <Button
         variant="outlined"
         style={{
-          marginTop: "20px",
+          fontSize: "1rem",
+          marginTop: "50px",
+          padding: "6px",
+          width: "100%",
           backgroundColor: "rgb(42, 187, 172)",
           color: "white",
         }}

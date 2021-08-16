@@ -14,6 +14,7 @@ import CommuteIcon from "@material-ui/icons/Commute";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import PersonIcon from "@material-ui/icons/Person";
 import { useHistory } from "react-router-dom";
+import Error from "../../layout/Error";
 // import EditTrip from "./EditTrip";
 import axios from "../../../axios";
 
@@ -38,6 +39,7 @@ export default function SimpleCard(props) {
   const classes = useStyles();
   const history = useHistory();
   const bull = <span className={classes.bullet}>•</span>;
+  const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const handleClick = (e) => {
     try {
@@ -73,31 +75,46 @@ export default function SimpleCard(props) {
     d += e.substring(0, 4);
     return d;
   };
+  const [showError, setShowError] = useState(false);
 
   const sendConnectionRequest = async () => {
     try {
       console.log(props.id);
-      const res = await axios.post("/addNewConnection", {
-        senderId: userId,
-        tripId: props.id,
-        userId: props.userId,
-      });
-      if (res.data === "saved") {
-        const res1 = await axios.post("/addNewConversation", {
+      const res = await axios.post(
+        "/addNewConnection",
+        {
           senderId: userId,
-          recieverId: props.userId,
-        });
+          tripId: props.id,
+          userId: props.userId,
+        },
+        {
+          headers: { authorization: "Bearer " + token },
+        }
+      );
+      if (res.data === "saved") {
+        const res1 = await axios.post(
+          "/addNewConversation",
+          {
+            senderId: userId,
+            recieverId: props.userId,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        );
       }
       if (res.data == "saved") history.push("/chat?name=" + props.by.name);
       else history.push("/chat?name=Already");
       console.log(res.data);
     } catch (error) {
+      setShowError(true);
       console.log(error);
     }
   };
 
   return (
     <Card className={classes.root + " " + classes1.tripcard}>
+      {showError && <Error />}
       <CardContent>
         <div className={classes1.header}>
           <Typography className={classes.title} color="white" gutterBottom>

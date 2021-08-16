@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
+import Error from "../../layout/Error";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -135,32 +136,49 @@ export default function Trips() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  const token = localStorage.getItem("token");
   const [myTrips, setMyTrips] = useState([]);
+  const [showError, setShowError] = useState(false);
   const [connections, setConnections] = useState([]);
   const [counter, setCounter] = useState(0);
   const userId = localStorage.getItem("userId");
   useEffect(async () => {
     try {
-      const res = await axios.post("/getAllTripsById", {
-        id: userId,
-      });
+      const res = await axios.post(
+        "/getAllTripsById",
+        {
+          id: userId,
+        },
+        {
+          headers: { authorization: "Bearer " + token },
+        }
+      );
       setMyTrips(res.data);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
     try {
-      const res = await axios.get("/getConnections/" + userId);
+      const res = await axios.get("/getConnections/" + userId, {
+        headers: { authorization: "Bearer " + token },
+      });
       console.log(res.data);
       setConnections(res.data);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
   }, []);
 
   const deleteHandler = async (e) => {
     try {
-      const res = await axios.post("/deleteTrip", { id: myTrips[e]._id });
+      const res = await axios.post(
+        "/deleteTrip",
+        { id: myTrips[e]._id },
+        {
+          headers: { authorization: "Bearer " + token },
+        }
+      );
       console.log(res.data);
       setMyTrips((p) => {
         const newOb = [];
@@ -170,7 +188,8 @@ export default function Trips() {
         return newOb;
       });
     } catch (er) {
-      console.log(er);
+      setShowError(true);
+      console.log(e);
     }
   };
 
@@ -250,6 +269,7 @@ export default function Trips() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        {showError && <Error />}
         <Paper className={classes1.tripDecor}>
           <MyTripCards className={classes1.tripDecorCard} />
           <div>

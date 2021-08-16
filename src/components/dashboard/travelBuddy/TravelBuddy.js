@@ -13,6 +13,7 @@ import Autocomplete, {
 } from "@material-ui/lab/Autocomplete";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
+import Error from "../../layout/Error";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -148,6 +149,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Trips() {
   const history = useHistory();
+  const token = localStorage.getItem("token");
   if (localStorage.getItem("token") === null) history.replace("/");
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -159,13 +161,16 @@ export default function Trips() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [trips, setTrips] = useState([]);
+  const [showError, setShowError] = useState(false);
   const [counter, setCounter] = useState(0);
   const [allTrips, setAllTrips] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   useEffect(async () => {
     try {
       setIsFetching(true);
-      const res = await axios.post("/getAllTrips", {});
+      const res = await axios.post("/getAllTrips", {
+        headers: { authorization: "Bearer " + token },
+      });
       const results = res.data.filter(
         (r) => r.userId !== localStorage.getItem("userId")
       );
@@ -176,6 +181,7 @@ export default function Trips() {
       setTrips(results);
       setAllTrips(results);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
   }, []);
@@ -452,6 +458,7 @@ export default function Trips() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        {showError && <Error />}
         <Paper className={classes1.tripDecor}>
           <Slide
             direction="up"

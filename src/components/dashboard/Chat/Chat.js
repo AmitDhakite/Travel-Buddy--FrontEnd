@@ -45,6 +45,7 @@ import Friends from "./Friends";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { current } from "@reduxjs/toolkit";
 import { io } from "socket.io-client";
+import Error from "../../layout/Error";
 import dotenv from "dotenv";
 import { useLocation } from "react-router-dom";
 // import Message from "../../../../../server-side/models/message.model.js";
@@ -208,6 +209,7 @@ export default function Trips() {
     }
     setSnackbar(false);
   };
+  const token = localStorage.getItem("token");
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -220,6 +222,7 @@ export default function Trips() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [loadingConversations, setLoadingConversations] = useState(false);
   const socket = useRef();
+  const [showError, setShowError] = useState(false);
 
   const [snackbar, setSnackbar] = useState(false);
   const location = useLocation();
@@ -284,11 +287,15 @@ export default function Trips() {
     setLoadingConversations(true);
     try {
       const res = await axios.get(
-        "/getConversations/" + localStorage.getItem("userId")
+        "/getConversations/" + localStorage.getItem("userId"),
+        {
+          headers: { authorization: "Bearer " + token },
+        }
       );
       setConversations(res.data);
       setLoadingConversations(false);
     } catch (e) {
+      setShowError(true);
       console.log(e);
     }
   }, []);
@@ -303,7 +310,9 @@ export default function Trips() {
       var friendId = currentChat?.members[1];
       if (friendId == userId) friendId = currentChat?.members[0];
       try {
-        const user = await axios.get("/getUser/" + friendId);
+        const user = await axios.get("/getUser/" + friendId, {
+          headers: { authorization: "Bearer " + token },
+        });
         setCurrentChattingFriend(
           user.data.firstName + " " + user.data.lastName
         );
@@ -312,10 +321,13 @@ export default function Trips() {
       }
     }
     try {
-      const msges = await axios.get("/getChats/" + currentChat?._id);
+      const msges = await axios.get("/getChats/" + currentChat?._id, {
+        headers: { authorization: "Bearer " + token },
+      });
       setMessages(msges.data);
       setLoading(false);
     } catch (error) {
+      setShowError(true);
       console.log(error);
     }
   }, [currentChat]);
@@ -362,12 +374,19 @@ export default function Trips() {
       });
 
       try {
-        const res = await axios.post("/addNewMessage", {
-          conversationId: currentChat._id,
-          sender: userId,
-          text: newMsg,
-        });
+        const res = await axios.post(
+          "/addNewMessage",
+          {
+            conversationId: currentChat._id,
+            sender: userId,
+            text: newMsg,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        );
       } catch (error) {
+        setShowError(true);
         console.log(error);
       }
     }
@@ -435,6 +454,7 @@ export default function Trips() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+        {showError && <Error />}
         <Paper className={classes1.chat}>
           <div className={classes2.container}>
             <div className={classes2.messaging}>

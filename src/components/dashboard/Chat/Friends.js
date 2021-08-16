@@ -22,12 +22,15 @@ const useStyles = makeStyles((theme) => ({
 const Friends = ({ members, isOnline, current }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
+  const token = localStorage.getItem("token");
   useEffect(async () => {
     try {
       const myId = localStorage.getItem("userId");
       var userId = members[0];
       if (userId == myId) userId = members[1];
-      const res = await axios.get("/getUser/" + userId);
+      const res = await axios.get("/getUser/" + userId, {
+        headers: { authorization: "Bearer " + token },
+      });
       setName(res.data.firstName + " " + res.data.lastName);
     } catch (error) {
       console.log(error);
