@@ -18,7 +18,7 @@ import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
 import MainListItems, { secondaryListItems } from "./listItems";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -275,9 +275,7 @@ export default function Dashboard() {
             Travel Buddy
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <AllInclusiveIcon />
           </IconButton>
           <Menu />
         </Toolbar>

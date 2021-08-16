@@ -1,6 +1,6 @@
 import { useState } from "react";
 import topBanner from "../images/TopBanner.png";
-import Homepage2 from "../images/Homepage22.png";
+import Homepage2 from "../images/Homepage2.png";
 import thirdDivImg from "../images/TB.png";
 import classes from "../styles/Homepage.module.css";
 import Select from "react-dropdown-select";
@@ -17,9 +17,6 @@ const Homepage = () => {
         <nav className={classes.fullNav}>
           <p class={classes.topHead}>Travel Buddy</p>
           <div class={classes.topNav}>
-            <div class={classes.navTitleDiv}>
-              <Link class={classes.navTitles}>News</Link>
-            </div>
             <div class={classes.navTitleDiv}>
               <Link to="/login" class={classes.navTitles}>
                 Login
@@ -45,24 +42,25 @@ const Homepage = () => {
       </div>
       <div className={classes.thirdDiv}>
         <img className={classes.thirdBanner} src={thirdDivImg}></img>
-        <div className={classes.thirdTravelBuddy}>Travel Buddy</div>
-        <div className={classes.thirdDivLine}>
-          Amazing place to travel with new friends.
-        </div>
-        <div className={classes.thirdDivLine1}>Join Today!!</div>
-        <div className={classes.loginRegister}>
-          <Link to="/login" className={classes.thirdDivLogin}>
-            Login
-          </Link>
-          <Link to="/register" className={classes.thirdDivLogin}>
-            Register
-          </Link>
+        <div className={classes.tbDiv}>
+          <div className={classes.thirdTravelBuddy}>Travel Buddy</div>
+          <div className={classes.thirdDivLine}>
+            Amazing place to travel with new friends.
+          </div>
+          <div className={classes.thirdDivLine1}>Join Today!!</div>
+          <div className={classes.loginRegister}>
+            <Link to="/login" className={classes.thirdDivLogin}>
+              Login
+            </Link>
+            <Link to="/register" className={classes.thirdDivLogin}>
+              Register
+            </Link>
+          </div>
         </div>
       </div>
-      <div>
+      <div className={classes.fourthDiv}>
         <img className={classes.banner1} src={Homepage2} alt="travelBuddy" />
       </div>
-      <div className={classes.fourthDiv}></div>
       <Footer homepage />
     </div>
   );

@@ -27,7 +27,7 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
 import MainListItems, { secondaryListItems } from "../listItems.js";
 import Menu from "../../layout/Menu";
 import { useHistory } from "react-router-dom";
@@ -427,9 +427,7 @@ export default function Trips() {
             Find your Travel Buddies
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <AllInclusiveIcon />
           </IconButton>
           <Menu />
         </Toolbar>

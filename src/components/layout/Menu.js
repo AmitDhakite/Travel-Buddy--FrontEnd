@@ -32,6 +32,9 @@ export default function SimpleMenu() {
   const toAccount = () => {
     history.push("/myAccount");
   };
+  const toDashboard = () => {
+    history.push("/dashboard");
+  };
 
   const t = useSelector((state) => state.auth.user);
   const [name, setName] = useState(t.firstName);
@@ -66,7 +69,7 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={toDashboard}>Dashboard</MenuItem>
         <MenuItem onClick={toAccount}>My account</MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
