@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
 import ChatIcon from "@material-ui/icons/Chat";
+import poster from "../../images/poster.jpg";
 
 const MainListItems = ({ page }) => {
   const color = [];
@@ -89,6 +90,12 @@ const MainListItems = ({ page }) => {
 export default MainListItems;
 
 export const secondaryListItems = (
+  <div style={{ padding: "35px 45px" }}>
+    <img src={poster}></img>
+  </div>
+);
+
+export const secondaryListItems1 = (
   <div>
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>

@@ -17,7 +17,7 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import AllInclusiveIcon from "@material-ui/icons/Notifications";
+import AllInclusiveIcon from "@material-ui/icons/AllInclusive";
 import MainListItems, { secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
@@ -233,9 +233,7 @@ export default function MyAccount() {
             My Account
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <AllInclusiveIcon />
-            </Badge>
+            <AllInclusiveIcon />
           </IconButton>
           <Menu name={user.firstName} />
         </Toolbar>
