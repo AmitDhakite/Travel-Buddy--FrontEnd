@@ -193,10 +193,16 @@ export default function MyAccount() {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.post("/editUser", {
-        user: user,
-        userId: userId,
-      });
+      const res = await axios.post(
+        "/editUser",
+        {
+          user: user,
+          userId: userId,
+        },
+        {
+          headers: { authorization: "Bearer " + token },
+        }
+      );
       saveEditForm(false);
       dispatch(authActions.updateUser(res.data));
       setLoading(false);
