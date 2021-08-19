@@ -1,11 +1,8 @@
-import { useState } from "react";
 import topBanner from "../images/TopBanner.png";
 import Homepage2 from "../images/Homepage2.png";
 import thirdDivImg from "../images/TB.png";
 import classes from "../styles/Homepage.module.css";
-import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
-import Backdrop from "./layout/Backdrop";
 import logout from "./auth/logout.js";
 import Footer from "./layout/Footer";
 const Homepage = () => {
