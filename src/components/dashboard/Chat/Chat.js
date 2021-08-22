@@ -1,16 +1,8 @@
-import TextField from "@material-ui/core/TextField";
 import React, { useState, useEffect, useRef } from "react";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import { format } from "timeago.js";
-import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import CancelIcon from "@material-ui/icons/Cancel";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
+import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -20,9 +12,6 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -33,22 +22,16 @@ import Menu from "../../layout/Menu";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
 
-import { useHistory } from "react-router-dom";
 import classes1 from "../../../styles/Chat.module.css";
 import classes2 from "../../../styles/Chat2.module.css";
-import Button from "@material-ui/core/Button";
 import axios from "../../../axios.js";
-import cities from "../trips/cities.js";
 import SendIcon from "@material-ui/icons/Send";
-import Send from "@material-ui/icons/Send";
 import Friends from "./Friends";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { current } from "@reduxjs/toolkit";
 import { io } from "socket.io-client";
 import Error from "../../layout/Error";
 import dotenv from "dotenv";
 import { useLocation } from "react-router-dom";
-// import Message from "../../../../../server-side/models/message.model.js";
 dotenv.config();
 
 function Copyright() {

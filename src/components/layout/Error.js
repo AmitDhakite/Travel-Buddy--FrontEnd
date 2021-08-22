@@ -17,7 +17,7 @@ export default function AlertDialog() {
 
   const toHome = () => {
     localStorage.clear();
-    history.push("/");
+    history.push("/login");
   };
 
   const handleClose = () => {
@@ -32,12 +32,10 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Authentication error"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Session Time Out"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Looks like you are logged out. Please login again...
+            Your session has expired. Please login again...
           </DialogContentText>
         </DialogContent>
         <DialogActions>
