@@ -26,13 +26,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/dashboard" exact>
-            {localStorage.getItem("token") !== null &&
-            localStorage.getItem("token") !== undefined &&
-            localStorage.getItem("token") !== "" ? (
               <Dashboard />
-            ) : (
-              <Redirect to="/" />
-            )}
           </Route>
           <Route path="/myAccount" exact>
             {localStorage.getItem("token") !== null &&
