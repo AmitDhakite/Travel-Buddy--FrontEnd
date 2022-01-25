@@ -180,7 +180,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const history = useHistory();
-  if (localStorage.getItem("token") === null) history.replace("/");
   const user = useSelector((state) => state.auth);
   const classes = useStyles();
   const [open, setOpen] = useState(true);
@@ -221,7 +220,6 @@ export default function Dashboard() {
       },
     };
 
-    console.log("searching");
     axios
       .request(options)
       .then(function (response) {
@@ -326,7 +324,7 @@ export default function Dashboard() {
                         <SearchIcon />
                       </div>
                       <InputBase
-                        placeholder="Search…"
+                        placeholder="Type name of any city…"
                         onChange={searchChangeHandler}
                         onKeyDown={(e) => {
                           if (e.keyCode === 13) searchSubmitHandler();

@@ -32,10 +32,10 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Session Time Out"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Session Expired"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Your session has expired. Please login again...
+            Looks like you are not logged in OR your session has expired. Please login again...
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -45,7 +45,7 @@ export default function AlertDialog() {
             color="primary"
             autoFocus
           >
-            Ok
+            OK
           </Button>
         </DialogActions>
       </Dialog>

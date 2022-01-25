@@ -28,6 +28,7 @@ export default function SimpleMenu() {
   const logout = () => {
     localStorage.removeItem("");
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     history.push("/");
   };
 
