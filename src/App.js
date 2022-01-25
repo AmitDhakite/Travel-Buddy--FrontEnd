@@ -29,41 +29,17 @@ function App() {
               <Dashboard />
           </Route>
           <Route path="/myAccount" exact>
-            {localStorage.getItem("token") !== null &&
-            localStorage.getItem("token") !== undefined &&
-            localStorage.getItem("token") !== "" ? (
               <MyAccount />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+            </Route>
           <Route path="/myTrips" exact>
-            {localStorage.getItem("token") !== null &&
-            localStorage.getItem("token") !== undefined &&
-            localStorage.getItem("token") !== "" ? (
               <Trips />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+            </Route>
           <Route path="/travelBuddy" exact>
-            {localStorage.getItem("token") !== null &&
-            localStorage.getItem("token") !== undefined &&
-            localStorage.getItem("token") !== "" ? (
               <TravelBuddy />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+           </Route>
           <Route path="/chat" exact>
-            {localStorage.getItem("token") !== null &&
-            localStorage.getItem("token") !== undefined &&
-            localStorage.getItem("token") !== "" ? (
               <Chat />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+           </Route>
           <Route path="/" exact>
             <Homepage />
           </Route>
