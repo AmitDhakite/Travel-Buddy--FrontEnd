@@ -53,10 +53,7 @@ export default function OutlinedCard(props) {
           component="h2"
         >
           {props.title}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
+        </Typography> 
         <Typography variant="body2" component="p">
           {props.description}
         </Typography>
