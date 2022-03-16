@@ -26,8 +26,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Travel Buddy
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -194,10 +194,6 @@ export default function SignInSide() {
               autoFocus
               autoFill="false"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             {showNotFilledMessage && (
               <Alert
                 color="orange"
@@ -218,15 +214,6 @@ export default function SignInSide() {
               Login
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link
-                  href="#"
-                  variant="body2"
-                  style={{ color: "rgb(42, 187, 172)" }}
-                >
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link
                   href="/register"
