@@ -90,15 +90,16 @@
   position: absolute;
   top: 63%;
   color: white;
-  font-size: 3.2rem;
+  font-size: 5vw;
   font-family: "Cormorant", serif;
   font-weight: 500;
-  letter-spacing: 5px;
+  letter-spacing: 15%;
+  text-align: center;
 }
 
 .tagDiv {
   text-align: center;
-  margin: 0 19%;
+  /* margin: 0 19%; */
 }
 
 @keyframes slide-down {
